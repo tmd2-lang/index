@@ -1,0 +1,505 @@
+/* Light section, page frame, and paired heading */
+.stories-section {
+  position: relative;
+  overflow: hidden;
+  padding: 132px 0 200px;
+  background: #f7f7f8;
+  color: #27272a;
+}
+
+.stories-section::before,
+.stories-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #e5e5e7;
+  pointer-events: none;
+}
+
+.stories-section::before {
+  left: var(--frame);
+}
+
+.stories-section::after {
+  right: var(--frame);
+}
+
+.stories-inner {
+  position: relative;
+  width: min(1008px, calc(100% - var(--frame) * 2 - 64px));
+  margin: auto;
+}
+
+.stories-title {
+  margin: 0;
+  color: #4f4f55;
+  font-family: Roobert, var(--sans);
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 44px;
+  letter-spacing: -.76px;
+  text-align: center;
+}
+
+.stories-title strong {
+  color: #27272a;
+  font-weight: 600;
+}
+
+/* Three-column arrangement and empty surrounding card outlines */
+.stories-frame {
+  --story-gap: 24px;
+  --story-column: calc((100% - var(--story-gap) * 2) / 3);
+  position: relative;
+  margin-top: 104px;
+}
+
+.stories-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--story-gap);
+}
+
+.story-shell {
+  position: absolute;
+  pointer-events: none;
+  border: 1px solid #ececed;
+  border-radius: 24px;
+  background: #f2f2f3c7;
+  box-shadow: 0 12px 24px -8px #27272a0a, 0 4px 6px -4px #27272a14, 0 0 0 1px #ececed;
+}
+
+.story-shell-left,
+.story-shell-right {
+  top: 28px;
+  bottom: 0;
+  width: var(--story-column);
+}
+
+.story-shell-left {
+  right: calc(100% + var(--story-gap));
+  mask-image: linear-gradient(90deg, transparent 16%, #0003 34%, #000b 52%, #000 72%);
+}
+
+.story-shell-right {
+  left: calc(100% + var(--story-gap));
+  mask-image: linear-gradient(90deg, #000 28%, #000b 48%, #0003 66%, transparent 84%);
+}
+
+.story-shell-bottom {
+  top: calc(100% + var(--story-gap));
+  left: 0;
+  right: 0;
+  height: 112px;
+  mask-image: linear-gradient(#000 42%, #0006 62%, transparent);
+}
+
+/* Four supporting quotations, wordmarks, and fictional people */
+.story-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  min-width: 0;
+  min-height: 464px;
+  padding: 24px;
+  border-radius: 24px;
+  background: #f2f2f3;
+  box-shadow: 0 12px 24px -8px #27272a0a, 0 4px 6px -4px #27272a14, 0 0 0 1px #27272a1a;
+}
+
+.story-card-lead {
+  grid-area: 1 / 1;
+  align-self: end;
+  min-height: 344px;
+}
+
+.story-card-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  width: 100%;
+}
+
+.story-wordmark {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  font-family: Roobert, var(--sans);
+  font-size: 28px;
+  line-height: 40px;
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+
+.story-mark-fieldmere {
+  gap: 8px;
+  font-size: 25px;
+  letter-spacing: 2px;
+}
+
+.story-mark-fieldmere::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border: 2px solid currentColor;
+  border-radius: 7px;
+  transform: rotate(30deg);
+}
+
+.story-mark-merrow {
+  font-size: 31px;
+  font-weight: 600;
+  letter-spacing: -1.6px;
+}
+
+.story-mark-vanta {
+  align-self: flex-start;
+  height: 24px;
+  margin: 8px 0;
+  padding: 0 4px;
+  border: 2px solid currentColor;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 1px;
+}
+
+.story-mark-kestrel {
+  font-family: Georgia, serif;
+  font-size: 23px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.story-quote {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -.16px;
+}
+
+.story-person {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.story-avatar {
+  display: grid;
+  flex: 0 0 56px;
+  place-items: center;
+  width: 56px;
+  height: 64px;
+  border-radius: 4px;
+  background: linear-gradient(145deg, #d9d6d0, #aeb7b1);
+  color: #474c48;
+  font-family: Roobert, var(--sans);
+  font-size: 19px;
+}
+
+.story-card:nth-of-type(3) .story-avatar {
+  background: linear-gradient(145deg, #e1d8d4, #b8adb3);
+}
+
+.story-person-name,
+.story-person-role {
+  margin: 0;
+}
+
+.story-person-name {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -.065px;
+}
+
+.story-person-role {
+  margin-top: 4px;
+  color: #777880;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* Keep incidental equipment branding outside the warehouse crop. */
+.story-background:has(img[src*="warehouse"]) img {
+  transform: scale(1.75);
+  transform-origin: top left;
+}
+
+/* Featured story: layered pictures and independent copy transitions */
+.story-feature {
+  position: relative;
+  isolation: isolate;
+  grid-area: 1 / 2 / auto / span 2;
+  align-self: end;
+  height: calc(100% + 24px);
+  overflow: hidden;
+  border-radius: 24px;
+  background: #182330;
+  filter: drop-shadow(0 12px 24px #27272a14) drop-shadow(0 2px 6px #27272a1f);
+}
+
+.story-background {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .6s cubic-bezier(.45, 0, .2, 1);
+}
+
+.story-background.is-current {
+  opacity: 1;
+}
+
+.story-background img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--photo-position, center);
+}
+
+.story-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--photo-overlay, linear-gradient(#121b2626, #121b26e6));
+}
+
+.story-background-abstract {
+  background: radial-gradient(ellipse at 90% 20%, #f39dcc 0%, #a62e67 18%, transparent 45%), radial-gradient(ellipse at 5% 85%, #78b6ed 0%, #536eb0 35%, transparent 65%), #071b30;
+}
+
+.story-background-abstract::before {
+  content: '';
+  position: absolute;
+  top: -25%;
+  left: 30%;
+  width: 100%;
+  height: 150%;
+  border: 24px solid #d985c57a;
+  border-radius: 48%;
+  box-shadow: 0 0 0 30px #ad71c536, inset 0 0 60px #9dd4ff73;
+  transform: rotate(-28deg);
+}
+
+.story-feature-copy {
+  position: absolute;
+  z-index: 2;
+  inset: 48px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  color: white;
+}
+
+.story-feature-wordmark {
+  align-self: flex-start;
+  max-width: 100%;
+  height: 40px;
+  font-family: Roobert, var(--sans);
+  font-size: 29px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -.7px;
+}
+
+.story-feature-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.story-feature-quote {
+  margin: 0;
+  font-family: Roobert, var(--sans);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  letter-spacing: -.36px;
+}
+
+.story-feature-meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.story-feature-rule {
+  flex: 1;
+  height: 1px;
+  background: #dadadd33;
+}
+
+.story-feature-person {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -.065px;
+}
+
+.story-feature-separator {
+  color: #ffffff80;
+  font-weight: 400;
+}
+
+.story-feature-role {
+  opacity: .7;
+}
+
+.story-feature.is-exiting .story-feature-copy {
+  animation: story-copy-out .3s cubic-bezier(.45, 0, .2, 1) forwards;
+}
+
+.story-feature.is-entering .story-feature-copy {
+  animation: story-copy-in .3s cubic-bezier(.45, 0, .2, 1) both;
+}
+
+/* The two-column tablet arrangement keeps the feature above the quotes */
+@media (max-width: 1200px) {
+  .stories-section {
+    padding: 112px 0 168px;
+  }
+
+  .story-shell {
+    display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .stories-section {
+    padding: 128px 0;
+  }
+
+  .stories-title {
+    text-align: left;
+    letter-spacing: -.64px;
+  }
+
+  .stories-title strong {
+    display: block;
+  }
+
+  .stories-frame {
+    --story-gap: 16px;
+    margin-top: 64px;
+  }
+
+  .stories-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .story-feature {
+    grid-area: 1 / 1 / auto / -1;
+    height: clamp(404px, 46vw, 448px);
+  }
+
+  .story-feature-copy {
+    inset: 40px 32px 32px;
+  }
+
+  .story-card-lead {
+    grid-area: 2 / 1;
+    align-self: stretch;
+  }
+}
+
+/* Phone: feature first, then four naturally sized quote cards */
+@media (max-width: 640px) {
+  .stories-section {
+    padding: 96px 0;
+  }
+
+  .stories-inner {
+    width: calc(100% - 48px);
+  }
+
+  .stories-frame {
+    margin-top: 56px;
+  }
+
+  .stories-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .story-feature {
+    height: clamp(404px, 132vw, 520px);
+  }
+
+  .story-feature-copy {
+    inset: 28px 24px 24px;
+  }
+
+  .story-feature-quote {
+    font-size: 21px;
+    line-height: 28px;
+  }
+
+  .story-feature-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .story-feature-rule {
+    flex: none;
+    width: 100%;
+  }
+
+  .story-feature-person {
+    gap: 8px;
+  }
+
+  .story-card {
+    min-height: 0;
+  }
+
+  .story-card-lead {
+    grid-area: 2 / 1;
+  }
+}
+
+/* Copy settles while the image crossfade continues behind it */
+@keyframes story-copy-out {
+  to {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes story-copy-in {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-background {
+    transition: none;
+  }
+
+  .story-feature-copy {
+    animation: none !important;
+  }
+}

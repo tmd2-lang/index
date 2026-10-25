@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Threadline — Connect your tools</title>
+  <link rel="preload" href="assets/roobert-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="service.css?v=7">
+  <link rel="stylesheet" href="testimonials.css?v=10">
+  <link rel="stylesheet" href="numbers.css?v=12">
+  <link rel="stylesheet" href="closing.css?v=14">
+  <link rel="stylesheet" href="brand.css?v=15">
+  <link rel="stylesheet" href="footer.css?v=19">
+  <script src="script.js?v=6" defer></script>
+  <script src="service.js?v=7" defer></script>
+  <script src="testimonials.js?v=10" defer></script>
+  <script src="numbers.js?v=12" defer></script>
+</head>
+<body>
+  <!-- One original Threadline loop is reused in every brand treatment. -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" focusable="false" style="position: absolute; overflow: hidden">
+    <defs>
+      <symbol id="threadline-loop" viewBox="0 0 340 168">
+        <path fill="none" d="M80 10C-20 10-20 158 80 158S180 10 270 10 370 158 270 158 180 10 80 10Z"/>
+        <path fill="none" d="M80 30C8 30 8 138 80 138S180 30 270 30 342 138 270 138 180 30 80 30Z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="site-header">
+    <div class="header-main">
+      <a class="wordmark" href="#" aria-label="Threadline home"><svg class="threadline-mark" viewBox="0 0 340 168" aria-hidden="true" focusable="false"><use href="#threadline-loop"/></svg><span>Threadline</span></a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <div class="menu-shell">
+          <button class="nav-link" aria-expanded="false" aria-controls="products-menu">Products</button>
+          <div class="dropdown" id="products-menu"><div class="menu-panel" data-menu="products"></div></div>
+        </div>
+        <a class="nav-link" href="#">Apps</a>
+        <div class="menu-shell">
+          <a class="nav-link" href="#" aria-haspopup="true">Resources</a>
+          <div class="dropdown"><div class="menu-panel" data-menu="resources"></div></div>
+        </div>
+        <div class="menu-shell">
+          <a class="nav-link" href="#" aria-haspopup="true">Docs</a>
+          <div class="dropdown docs-dropdown"><div class="docs-panel"><div class="docs-products"><p class="menu-heading">Product Documentation</p><div data-menu="docsProducts"></div></div><div class="docs-api"><p class="menu-heading">API Documentation</p><div data-menu="docsApi"></div></div></div></div>
+        </div>
+      </nav>
+      <div class="header-actions"><a class="nav-link" href="#">Sign in</a><a class="nav-link" href="#">Get started <span class="chevron" aria-hidden="true">›</span></a></div>
+      <button class="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" inert>
+      <div class="mobile-top"><button class="menu-close" aria-label="Close navigation menu">×</button></div>
+      <p class="mobile-eyebrow">Navigation</p>
+      <nav class="mobile-nav" aria-label="Mobile navigation">
+        <div class="mobile-products"><button class="mobile-products-toggle" aria-expanded="false" aria-controls="mobile-products">Products <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="mobile-products-wrap" id="mobile-products" inert><div data-menu="mobileProducts"></div></div></div>
+        <a href="#">Apps</a><a href="#">Resources</a><a href="#">Docs</a>
+      </nav>
+      <div class="mobile-actions"><a href="#">Sign in</a><a href="#">Get started <span aria-hidden="true">›</span></a></div>
+    </div>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-gradient" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="hero-copy">
+          <a class="announcement" href="#"><span class="announcement-label">Threadline 2.0 is live with 400+ connectors</span><span class="announcement-divider" aria-hidden="true"></span><span>Read more</span></a>
+          <h1 id="hero-title"><span>Connect to every tool.</span><span>Automate every task.</span></h1>
+          <p class="subtitle">Threadline links your tools and builds workflows for you, so your systems stay connected without extra engineering work.</p>
+        </div>
+        <div class="input-slot">
+          <div class="input-intro" aria-hidden="true"><svg viewBox="0 0 400 76" preserveAspectRatio="none"><rect class="orbit orbit-top" x=".5" y=".5" width="399" height="75" rx="16" pathLength="100"/><rect class="orbit orbit-bottom" x=".5" y=".5" width="399" height="75" rx="16" pathLength="100"/></svg></div>
+          <form class="prompt-form" aria-label="Ask Threadline">
+            <label class="sr-only" for="prompt">Ask Threadline</label>
+            <textarea id="prompt" class="prompt-input" rows="1" placeholder="Start right now. What should we automate?"></textarea>
+            <button class="prompt-button" type="submit" aria-label="Submit automation request"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-7 7 7-7 7 7"/></svg></button>
+          </form>
+        </div>
+      </div>
+      <section class="customer-strip" aria-label="Trusted companies">
+        <h2>Trusted by growing businesses<br> around the world</h2>
+        <div class="customer-marquee">
+          <div class="customer-desktop-mask">
+            <ul class="customer-desktop-list" aria-label="Customer companies"></ul>
+          </div>
+          <div class="customer-mobile-mask">
+            <div class="customer-mobile-track"></div>
+          </div>
+        </div>
+      </section>
+    </section>
+    <section class="service-section" aria-labelledby="service-title">
+      <div class="service-frame service-frame-left" aria-hidden="true"></div>
+      <div class="service-frame service-frame-center" aria-hidden="true"></div>
+      <div class="service-frame service-frame-right" aria-hidden="true"></div>
+      <div class="service-pattern" aria-hidden="true">
+        <div class="blueprint-heading"><span>WORKFLOW BLUEPRINT</span><span>NETSUITE TO SHOPIFY B2B</span><span>CUSTOMER, CATALOG AND PRICE MIGRATION</span></div>
+        <svg class="blueprint-pattern" viewBox="0 0 576 980" preserveAspectRatio="none"><defs><pattern id="blueprint-grid" width="156" height="156" patternUnits="userSpaceOnUse"><path d="M156 0H0V156" fill="none" stroke="currentColor" stroke-width=".5"/></pattern></defs><rect width="576" height="980" fill="url(#blueprint-grid)"/><g class="blueprint-orbit orbit-inner"><circle cx="171" cy="908" r="170"/><circle cx="171" cy="908" r="168" stroke-dasharray="1 5"/><text x="12" y="832" transform="rotate(-48 12 832)">WORKFLOW BLUEPRINT / 01.024</text></g><g class="blueprint-orbit orbit-outer"><circle cx="171" cy="908" r="252" stroke-dasharray="2 5"/><circle cx="171" cy="908" r="254"/></g><g class="thread-pattern"><use href="#threadline-loop" x="260" y="775" width="340" height="168"/></g></svg>
+      </div>
+      <div class="service-inner">
+        <div class="service-main">
+          <div class="service-copy">
+            <p class="service-eyebrow">Full service</p>
+            <h2 id="service-title"><span>Integrations take work,</span><span class="service-accent" data-copy="we’ll help.">we’ll help.</span></h2>
+            <p class="service-description">For teams looking for expert help, Threadline combines an enterprise-ready integration platform with a dedicated team that plans, builds, launches, and supports workflows in production.</p>
+            <a class="service-cta" href="#"><span>Talk to our team</span></a>
+          </div>
+          <div class="service-tabs">
+            <div class="service-tab-list" role="tablist" aria-label="Full service process">
+              <span class="service-tab-indicator" aria-hidden="true"></span>
+              <button id="service-tab-requirements" class="service-tab" role="tab" type="button" aria-selected="true" aria-controls="service-panel" data-stage="requirements"><span>Requirements</span></button>
+              <button id="service-tab-build" class="service-tab" role="tab" type="button" aria-selected="false" aria-controls="service-panel" data-stage="build"><span>Build</span></button>
+              <button id="service-tab-launch" class="service-tab" role="tab" type="button" aria-selected="false" aria-controls="service-panel" data-stage="launch"><span class="service-label-long">Launch and support</span><span class="service-label-short">Launch</span></button>
+            </div>
+            <p class="service-tab-description" id="service-panel" role="tabpanel" aria-labelledby="service-tab-requirements"><span class="service-tab-lead">Integration work usually begins with a business process, rather than a finished spec.</span> <span class="service-tab-body">Our solutions engineers clarify the details, ask the questions that matter, and turn your context into a practical build plan.</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="service-visual" aria-hidden="true">
+        <div class="service-demo">
+          <div class="service-profile"><span class="service-avatar">AR</span><span class="service-profile-meta"><span class="service-person">Alex Rowan</span><span class="service-person-dot"></span><span class="service-role">Chief Revenue Officer</span></span></div>
+          <div class="service-card"><div class="service-scene"></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="stories-section" aria-labelledby="stories-title">
+      <div class="stories-inner">
+        <h2 class="stories-title" id="stories-title"><strong>Leaders choose us.</strong> Operators count on us.</h2>
+        <div class="stories-frame">
+          <div class="story-shell story-shell-left" aria-hidden="true"></div>
+          <div class="story-shell story-shell-right" aria-hidden="true"></div>
+          <div class="story-shell story-shell-bottom" aria-hidden="true"></div>
+          <div class="stories-grid">
+            <article class="story-feature" aria-label="Customer experiences">
+            <div class="story-background is-current"><img src="assets/testimonial-coffee.jpg" alt="Coffee press on a table" loading="lazy" decoding="async" width="1440" height="960"></div>
+            <div class="story-background story-background-abstract" aria-hidden="true"></div>
+            <div class="story-background"><img src="assets/testimonial-workshop.jpg" alt="Quiet workshop and tools" loading="lazy" decoding="async" width="1440" height="960"></div>
+            <div class="story-background"><img src="assets/testimonial-espresso.jpg" alt="Espresso flowing from a coffee machine" loading="lazy" decoding="async" width="1440" height="960"></div>
+            <div class="story-background"><img src="assets/testimonial-construction.jpg" alt="Unfinished building interior" loading="lazy" decoding="async" width="1440" height="960"></div>
+            <div class="story-background"><img src="assets/testimonial-healthcare.jpg" alt="Empty healthcare room" loading="lazy" decoding="async" width="1440" height="960"></div>
+            <div class="story-background" style="--photo-position: center 20%"><img src="assets/testimonial-warehouse.jpg" alt="Warehouse shelves and equipment" loading="lazy" decoding="async" width="1440" height="960"></div>
+              <div class="story-feature-copy">
+                <div class="story-feature-wordmark">Cinder House</div>
+                <div class="story-feature-content">
+                  <blockquote class="story-feature-quote">“Threadline connects the tools behind our daily work.”</blockquote>
+                  <div class="story-feature-meta"><span class="story-feature-rule" aria-hidden="true"></span><div class="story-feature-person"><span class="story-feature-name">Morgan Hale</span><span class="story-feature-separator" aria-hidden="true">/</span><span class="story-feature-role">Director of Operations</span></div></div>
+                </div>
+              </div>
+            </article>
+          <article class="story-card story-card-lead">
+            <div class="story-wordmark story-mark-fieldmere">fieldmere</div>
+            <div class="story-card-content">
+              <blockquote class="story-quote">“Threadline connects our systems quickly and makes the process easy to follow. The team delivers a practical solution that works for our business.”</blockquote>
+              <div class="story-person"><span class="story-avatar" aria-hidden="true">ER</span><div><h3 class="story-person-name">Ellis Reed</h3><p class="story-person-role">Chief Operating Officer</p></div></div>
+            </div>
+          </article>
+          <article class="story-card">
+            <div class="story-wordmark story-mark-merrow">MERROW</div>
+            <div class="story-card-content">
+              <blockquote class="story-quote">“Our disconnected systems meant entering the same data several times. We needed a team that could connect everything, simplify the work, and give our people their time back. Threadline delivered.”</blockquote>
+              <div class="story-person"><span class="story-avatar" aria-hidden="true">RB</span><div><h3 class="story-person-name">Rowan Blake</h3><p class="story-person-role">Director of Information Technology</p></div></div>
+            </div>
+          </article>
+          <article class="story-card">
+            <div class="story-wordmark story-mark-vanta">VANTA</div>
+            <div class="story-card-content">
+              <blockquote class="story-quote">“Threadline manages our integrations and provides the platform behind them. Having both in one place makes the work easier to manage. The team understands our systems and keeps them connected as our business changes, so our engineers can focus on other priorities instead of building and maintaining every API connection themselves.”</blockquote>
+              <div class="story-person"><span class="story-avatar" aria-hidden="true">DM</span><div><h3 class="story-person-name">Drew Mercer</h3><p class="story-person-role">VP of Information Technology</p></div></div>
+            </div>
+          </article>
+          <article class="story-card">
+            <div class="story-wordmark story-mark-kestrel">Kestrelworks</div>
+            <div class="story-card-content">
+              <blockquote class="story-quote">“What stood out was the flexibility of the platform and the care from the support team. Threadline helped us connect HubSpot and NetSuite around the way our business works, giving us a dependable integration that fits our processes.”</blockquote>
+              <div class="story-person"><span class="story-avatar" aria-hidden="true">CW</span><div><h3 class="story-person-name">Cameron Wells</h3><p class="story-person-role">Director of Finance</p></div></div>
+            </div>
+          </article>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="production-section" aria-labelledby="production-title">
+      <div class="production-stage">
+        <div class="production-inner production-layout">
+          <div class="production-copy">
+            <h2 class="production-title" id="production-title" data-glow="The figures tell&#10;their own story."><strong>The figures</strong> tell<br>their own story.</h2>
+            <p class="production-description">Every update comes from a workflow in production, moving information between business tools and helping teams keep their operations running each day.</p>
+            <a class="production-cta" href="#">Book a demo</a>
+          </div>
+          <div class="activity-viewport" aria-hidden="true"><div class="activity-world"></div></div>
+        </div>
+      </div>
+      <div class="production-annual">
+        <p class="annual-label">Annual figures</p>
+        <dl class="production-inner production-metrics">
+          <div class="production-metric"><dt>API calls</dt><dd><a href="#" aria-label="API calls breakdown"><span class="number-reel annual-api-counter" role="img" aria-label="1,864,502,318"></span></a></dd></div>
+          <div class="production-metric"><dt>Records processed</dt><dd><a href="#" aria-label="Records processed breakdown">574.3M</a></dd></div>
+          <div class="production-metric"><dt>Time saved</dt><dd><a href="#" aria-label="Time saved breakdown">76.2M hours</a></dd></div>
+          <div class="production-metric"><dt>Money saved</dt><dd><a href="#" aria-label="Money saved breakdown">$3.6B</a></dd></div>
+        </dl>
+      </div>
+    </section>
+    <section class="closing-section" aria-labelledby="closing-title">
+      <div class="closing-card">
+        <div class="closing-rim">
+          <div class="closing-copy">
+            <h2 class="closing-title" id="closing-title"><span>Ready to bring it all together?</span><span class="closing-title-accent">Let’s connect.</span></h2>
+            <div class="closing-actions">
+              <a class="closing-primary" href="#"><span>Contact us</span></a>
+              <a class="closing-secondary" href="#"><span>About Threadline</span></a>
+            </div>
+          </div>
+          <div class="closing-art" aria-hidden="true">
+            <span class="closing-grid-horizontal closing-grid-top"></span>
+            <span class="closing-grid-horizontal closing-grid-bottom"></span>
+            <span class="closing-grid-vertical" style="--line: 0"></span>
+            <span class="closing-grid-vertical" style="--line: 1"></span>
+            <span class="closing-grid-vertical" style="--line: 2"></span>
+            <span class="closing-grid-vertical" style="--line: 3"></span>
+            <span class="closing-grid-vertical" style="--line: 4"></span>
+            <span class="closing-grid-dot"></span>
+            <svg class="closing-thread" viewBox="0 0 340 168" preserveAspectRatio="none"><use href="#threadline-loop"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer" id="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-wordmark"><svg class="threadline-mark" viewBox="0 0 340 168" aria-hidden="true" focusable="false"><use href="#threadline-loop"/></svg><span>Threadline</span></div>
+          <p class="footer-tagline">Connect every tool.<br>Automate every task.</p>
+        </div>
+        <div class="footer-columns">
+          <nav class="footer-column" aria-labelledby="footer-products-title">
+            <h2 id="footer-products-title">Products</h2>
+            <ul>
+              <li><a href="#">Weave</a></li>
+              <li><a href="#">Loom</a></li>
+              <li><a href="#">Universal API</a></li>
+              <li><a href="#">Embedded integrations</a></li>
+              <li><a href="#">Full-service integrations</a></li>
+              <li><a href="#">Apps directory</a></li>
+            </ul>
+          </nav>
+          <nav class="footer-column" aria-labelledby="footer-solutions-title">
+            <h2 id="footer-solutions-title">Solutions</h2>
+            <ul>
+              <li><a href="#">CRM Integration</a></li>
+              <li><a href="#">E-Commerce Integration</a></li>
+              <li><a href="#">Aspire integrations</a></li>
+              <li><a href="#">NetSuite integrations</a></li>
+              <li><a href="#">Salesforce integrations</a></li>
+              <li><a href="#">HubSpot integrations</a></li>
+              <li><a href="#">QuickBooks integrations</a></li>
+            </ul>
+          </nav>
+          <nav class="footer-column" aria-labelledby="footer-company-title">
+            <h2 id="footer-company-title">Company</h2>
+            <ul>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Speak to a human</a></li>
+              <li><a href="#">Status</a></li>
+              <li><a href="#">Partner with Threadline</a></li>
+              <li><a href="#">Trust Center</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Terms of Use</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-meta">
+          <div class="footer-meta-left">
+            <p class="footer-copyright">© 2026 Threadline. All rights reserved.</p>
+            <nav class="footer-socials" aria-label="Social media">
+              <a class="footer-social" href="#" aria-label="X">X</a>
+              <a class="footer-social" href="#" aria-label="YouTube">YT</a>
+              <a class="footer-social" href="#" aria-label="Instagram">IG</a>
+              <a class="footer-social" href="#" aria-label="LinkedIn">LI</a>
+              <a class="footer-social" href="#" aria-label="TikTok">TT</a>
+              <a class="footer-social" href="#" aria-label="Facebook">FB</a>
+            </nav>
+          </div>
+          <div class="footer-badges" aria-label="Our service">
+            <a class="footer-badge" href="#" aria-label="Connected systems">
+              <svg class="footer-badge-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m10 14 4-4M8 16l-1 1a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0M16 8l1-1a4 4 0 0 1 6 6l-5 5a4 4 0 0 1-6 0" transform="translate(-1 -1)"/></svg>
+              <span class="footer-badge-top" aria-hidden="true">Connected</span><strong aria-hidden="true">systems</strong><span class="footer-badge-bottom" aria-hidden="true">THREADLINE</span></a>
+            <a class="footer-badge" href="#" aria-label="Managed workflows">
+              <svg class="footer-badge-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="2" width="6" height="5" rx="1.2"/><rect x="2" y="17" width="6" height="5" rx="1.2"/><rect x="16" y="17" width="6" height="5" rx="1.2"/><path d="M12 7v5M5 17v-5h14v5"/></svg>
+              <span class="footer-badge-top" aria-hidden="true">Managed</span><strong aria-hidden="true">workflows</strong><span class="footer-badge-bottom" aria-hidden="true">THREADLINE</span></a>
+            <a class="footer-badge" href="#" aria-label="Human support">
+              <svg class="footer-badge-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 13v-2a8 8 0 0 1 16 0v2M20 17v2a2 2 0 0 1-2 2h-4"/><rect x="2" y="11" width="4" height="7" rx="2"/><rect x="18" y="11" width="4" height="7" rx="2"/><path d="M11 21h3"/></svg>
+              <span class="footer-badge-top" aria-hidden="true">Human</span><strong aria-hidden="true">support</strong><span class="footer-badge-bottom" aria-hidden="true">THREADLINE</span></a>
+          </div>
+        </div>
+        <div class="footer-credits">
+          <p>A practice rebuild of the Mindcloud design.</p>
+          <p>Photography: <a href="https://unsplash.com/photos/french-press-coffee-and-glass-of-water-on-table-FsbyRrEXBOI" target="_blank" rel="noopener noreferrer">Ilinca Roman</a>, <a href="https://unsplash.com/photos/a-workshop-interior-with-a-window-and-tools-sChctDcYoio" target="_blank" rel="noopener noreferrer">Magic Fan</a>, <a href="https://unsplash.com/photos/fresh-espresso-pouring-from-a-coffee-machine-portafilter-O9AtwHvKkko" target="_blank" rel="noopener noreferrer">Scott K</a>, <a href="https://unsplash.com/photos/a-room-that-is-under-construction-with-concrete-walls-pBZBbCqyW8M" target="_blank" rel="noopener noreferrer">Steffen Lemmerzahl</a>, <a href="https://unsplash.com/photos/a-hospital-room-with-two-beds-and-a-desk-xj611Vq9ky0" target="_blank" rel="noopener noreferrer">Zoshua Colah</a>, <a href="https://unsplash.com/photos/a-warehouse-filled-with-lots-of-boxes-and-pallets-28b8xlTT5t4" target="_blank" rel="noopener noreferrer">Ashley</a> / Unsplash.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="planning-backdrop" hidden>
+    <section class="planning-dialog" role="dialog" aria-modal="true" aria-label="Plan your automation" tabindex="-1">
+      <div class="planning-controls">
+        <button class="icon-button planning-reset" type="button" aria-label="Start over"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 1-2.4-5.7M20 3v6h-6"/></svg></button>
+        <button class="icon-button planning-close" type="button" aria-label="Close chat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button>
+      </div>
+      <div class="planning-conversation">
+        <div class="planning-messages" role="log" aria-label="Conversation" aria-live="polite">
+          <p class="agent-greeting">Hi, I’m Weave, Threadline’s AI agent. What would you like to automate?</p>
+        </div>
+        <form class="planning-composer" aria-label="Message Threadline">
+          <label class="sr-only" for="planning-message">Message Threadline</label>
+          <textarea id="planning-message" rows="1" placeholder="Start right now. What should we automate?"></textarea>
+          <button class="prompt-button" type="submit" aria-label="Send message" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-7 7 7-7 7 7"/></svg></button>
+        </form>
+      </div>
+      <aside class="automation-plan" aria-label="Your automation plan">
+        <button class="mobile-plan-toggle" type="button" aria-expanded="false" aria-controls="plan-content"><span>Your automation plan</span><span class="mobile-plan-status">0% ready <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
+        <div class="plan-content" id="plan-content">
+          <h2>Your automation plan</h2>
+          <p class="plan-intro">We’ll build this as we talk: what you need and how to make it happen.</p>
+          <div class="plan-progress-label"><span>Ready to get started</span><span>0%</span></div>
+          <div class="plan-progress" role="progressbar" aria-label="Ready to get started" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          <div class="plan-group"><h3>Your tools</h3><span class="plan-empty">No known apps yet</span></div>
+          <div class="plan-group"><h3>Recommended for you</h3><span class="plan-empty">No matching products yet</span></div>
+          <div class="plan-group"><h3>Who should build it</h3><div class="plan-choices" role="group" aria-label="Who should build it"><button type="button" aria-pressed="true"><svg class="threadline-mark" viewBox="0 0 340 168" aria-hidden="true" focusable="false"><use href="#threadline-loop"/></svg><span>Threadline</span></button><button type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="9" r="3"/><path d="M6 19c0-7 12-7 12 0"/></svg> Me</button></div></div>
+        </div>
+      </aside>
+    </section>
+  </div>
+  <button class="support-launcher" type="button" aria-label="Open support chat" aria-expanded="false" aria-controls="support-chat"><svg class="threadline-mark" viewBox="0 0 340 168" aria-hidden="true" focusable="false"><use href="#threadline-loop"/></svg></button>
+  <section class="support-chat" id="support-chat" role="dialog" aria-label="Threadline support" hidden>
+    <div class="support-header">
+      <span class="support-avatar" aria-hidden="true"></span>
+      <div><h2>Threadline</h2><p>We typically reply in a few minutes</p></div>
+      <button class="icon-button support-expand" type="button" aria-label="Expand support chat" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6m0-6-7 7M10 20H4v-6m0 6 7-7"/></svg></button>
+      <button class="icon-button support-close" type="button" aria-label="Close support chat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M5 19 19 5"/></svg></button>
+    </div>
+    <div class="support-messages" role="log" aria-label="Support conversation" aria-live="polite"><p class="support-greeting">Have a question? I’m happy to help.</p></div>
+    <form class="support-composer" aria-label="Message support">
+      <label class="sr-only" for="support-message">Message support</label>
+      <textarea id="support-message" rows="1" placeholder="Ask me anything..."></textarea>
+      <label class="attachment-button" aria-label="Attach a file" title="Attach a file"><input type="file" class="sr-only" id="support-file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 13 7-7a3 3 0 0 1 4 4L9 20a5 5 0 0 1-7-7L13 2m-7 14 10-10"/></svg></label>
+      <button class="icon-button support-send" type="submit" aria-label="Send support message" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 3-6 18-4-8-8-4Zm0 0L11 13"/></svg></button>
+    </form>
+    <p class="support-attachment" hidden></p>
+  </section>
+
+</body>
+</html>

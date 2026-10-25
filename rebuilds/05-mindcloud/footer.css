@@ -1,0 +1,338 @@
+/* Footer surface and the page frame continued to its final edge */
+.site-footer {
+  position: relative;
+  scroll-margin-top: 80px;
+  background: #f7f7f8;
+  color: #4f4f55;
+}
+
+.site-footer::before,
+.site-footer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #e5e5e7;
+  pointer-events: none;
+}
+
+.site-footer::before {
+  left: var(--frame);
+}
+
+.site-footer::after {
+  right: var(--frame);
+}
+
+.footer-inner {
+  width: min(1008px, calc(100% - var(--frame) * 2 - 64px));
+  margin: auto;
+  padding: 80px 0 40px;
+}
+
+.footer-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 64px;
+}
+
+/* Brand lockup reuses the same original loop as the header */
+.footer-brand {
+  flex: 0 0 213px;
+}
+
+.footer-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6.1875px;
+  height: 18px;
+  color: #20242a;
+  font-family: Roobert, var(--sans);
+  font-size: 23.625px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -.7875px;
+}
+
+.footer-wordmark .threadline-mark {
+  width: 30.375px;
+  height: 18px;
+  color: #146dfc;
+}
+
+.footer-tagline {
+  margin: 24px 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+/* Three desktop navigation columns, retaining the original link order */
+.footer-columns {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 72px;
+  min-width: 0;
+}
+
+.footer-column h2 {
+  margin: 0 0 24px;
+  color: #777880;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.footer-column ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-column li {
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.site-footer a {
+  transition: color .2s;
+}
+
+.site-footer a:hover {
+  color: #27272a;
+}
+
+.site-footer a:focus-visible {
+  outline: 2px solid #146dfc;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Divider, copyright, and six neutral social abbreviations */
+.footer-bottom {
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 1px solid #e5e5e7;
+}
+
+.footer-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.footer-meta-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.footer-copyright {
+  margin: 0;
+  color: #777880;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 16px;
+}
+
+.footer-social {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  color: #777880;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: -.2px;
+}
+
+/* Neutral circular service badges, without award or compliance claims */
+.footer-badges {
+  display: flex;
+  flex: none;
+  gap: 16px;
+}
+
+.footer-badge {
+  position: relative;
+  display: flex;
+  flex: 0 0 88px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 88px;
+  height: 88px;
+  border: 1px solid #ececee;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fff, #f8f8f9);
+  color: #777880;
+  box-shadow: 0 2px 4px #27272a08, inset 0 0 0 4px #ffffffa6;
+}
+
+.footer-badge::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid #ececee;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Matching service icons sit above the existing badge labels. */
+.footer-badge-icon {
+  display: block;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #777880;
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.footer-badge-top {
+  font-size: 8px;
+  line-height: 12px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.footer-badge strong {
+  color: #4f4f55;
+  font-family: Roobert, var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.footer-badge-bottom {
+  color: #a2a2a9;
+  font-size: 5px;
+  line-height: 8px;
+  letter-spacing: 1px;
+}
+
+/* Required rebuild and photographer credits stay separate from product copy */
+.footer-credits {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 24px;
+  color: #777880;
+  font-size: 10px;
+  line-height: 16px;
+}
+
+.footer-credits p {
+  margin: 0;
+}
+
+.footer-credits a {
+  text-decoration: underline;
+  text-decoration-color: #bdbdc3;
+  text-underline-offset: 2px;
+}
+
+/* Tablet puts the brand above the three navigation columns */
+@media (max-width: 1024px) {
+  .footer-inner {
+    width: calc(100% - 96px);
+    padding-top: 0;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .footer-brand {
+    flex: none;
+  }
+
+  .footer-columns {
+    width: 100%;
+    flex: none;
+  }
+
+  .footer-bottom {
+    margin-top: 64px;
+  }
+}
+
+/* Smaller tablets use two link columns and move the badges below the meta copy. */
+@media (max-width: 768px) {
+  .footer-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 24px;
+  }
+
+  .footer-bottom {
+    margin-top: 56px;
+  }
+
+  .footer-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Phone stacks each group and keeps the three badges in one row */
+@media (max-width: 640px) {
+  .footer-inner {
+    width: calc(100% - 56px);
+    padding-bottom: 64px;
+  }
+
+  .footer-columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .footer-bottom {
+    margin-top: 48px;
+    padding-top: 32px;
+  }
+
+  .footer-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-inner {
+    width: calc(100% - 48px);
+    padding-bottom: 80px;
+  }
+
+  .footer-bottom {
+    margin-top: 40px;
+    padding-top: 24px;
+  }
+
+  .footer-badges {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 359px) {
+  .footer-badges {
+    gap: 8px;
+  }
+}

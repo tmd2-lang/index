@@ -1,0 +1,419 @@
+/* Production section and the continuing page frame */
+.production-section {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid #dedee1;
+  border-bottom: 1px solid #dedee1;
+  background: #f2f2f3;
+  color: #27272a;
+}
+
+.production-section::before,
+.production-section::after {
+  content: '';
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #dedee1;
+  pointer-events: none;
+}
+
+.production-section::before {
+  left: var(--frame);
+}
+
+.production-section::after {
+  right: var(--frame);
+}
+
+.production-inner {
+  width: min(1008px, calc(100% - var(--frame) * 2 - 64px));
+  margin: auto;
+}
+
+.production-stage {
+  padding: 104px 0 96px;
+}
+
+.production-layout {
+  display: grid;
+  grid-template-columns: 376px minmax(0, 1fr);
+  align-items: center;
+  gap: 57.6px;
+}
+
+/* Two-line heading, its soft color bloom, and the demo link */
+.production-copy {
+  min-width: 0;
+}
+
+.production-title {
+  position: relative;
+  isolation: isolate;
+  width: fit-content;
+  margin: 0;
+  font-family: Roobert, var(--sans);
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 44px;
+  letter-spacing: -.76px;
+}
+
+.production-title::before {
+  content: attr(data-glow);
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  white-space: pre-line;
+  background: linear-gradient(100deg, #ffd4be, #af75ff 32%, #76d0f4 64%, transparent 90%);
+  background-clip: text;
+  color: transparent;
+  filter: blur(8px);
+  opacity: .5;
+}
+
+.production-title strong {
+  font-weight: 600;
+}
+
+.production-description {
+  margin: 24px 0;
+  color: #4f4f55;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -.16px;
+}
+
+.production-cta {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 6px;
+  background: white;
+  box-shadow: inset 0 0 3px #ffffff40, 0 3px 3px -2px #27272a1a, 0 0 0 .5px #27272a2e;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  transition: box-shadow .2s;
+}
+
+.production-cta:hover {
+  box-shadow: 0 3px 3px -2px #27272a24, 0 0 0 .5px #27272a38, inset 0 0 3px #ffffff40;
+}
+
+/* A camera moves over a large staggered field of real interface cards */
+.activity-viewport {
+  position: relative;
+  height: 320px;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 40px;
+  background: #f2f2f3;
+}
+
+.activity-world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4200px;
+  height: 1008px;
+  transition: transform 1.6s cubic-bezier(.4, 0, .2, 1);
+}
+
+.activity-frame {
+  position: absolute;
+  height: 68px;
+  opacity: .38;
+  transition: opacity 1.6s cubic-bezier(.4, 0, .2, 1);
+}
+
+.activity-frame.is-active {
+  z-index: 2;
+  opacity: 1;
+}
+
+.activity-frame::before {
+  content: '';
+  position: absolute;
+  inset: -14px -5px;
+  border-radius: 30px;
+  background: linear-gradient(110deg, #ffd4be, #c49bfa, #83d6fb);
+  filter: blur(22px);
+  opacity: 0;
+  transition: opacity 1.6s;
+}
+
+.activity-frame.is-active::before {
+  opacity: .35;
+}
+
+.activity-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 70px;
+  padding: 12px 16px 12px 12px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 0 7.5px .75px #27272a08, 0 9px 18px -6px #27272a14, 0 3px 4.5px -3px #27272a29, 0 0 0 .75px #27272a14;
+}
+
+.activity-badge {
+  display: grid;
+  flex: 0 0 46px;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #f2f2f3;
+  border-radius: 50%;
+  background: white;
+  color: var(--symbol-color);
+}
+
+.activity-badge svg {
+  width: 25px;
+  height: 25px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.activity-content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  min-width: 0;
+}
+
+.activity-label {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  white-space: nowrap;
+}
+
+.activity-time {
+  color: #71717a;
+  font-size: 12px;
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+/* Edge washes blend cropped cards into the section surface */
+.activity-viewport::after {
+  content: '';
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, #f2f2f3, #f2f2f39e 3%, #f2f2f324 7%, transparent 12% 88%, #f2f2f324 93%, #f2f2f39e 97%, #f2f2f3), linear-gradient(#f2f2f3, #f2f2f375 4%, #f2f2f31a 9%, transparent 15% 85%, #f2f2f31a 91%, #f2f2f375 96%, #f2f2f3);
+}
+
+/* Reusable digit reels, with one readable value for assistive technology */
+.number-reel {
+  display: inline-flex;
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
+  vertical-align: baseline;
+}
+
+.reel-digit {
+  position: relative;
+  display: inline-block;
+  width: .62em;
+  height: 1em;
+  overflow: hidden;
+  line-height: 1;
+  text-align: center;
+}
+
+.reel-strip {
+  display: flex;
+  flex-direction: column;
+  transition: transform .8s cubic-bezier(1, 0, .35, .95);
+}
+
+.reel-strip span {
+  flex: 0 0 1em;
+  height: 1em;
+  line-height: 1;
+}
+
+.activity-count {
+  font-weight: 500;
+}
+
+/* Annual label and four centered measures */
+.production-annual {
+  position: relative;
+  border-top: 1px solid #dedee1;
+}
+
+.annual-label {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 50%;
+  margin: 0;
+  padding: 3px 12px;
+  border: 1px solid #e5e5e7;
+  border-radius: 99px;
+  background: #f2f2f3;
+  color: #4f4f55;
+  font-size: 12px;
+  line-height: 18px;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+
+.production-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 52px 0 48px;
+}
+
+.production-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.production-metric dt {
+  color: #4f4f55;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.production-metric dd {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 36px;
+  letter-spacing: -.56px;
+  white-space: nowrap;
+}
+
+.production-metric:first-child dd {
+  height: 41px;
+}
+
+.production-metric a:hover {
+  color: #2d2d31;
+}
+
+/* Narrow desktop and tablet arrangements */
+@media (max-width: 1100px) {
+  .production-stage {
+    padding: 96px 0 84px;
+  }
+
+  .production-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+}
+
+@media (max-width: 900px) {
+  .production-inner {
+    width: calc(100% - 96px);
+  }
+
+  .production-stage {
+    padding: 108px 0 84px;
+  }
+
+  .production-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .production-description {
+    max-width: 440px;
+  }
+
+  .production-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 40px;
+  }
+}
+
+/* Phone keeps the moving field and gives every metric its own ruled row */
+@media (max-width: 640px) {
+  .production-inner {
+    width: calc(100% - 48px);
+  }
+
+  .production-stage {
+    padding: 76px 0 56px;
+  }
+
+  .production-title {
+    font-size: 32px;
+    line-height: 38px;
+    letter-spacing: -.64px;
+  }
+
+  .activity-viewport {
+    height: 236px;
+    border-radius: 24px;
+  }
+
+  .production-metrics {
+    width: calc(100% - 24px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 0;
+  }
+
+  .production-metric {
+    padding: 40px 32px;
+    border-bottom: 1px solid #dedee1;
+  }
+
+  .production-metric:last-child {
+    border-bottom: 0;
+  }
+
+  .production-metric dd {
+    height: 32px;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -.48px;
+  }
+
+  .production-metric:first-child dd {
+    height: 37px;
+  }
+}
+
+/* Motion pauses with the planning dialog; reduced motion holds readable values */
+.production-section.is-paused *,
+.production-section.is-paused *::before {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .activity-world,
+  .activity-frame,
+  .activity-frame::before,
+  .reel-strip {
+    transition: none;
+  }
+}

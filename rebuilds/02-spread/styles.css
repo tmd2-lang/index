@@ -1,0 +1,1216 @@
+/* Flipside — rebuild of joinspread.app. Values measured from the real site (see NOTES.md). */
+:root {
+  /* Warm neutrals: every grey leans brown, never blue. */
+  --cream: #faf7f4;          /* page */
+  --stone: #f2ede7;          /* cards, button hover fill */
+  --sand: #e6dfd5;
+  --charcoal: #1d1b18;       /* text + dark sections: a warm near-black, never #000 */
+  --charcoal-soft: #3a3632;  /* body copy */
+  --muted: #8c857d;
+  --muted-light: #b5afa7;
+  --border: #ddd6cc;
+  --positive: #3d6b4f;       /* the only accent: money / profit */
+  --positive-bg: #3d6b4f10;  /* the same green at ~6% for pill backgrounds */
+
+  --font-head: "General Sans", system-ui, sans-serif;   /* headings: weight 500, tight tracking */
+  --font-body: "General Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);      /* expo-out: Spread's house easing */
+  --ease-text: cubic-bezier(0.215, 0.61, 0.355, 1); /* "power3.out" for text entrances */
+
+  --pad-x: 56px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--cream);
+  color: var(--charcoal);
+  font: 400 16px/1.6 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+a { color: inherit; }
+
+/* Lenis (smooth scroll) recommended base styles: let Lenis own the scrolling. */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ================= NAV ================= */
+.nav {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  translate: -50% 0;            /* centered without a wrapper */
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 620px;
+  padding: 8px 8px 8px 28px;
+  border-radius: 100px;
+  /* Dark glass over the photo */
+  background: rgba(29, 27, 24, 0.15);
+  -webkit-backdrop-filter: blur(32px) saturate(1.4);
+  backdrop-filter: blur(32px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition:
+    background .4s, border-color .4s, box-shadow .4s,
+    padding .5s var(--ease-out), max-width .5s var(--ease-out);
+  animation: nav-in .6s ease-out .2s both;
+}
+@keyframes nav-in { from { opacity: 0; } }
+
+.nav-logo {
+  font: 500 17px/1 var(--font-head);
+  letter-spacing: -0.4px;
+  color: #fff;
+  text-decoration: none;
+  margin-right: 16px;
+  flex-shrink: 0;
+  transition: color .4s, margin .4s;
+}
+
+/* The links collapse by animating max-width to 0. You can't transition `width: auto`,
+   but you CAN transition max-width between two fixed numbers. overflow: hidden hides the rest. */
+.nav-links {
+  display: flex;
+  list-style: none;
+  overflow: hidden;
+  max-width: 400px;
+  transition: max-width .5s var(--ease-out), opacity .3s;
+}
+.nav-links a {
+  display: block;
+  padding: 10px 16px;
+  border-radius: 100px;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .3s, background .3s;
+}
+.nav-links a:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+
+.nav-cta {
+  flex-shrink: 0;
+  margin-left: 4px;
+  padding: 11px 24px;
+  border-radius: 100px;
+  background: #fff;
+  color: var(--charcoal);
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .3s, color .3s, padding .3s, font-size .3s, opacity .3s;
+}
+.nav-cta:hover { opacity: .88; }
+.cta-short { display: none; }
+
+/* Scrolled: links fold away, the pill turns into light glass with a dark button. */
+.nav.scrolled {
+  max-width: 280px;
+  gap: 2px;
+  padding: 6px 6px 6px 20px;
+  background: rgba(250, 247, 244, 0.72);
+  border-color: rgba(221, 214, 204, 0.6);
+  box-shadow: 0 2px 20px rgba(29, 27, 24, 0.06);
+}
+.nav.scrolled .nav-logo { color: var(--charcoal); margin-right: auto; }
+.nav.scrolled .nav-links { max-width: 0; opacity: 0; pointer-events: none; }
+.nav.scrolled .nav-cta { background: var(--charcoal); color: var(--cream); padding: 9px 18px; font-size: 12px; }
+
+.nav a:focus-visible, .btn:focus-visible, .btn-ghost:focus-visible, .spinner:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.nav.scrolled a:focus-visible { outline-color: var(--charcoal); }
+
+/* ================= HERO ================= */
+/* The track is 200vh tall; the stage inside sticks to the screen for the first 100vh of scrolling.
+   That "extra" 100vh of scroll is the timeline script.js turns into motion. */
+.hero { position: relative; height: 200vh; }
+.hero-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* The big media layer. JS scales it down (1 → 0.25) and rounds its corners. */
+.hero-main {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  background: var(--charcoal);
+  will-change: transform;
+}
+/* Stand-in for Spread's background video: a still with a slow drift ("Ken Burns") so it feels alive. */
+.hero-media {
+  position: absolute;
+  inset: -4%;
+  background: url(img/hero.jpg) center 55% / cover;
+  animation: drift 24s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from { transform: scale(1.02) translate(0, 0); }
+  to   { transform: scale(1.1) translate(-1.5%, -1%); }
+}
+/* Darken the bottom (where the text sits) with the page's own charcoal, not black. */
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(29, 27, 24, 0.82) 0%,
+    rgba(29, 27, 24, 0.35) 40%,
+    rgba(29, 27, 24, 0.1) 70%,
+    rgba(29, 27, 24, 0.02) 100%);
+}
+
+.hero-content {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 var(--pad-x) 80px;
+  color: #fff;
+}
+.hero-title {
+  font: 500 clamp(44px, 5.8vw, 72px)/1.04 var(--font-head);
+  letter-spacing: -2.5px;
+  margin-bottom: 20px;
+}
+.hero-sub {
+  max-width: 440px;
+  margin-bottom: 36px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.7);
+  text-wrap: pretty;            /* avoid a lonely last word */
+}
+.hero-actions { display: flex; align-items: center; gap: 20px; }
+
+/* ---- Word-mask reveal ----
+   Each word sits in a box with overflow: hidden (the "mask"). The word starts pushed below the box,
+   so it's invisible, then slides up into view. It looks like the text rises out of a slot. */
+.w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 6px;          /* room for descenders (p, g) so the mask doesn't cut them */
+}
+.w > span { display: inline-block; }
+
+/* Start state (hidden) and end state (shown). The end state is MORE specific (html.js.ready = 2 classes
+   on html) than the start state (html.js = 1), so it always wins once .ready is added. */
+html.js .w > span { transform: translateY(125%); }
+html.js .hero-sub { opacity: 0; transform: translateY(30px); }
+html.js .hero-actions { opacity: 0; transform: translateY(24px); }
+
+html.js.ready .w > span {
+  transform: none;
+  transition: transform 1.2s var(--ease-text) calc(.3s + var(--i) * 60ms);
+}
+html.js.ready .hero-sub {
+  opacity: 1; transform: none;
+  transition: opacity 1s var(--ease-text) 1s, transform 1s var(--ease-text) 1s;
+}
+html.js.ready .hero-actions {
+  opacity: 1; transform: none;
+  transition: opacity .8s var(--ease-text) 1.2s, transform .8s var(--ease-text) 1.2s;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  position: relative;
+  isolation: isolate;          /* new stacking context: the fill's z-index -1 stays INSIDE the button */
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  text-decoration: none;
+}
+.btn-light {
+  padding: 16px 36px;
+  background: #fff;
+  color: var(--charcoal);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+}
+/* Hover: a second color wipes in from the left (scaleX 0 → 1 with the origin on the left). */
+.btn-fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--stone);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .5s var(--ease-out);
+}
+.btn:hover .btn-fill { transform: scaleX(1); }
+.btn:active { scale: .98; }
+
+.btn-ghost {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  transition: color .3s;
+}
+.btn-ghost span { display: inline-block; transition: transform .3s var(--ease-out); }
+.btn-ghost:hover { color: #fff; }
+.btn-ghost:hover span { transform: translateX(3px); }
+
+/* ---- Spinning badge ---- */
+.spinner {
+  --fade: 1;                                /* JS fades this out as you scroll */
+  position: absolute;
+  right: var(--pad-x);
+  bottom: 40px;
+  z-index: 3;
+  width: 120px;
+  height: 120px;
+  opacity: calc(.7 * var(--fade));
+  transition: opacity .3s;
+}
+.spinner:hover { opacity: var(--fade); }
+.spinner.gone { visibility: hidden; }     /* faded out = not clickable either */
+.spinner svg { width: 100%; height: 100%; overflow: visible; }
+.spinner text {
+  font: 500 5px var(--font-body);
+  text-transform: uppercase;
+  fill: rgba(255, 255, 255, 0.85);
+}
+/* Two nested spins: the outer one always turns (12s); the inner one only runs on hover.
+   Together they double the speed without the jump you get from changing animation-duration mid-spin. */
+.spin, .spin text { transform-origin: 50px 50px; animation: spin 12s linear infinite; }
+.spin text { animation-play-state: paused; }
+.spinner:hover .spin text { animation-play-state: running; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner-arrow {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 300;
+}
+
+/* ---- Floating gallery tiles ---- */
+.hero-tiles { position: absolute; inset: 0; z-index: 1; }
+.tile {
+  position: absolute;
+  width: var(--w);
+  height: var(--h);
+  border-radius: 14px;
+  background: var(--img) center / cover;
+  box-shadow: 0 4px 20px rgba(29, 27, 24, 0.1);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* ================= Feature rows (How it works + Score & relist) ================= */
+/* Two equal columns. The text column is capped at 480px INCLUDING its padding, so the text itself is
+   ~368px wide: short lines (about 8 words) are what makes it feel calm and editorial. */
+.feature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  min-height: 80vh;
+}
+.feature-text {
+  max-width: 480px;
+  padding: 80px var(--pad-x);
+}
+.tag {
+  margin-bottom: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.feature h2 {
+  margin-bottom: 20px;
+  font: 500 clamp(28px, 3.2vw, 42px)/1.12 var(--font-head);
+  letter-spacing: -1.2px;
+  text-wrap: balance;           /* even line lengths in the headline */
+}
+.feature-text > p:not(.tag) {
+  margin-bottom: 28px;
+  line-height: 1.7;
+  color: var(--charcoal-soft);
+}
+/* The proof line: a hairline above it separates "the claim" from "the evidence". */
+.feature-text .feature-proof {
+  margin-bottom: 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--muted);
+}
+.feature-proof strong { font-weight: 500; color: var(--charcoal); }
+
+/* Photo card: 4:5, never taller than 70% of the screen, pushed to the right edge with a 20px margin. */
+.feature-media {
+  position: relative;
+  overflow: hidden;
+  width: calc(100% - 40px);
+  max-height: 70vh;
+  aspect-ratio: 4 / 5;
+  margin: 20px 20px 20px auto;
+  border-radius: 20px;
+  background: var(--stone);     /* shows while the photo loads */
+}
+/* Both photos are stacked on top of each other; the hidden one is transparent and slightly zoomed,
+   so the swap is a crossfade with a gentle "settle" rather than a hard cut. */
+.feature-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+.feature-media img.is-hidden { opacity: 0; transform: scale(1.04); }
+
+/* Flipped row: photo left, text right. `order` swaps the visual order without changing the HTML order,
+   so screen readers still get the text first. */
+.feature--flip .feature-text { order: 2; padding: 80px var(--pad-x) 80px 32px; }
+.feature--flip .feature-media { order: 1; margin: 20px auto 20px 20px; }
+
+/* ---- Chat card: a small "app moment" inside the page ---- */
+.chat {
+  max-width: 360px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  /* Two shadows: a tight one for the edge, a wide soft one for lift. */
+  box-shadow: 0 1px 4px rgba(29, 27, 24, 0.04), 0 8px 32px rgba(29, 27, 24, 0.06);
+}
+.chat-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.chat-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--positive);
+  animation: pulse 2.5s ease infinite;     /* "live" */
+}
+@keyframes pulse { 50% { opacity: .3; } }
+.chat-msgs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px;
+}
+/* Every bubble already takes up its space while invisible, so the card never jumps in height
+   as messages arrive. Only opacity + transform animate. */
+.feature-text .msg {
+  max-width: 88%;
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--charcoal);
+}
+html.js:not(.reduce) .msg { opacity: 0; transform: translateY(8px); }
+html.js:not(.reduce) .msg.is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity .35s var(--ease-out), transform .35s var(--ease-out);
+}
+/* Speech-bubble "tails": one tight corner on the speaker's side. */
+.msg--ai { align-self: flex-start; background: var(--stone); border-bottom-left-radius: 4px; }
+.feature-text .msg--me { align-self: flex-end; background: var(--charcoal); color: var(--cream); border-bottom-right-radius: 4px; }
+.feature-text .msg--done {
+  align-self: center;
+  padding: 6px 18px;
+  border-radius: 100px;
+  background: var(--positive-bg);
+  color: var(--positive);
+  font-size: 12px;
+  font-weight: 600;
+}
+.msg strong { font-weight: 500; }
+.num { font: 500 12px var(--font-mono); }
+
+/* ================= Photo break ================= */
+/* Starts full-bleed; script.js shrinks its width to (100% - 32px) and rounds the corners as it scrolls in.
+   Animating WIDTH (not scale) keeps the text inside the same size while the frame tightens around it. */
+.photo-break {
+  position: relative;
+  overflow: hidden;
+  /* script.js animates ONLY --inset (0 → 16px). Width and corners are worked out from it, so they always follow
+     the current screen size. (Animating `width` directly stored the width in pixels at page load; widen the
+     window afterwards and the photo stayed narrow, then "wiped open" as you scrolled.) */
+  --inset: 0px;
+  width: calc(100% - 2 * var(--inset));
+  border-radius: calc(var(--inset) * 1.5);
+  height: 100vh;
+  min-height: 700px;
+  margin: 0 auto;
+  background: var(--charcoal);   /* if the photo is late, you see a dark card, never the cream page "wiping" open */
+}
+.photo-break-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  will-change: transform;
+}
+/* Flat charcoal wash: the whole photo becomes a quiet texture, so centred text reads anywhere on it.
+   Spread uses 48% on a soft, low-detail photo; ours is a busy flea-market stall, so it needs ~60%. */
+.photo-break-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--pad-x);
+  background: rgba(29, 27, 24, 0.6);
+  color: #fff;
+  text-align: center;
+}
+.photo-break-text { max-width: 540px; margin-bottom: 64px; }
+.photo-break h2 {
+  margin-bottom: 16px;
+  font: 500 clamp(32px, 4.5vw, 56px)/1.08 var(--font-head);
+  letter-spacing: -2px;
+  text-wrap: balance;
+}
+.photo-break-text p { line-height: 1.65; color: rgba(255, 255, 255, 0.7); }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  width: 100%;
+  max-width: 900px;
+  padding-top: 48px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+/* The quiet version: a softer photo, so a lighter wash (Spread: 42%) and no gap under the text. */
+.photo-break--soft { height: 90vh; min-height: 500px; }
+.photo-break--soft .photo-break-overlay { background: rgba(29, 27, 24, 0.42); }
+.photo-break--soft .photo-break-text { margin-bottom: 0; }
+/* Keep the lamp + clock (bottom-left of the photo) in frame: they ARE the story ("time passes while you sleep"). */
+.photo-break--soft .photo-break-img { object-position: 12% 85%; transform-origin: 20% 80%; }
+.photo-break-text p { text-wrap: balance; }
+.stat-num {
+  margin-bottom: 4px;
+  font-size: 48px;
+  font-weight: 400;
+  letter-spacing: -2px;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;   /* every digit the same width, so counting doesn't wobble */
+}
+.stat-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.72);
+  text-shadow: 0 1px 8px rgba(29, 27, 24, 0.6);   /* a soft halo keeps small text legible over bright spots */
+}
+
+/* ================= Live opportunities: deal card stack ================= */
+.deals { max-width: 1200px; margin: 0 auto; padding: 100px var(--pad-x) 0; }
+.deals-head { max-width: 600px; margin: 0 auto 56px; text-align: center; }
+.deals-head .tag { margin-bottom: 12px; }
+.deals-head h2 {
+  font: 500 clamp(28px, 3.2vw, 42px)/1.12 var(--font-head);
+  letter-spacing: -1.2px;
+  text-wrap: balance;
+}
+.deals-head p:last-child { margin-top: 12px; line-height: 1.7; color: var(--charcoal-soft); }
+
+/* The stage clips the cards at the bottom and a cream fade hides the cut, so the stack looks like it rises
+   out of the page instead of sitting on top of it. */
+.deal-stage { position: relative; overflow: hidden; }
+.deal-stack {
+  position: relative;
+  max-width: 520px;
+  height: 400px;
+  margin: 0 auto;
+  cursor: pointer;
+}
+.deal-stack:focus-visible { outline: 2px solid var(--charcoal); outline-offset: 6px; border-radius: 20px; }
+.deal-fade {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 10;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--cream));
+  pointer-events: none;
+}
+/* Each card is pinned to the bottom of the stack; GSAP sets its scale / y / z-index for its place in line. */
+.deal-card {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -2px 8px rgba(29, 27, 24, 0.03), 0 -8px 32px rgba(29, 27, 24, 0.06);   /* shadows cast UP */
+  will-change: transform;
+}
+.dc-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--muted);
+}
+.dc-bar strong { font-weight: 500; color: var(--charcoal); }
+.dc-score { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; color: var(--positive); }
+.dc-score::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--positive);
+  animation: pulse 2.5s ease infinite;
+}
+/* Buy side → arrow → sell side. `auto` keeps the arrow column only as wide as the arrow. */
+.dc-body { display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; padding: 28px 24px 20px; }
+.dc-side { min-width: 0; }
+.dc-lbl, .dc-small-lbl {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+.dc-lbl { margin-bottom: 10px; }
+.dc-name {
+  margin-bottom: 2px;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  text-overflow: ellipsis;      /* long names end in "…" instead of wrapping */
+}
+.dc-where { margin-bottom: 14px; font-size: 12.5px; color: var(--muted); }
+.dc-price { font: 400 28px var(--font-mono); letter-spacing: -1px; }
+.dc-price--sell { color: var(--positive); }
+.dc-arrow { padding: 32px 16px 0; font-size: 20px; color: var(--muted-light); }
+.dc-foot { display: flex; justify-content: space-between; align-items: center; padding: 0 24px 24px; }
+.dc-costs { display: flex; gap: 16px; }
+.dc-small-lbl { margin-bottom: 2px; font-size: 10px; }
+.dc-small-val { font-size: 13px; font-weight: 500; }
+.dc-profit { text-align: right; }
+.dc-profit .dc-small-lbl { color: var(--positive); }
+.dc-profit-val { font: 500 26px var(--font-mono); letter-spacing: -1px; color: var(--positive); }
+
+/* ================= Stories (Spread's testimonials) ================= */
+/* An inset dark card (12px from the page edges) so it reads as a "scene" between the light sections. */
+.stories {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 24px);
+  min-height: 85vh;
+  margin: 12px auto;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--charcoal);
+  text-align: center;
+}
+/* A slight blur turns the shop signs and bright windows into warm texture, so nothing in the photo competes with
+   the quote. Scaled up 5% so the blurred edges never show inside the rounded frame. */
+.stories-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(3px); transform: scale(1.05); }
+/* 75% charcoal: the photo is only warm texture behind the words. */
+.stories::after { content: ""; position: absolute; inset: 0; background: rgba(29, 27, 24, 0.75); }
+.stories-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 640px;
+  padding: 80px 32px;
+  color: #fff;
+}
+/* A giant, barely-there serif quote mark: decoration that says "quote" without competing with the words. */
+.stories-mark {
+  margin-bottom: 32px;
+  font: 300 100px/0.5 Georgia, "Times New Roman", serif;
+  color: rgba(255, 255, 255, 0.16);   /* Spread: .08, but our background is brighter */
+  user-select: none;
+}
+/* Crossfade trick: all quotes sit in the same spot. Inactive ones are taken out of the flow (absolute), so the
+   box is always exactly as tall as the active quote. Switching = fade + un-blur + tiny zoom. */
+.stories-quote, .stories-role { position: relative; width: 100%; }
+.stories-quote { min-height: 100px; margin-bottom: 24px; }
+.stories-quote p {
+  font: 400 clamp(20px, 3vw, 30px)/1.4 var(--font-head);
+  letter-spacing: -0.3px;
+  text-wrap: balance;
+}
+.stories-quote p, .stories-role p {
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transition: opacity .5s var(--ease-out), filter .5s var(--ease-out), transform .5s var(--ease-out);
+}
+.stories-quote p { filter: blur(4px); transform: scale(0.98); }
+.stories-quote p.is-on, .stories-role p.is-on { position: relative; opacity: 1; filter: none; transform: none; }
+.stories-role { min-height: 18px; margin-bottom: 28px; }
+.stories-role p {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  transition-delay: .1s;      /* the label follows the quote a beat later */
+}
+/* Pills: just a round thumbnail until active, then the label slides open (max-width 0 → 100px, like the nav). */
+.stories-pills { display: flex; justify-content: center; gap: 6px; }
+.pill-av {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border: none;
+  border-radius: 100px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: background .5s var(--ease-out), padding .5s var(--ease-out);
+}
+.pill-av.is-on { padding-right: 16px; background: rgba(255, 255, 255, 0.15); }
+.pill-av:hover:not(.is-on) { background: rgba(255, 255, 255, 0.08); }
+.pill-av:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.pill-av img {
+  width: 32px;
+  height: 32px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: border-color .3s;
+}
+.pill-av.is-on img { border-color: rgba(255, 255, 255, 0.3); }
+.pill-av span {
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  font: 500 13px var(--font-body);
+  white-space: nowrap;
+  transition: max-width .5s var(--ease-out), opacity .5s var(--ease-out), margin .5s var(--ease-out);
+}
+.pill-av.is-on span { max-width: 100px; margin-left: 8px; opacity: 1; }
+
+/* ================= Statement ================= */
+/* Huge type and huge padding (220px top and bottom): the empty space is what makes it feel important. */
+.statement { overflow: hidden; padding: 220px var(--pad-x); text-align: center; }
+.statement-tag {
+  margin-bottom: 40px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.statement-line {
+  display: block;
+  overflow: hidden;            /* the rising text is clipped at the line's edge, like the hero words */
+  font: 500 clamp(40px, 5.8vw, 84px)/1.08 var(--font-head);
+  letter-spacing: -3px;
+  white-space: nowrap;         /* each line stays one line on wide screens: the break is part of the design */
+}
+.statement-line > span { display: inline-block; }
+html.js:not(.reduce) .statement-line > span { opacity: 0; filter: blur(8px); transform: translateY(40%); }
+
+/* ================= Control (dark card that slides over the statement) ================= */
+/* margin-top: -100px pulls it up over the statement's bottom padding; z-index + an UPWARD shadow make it read as
+   a sheet of paper laid on top. script.js also slides it up 120px as it arrives. */
+.control {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: calc(100% - 24px);
+  min-height: 100vh;
+  margin: -100px auto 12px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--charcoal);
+  box-shadow: 0 -20px 60px rgba(29, 27, 24, 0.3);
+  color: #fff;
+}
+.control-text { display: flex; flex-direction: column; justify-content: center; padding: 80px 64px; }
+.control .tag { color: rgba(255, 255, 255, 0.35); }
+.control h2 {
+  max-width: 440px;
+  margin-bottom: 20px;
+  font: 500 clamp(28px, 3.5vw, 48px)/1.1 var(--font-head);
+  letter-spacing: -1.5px;
+}
+.control-lead { max-width: 400px; margin-bottom: 48px; line-height: 1.7; color: rgba(255, 255, 255, 0.55); text-wrap: pretty; }
+
+/* Segmented control: a faint track with the active option as a lighter "chip" on it. */
+.modes { margin-bottom: 40px; }
+.modes-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  padding: 4px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+}
+.mode {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.4);
+  font: 500 13px var(--font-body);
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  transition: background .3s, color .3s;
+}
+.mode.is-on { background: rgba(255, 255, 255, 0.12); color: #fff; }
+.mode:hover:not(.is-on) { color: rgba(255, 255, 255, 0.7); }
+.mode:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.mode small { margin-left: 4px; font-size: 9px; letter-spacing: .5px; text-transform: uppercase; opacity: .5; }
+.modes-desc { min-height: 80px; }                 /* holds its height, so switching never shifts the steps below */
+.modes-desc p { display: none; font-size: 14px; line-height: 1.65; color: rgba(255, 255, 255, 0.5); }
+.modes-desc p.is-on { display: block; animation: fade-in .4s var(--ease-out); }
+@keyframes fade-in { from { opacity: 0; transform: translateY(4px); } }
+
+/* Steps: the 2px gaps between cells show the lighter track behind them, so the gaps ARE the divider lines. */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  list-style: none;
+}
+.steps li { display: flex; flex-direction: column; padding: 20px 16px; background: var(--charcoal); text-align: center; }
+.step-num { margin-bottom: 8px; font: 10px var(--font-mono); color: rgba(255, 255, 255, 0.25); }
+.step-title { margin-bottom: 4px; font-size: 13px; font-weight: 500; }
+.step-desc { font-size: 11.5px; line-height: 1.5; color: rgba(255, 255, 255, 0.4); }
+
+/* Photo: fades in from the dark side (charcoal → clear across the first 55%), so card and photo are one surface. */
+.control-photo { position: relative; overflow: hidden; }
+.control-photo img { width: 100%; height: 100%; object-fit: cover; }
+.control-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--charcoal) 0%, rgba(29, 27, 24, 0.3) 30%, transparent 55%);
+}
+
+/* ================= Niches ================= */
+.niches { max-width: 1200px; margin: 0 auto; padding: 100px var(--pad-x) 64px; }
+.niches-head { display: flex; flex-direction: column; align-items: center; margin-bottom: 48px; text-align: center; }
+.niches-head h2 {
+  max-width: 560px;
+  font: 500 clamp(28px, 3.2vw, 42px)/1.12 var(--font-head);
+  letter-spacing: -1.2px;
+}
+.niches-head p:last-child { max-width: 480px; margin-top: 8px; line-height: 1.7; color: var(--charcoal-soft); }
+
+/* Pills wrap and stay centred, so any number of them makes a tidy block. */
+/* Capped width so 12 pills wrap into even rows instead of leaving one pill alone on the last line. */
+.niche-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 880px; margin: 0 auto; }
+.niche {
+  padding: 12px 24px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--charcoal);
+  font: 400 15px var(--font-body);
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  transition: background .35s var(--ease-out), color .35s var(--ease-out), border-color .35s var(--ease-out),
+    opacity .35s var(--ease-out), transform .35s var(--ease-out);
+}
+/* Hidden only when JS is there to reveal them (Spread hides them for everyone, so no JS = no pills). */
+html.js:not(.reduce) .niche { opacity: 0; transform: translateY(10px); }
+html.js:not(.reduce) .niche.is-in { opacity: 1; transform: none; }
+.niche:hover, .niche:focus-visible { border-color: var(--charcoal); background: var(--charcoal); color: var(--cream); outline: none; }
+.niche-amt { margin-left: 8px; font: 12px var(--font-mono); color: var(--muted); transition: color .35s; }
+.niche:hover .niche-amt, .niche:focus-visible .niche-amt { color: rgba(255, 255, 255, 0.5); }
+.niche-note { margin: 16px 0 56px; font-size: 12px; text-align: center; color: var(--muted-light); }
+
+/* Search: three steps in one spot (search → setting up → done); only the active one is shown. */
+.niche-search { max-width: 480px; margin: 0 auto; text-align: center; }
+.ns-step { display: none; }
+.ns-step.is-on { display: block; animation: fade-in .4s var(--ease-out); }
+.ns-or { display: block; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+.ns-field { position: relative; margin-top: 20px; }
+.ns-input {
+  width: 100%;
+  padding: 18px 56px 18px 24px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  outline: none;
+  background: #fff;
+  color: var(--charcoal);
+  font: 15px var(--font-body);
+  transition: border-color .3s, box-shadow .3s;
+}
+.ns-input::placeholder { color: var(--muted-light); }
+/* Focus: a darker edge plus a soft 4px halo, instead of the browser's default blue ring. */
+.ns-input:focus { border-color: var(--charcoal); box-shadow: 0 0 0 4px rgba(29, 27, 24, 0.05), 0 4px 24px rgba(29, 27, 24, 0.08); }
+.ns-go {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: var(--charcoal);
+  color: var(--cream);
+  cursor: pointer;
+  translate: 0 -50%;
+  transition: background .25s, scale .25s var(--ease-out);
+}
+.ns-go:hover { background: var(--charcoal-soft); scale: 1.06; }
+.ns-suggest { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; min-height: 28px; margin-top: 10px; }
+.ns-sug {
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: #fff;
+  color: var(--muted);
+  font: 12px var(--font-body);
+  cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.ns-sug:hover, .ns-sug:focus-visible { border-color: var(--charcoal); background: var(--charcoal); color: #fff; outline: none; }
+.niche-search h3 { margin-bottom: 6px; font: 500 20px var(--font-head); letter-spacing: -0.4px; }
+.niche-search [data-step] > p { color: var(--muted); }
+.ns-bar { width: 200px; height: 3px; margin: 8px auto 20px; overflow: hidden; border-radius: 3px; background: var(--border); }
+/* The width is driven by script.js (0% → 100%), not by .is-on: the step switches from display:none, and an element
+   that wasn't drawn yet has no "before" width to animate from, so a CSS-only version would just appear full. */
+.ns-fill { width: 0; height: 100%; border-radius: 3px; background: var(--charcoal); transition: width 2.5s cubic-bezier(.4, 0, .2, 1); }
+.ns-check {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  border: 2px solid var(--positive);
+  border-radius: 50%;
+  background: var(--positive-bg);
+  color: var(--positive);
+}
+.ns-actions { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 20px; }
+.ns-cta {
+  padding: 12px 28px;
+  border-radius: 100px;
+  background: var(--charcoal);
+  color: var(--cream);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background .2s;
+}
+.ns-cta:hover { background: var(--charcoal-soft); }
+.ns-again { border: none; background: none; color: var(--muted); font: 14px var(--font-body); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* ================= Pricing ================= */
+.pricing { max-width: 1200px; margin: 0 auto; padding: 100px var(--pad-x); }
+/* Header: headline left, reassurance right, both sitting on the same bottom line (align-items: end). */
+.pricing-head { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; margin-bottom: 48px; }
+.pricing-head h2 { font: 500 clamp(28px, 3.2vw, 42px)/1.12 var(--font-head); letter-spacing: -1.2px; text-wrap: balance; }
+.pricing-head > p { line-height: 1.7; color: var(--charcoal-soft); }
+
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.plan {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 32px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--stone);
+  transition: transform .3s, box-shadow .3s, opacity .5s;
+}
+html.js:not(.reduce) .plan { opacity: 0; transform: translateY(20px); }
+html.js:not(.reduce) .plan.is-in { opacity: 1; transform: none; transition: opacity .5s, transform .5s var(--ease-out), box-shadow .3s; }
+.plan:hover, html.js:not(.reduce) .plan.is-in:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(29, 27, 24, 0.08); }
+
+/* Featured plan: the same card inverted to charcoal, plus a deeper shadow: the eye lands here first. */
+.plan--featured { border-color: var(--charcoal); background: var(--charcoal); color: #fff; box-shadow: 0 8px 40px rgba(29, 27, 24, 0.18); }
+.plan--featured:hover, html.js:not(.reduce) .plan--featured.is-in:hover { box-shadow: 0 12px 48px rgba(29, 27, 24, 0.25); }
+
+.plan-tag { margin-bottom: 24px; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.plan--featured .plan-tag { color: #7fb08f; }   /* our green, lifted so it reads on charcoal */
+.plan-name { margin-bottom: 4px; font: 400 24px var(--font-head); letter-spacing: -0.5px; }
+.plan-desc { margin-bottom: 24px; font-size: 14px; color: var(--muted); }
+.plan-price { display: flex; align-items: baseline; gap: 3px; margin-bottom: 4px; }
+.plan-amt { font-size: 44px; letter-spacing: -2px; line-height: 1.1; }
+.plan-per { font-size: 14px; color: var(--muted); }
+.plan-note { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--muted-light); }
+.plan--featured .plan-desc, .plan--featured .plan-per { color: rgba(255, 255, 255, 0.5); }
+.plan--featured .plan-note { border-color: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.4); }
+
+.plan-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; list-style: none; }
+.plan-list li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--charcoal-soft); }
+/* Ticks drawn in CSS: a green ring (Spread's) plus a small check inside it (Spread's are empty rings, which
+   read as "unticked"). The check is an inline SVG used as a background image. */
+.plan-list li::before {
+  content: "";
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--positive);
+  border-radius: 50%;
+  background: var(--positive-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.2 2.2 4.8-4.8' fill='none' stroke='%233d6b4f' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat;
+}
+.plan--featured .plan-list li { color: rgba(255, 255, 255, 0.75); }
+.plan--featured .plan-list li::before {
+  border-color: #7fb08f;
+  background-color: rgba(61, 107, 79, 0.25);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.2 2.2 4.8-4.8' fill='none' stroke='%237fb08f' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+/* margin-top: auto pins the button to the bottom, so all three line up even if one list is longer. */
+.plan-btn {
+  margin-top: auto;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: var(--charcoal);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  transition: background .3s, color .3s, border-color .3s;
+}
+.plan-btn:hover { border-color: var(--charcoal); background: var(--charcoal); color: var(--cream); }
+.plan--featured .plan-btn { border-color: #fff; background: #fff; color: var(--charcoal); }
+.plan--featured .plan-btn:hover { background: var(--stone); }
+.plan-btn:focus-visible { outline: 2px solid var(--charcoal); outline-offset: 3px; }
+.plan--featured .plan-btn:focus-visible { outline-color: #fff; }
+
+/* ================= Photo strip (endless marquee) ================= */
+.strip { overflow: hidden; padding: 100px 0 0; }
+.strip-head { margin-bottom: 48px; padding: 0 var(--pad-x); text-align: center; }
+.strip-head h2 { margin-bottom: 8px; font: 400 clamp(24px, 3vw, 36px) var(--font-head); letter-spacing: -0.8px; }
+.strip-head p { font-size: 15px; color: var(--muted); text-wrap: balance; }
+/* width: max-content lets the row be as long as all its photos, instead of squeezing them into the screen. */
+.strip-track { display: flex; gap: 16px; width: max-content; will-change: transform; }
+.strip-img { flex-shrink: 0; width: 320px; height: 400px; overflow: hidden; border-radius: 16px; background: var(--sand); }
+.strip-img img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ================= Closing + footer ================= */
+.closing { max-width: 1200px; margin: 0 auto; padding: 120px var(--pad-x) 140px; text-align: center; }
+.closing h2 { margin-bottom: 16px; font: 500 clamp(32px, 4.5vw, 56px)/1.08 var(--font-head); letter-spacing: -2px; }
+.closing > p:not(.closing-note) { max-width: 400px; margin: 0 auto 40px; font-size: 17px; line-height: 1.65; color: var(--muted); text-wrap: balance; }
+/* Same button as the hero, inverted: charcoal with a slightly lighter charcoal wiping in on hover. */
+.btn-dark { padding: 16px 36px; background: var(--charcoal); color: var(--cream); font-size: 15px; font-weight: 500; letter-spacing: -0.2px; }
+.btn-dark .btn-fill { background: var(--charcoal-soft); }
+.btn-dark:focus-visible { outline: 2px solid var(--charcoal); outline-offset: 3px; }
+.closing-note { margin-top: 20px; font-size: 12px; color: var(--muted-light); text-wrap: balance; }
+
+.footer { max-width: 1200px; margin: 0 auto; padding: 28px var(--pad-x); border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
+.footer-row { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.footer a { color: var(--muted); transition: color .2s; }
+.footer a:hover { color: var(--charcoal); }
+.footer-logo { font: 500 15px var(--font-head); letter-spacing: -0.3px; color: var(--charcoal) !important; text-decoration: none; }
+.footer-credits { margin-top: 12px; font-size: 11.5px; line-height: 1.6; color: var(--muted-light); }
+
+/* ================= Responsive ================= */
+@media (max-width: 960px) {
+  :root { --pad-x: 32px; }
+  .hero-content { padding-bottom: 56px; }
+  .hero-tiles { display: none; }
+  .spinner { width: 90px; height: 90px; bottom: 32px; }
+
+  /* Feature rows stack: text first, then a wider, shorter (3:2) photo. */
+  .feature { grid-template-columns: 1fr; gap: 24px; min-height: auto; }
+  .feature-text { max-width: none; padding: 60px var(--pad-x) 0; }
+  .feature-media { aspect-ratio: 3 / 2; width: auto; margin: 20px var(--pad-x); }
+  .feature--flip .feature-text { order: 0; padding: 60px var(--pad-x) 0; }
+  .feature--flip .feature-media { order: 0; margin: 20px var(--pad-x); }
+  .stats { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .statement { padding: 160px var(--pad-x); }
+  .statement-line { font-size: clamp(32px, 5.2vw, 56px); }
+
+  .control { grid-template-columns: 1fr; min-height: auto; }
+  .control-text { padding: 64px 32px; }
+  .control-photo { height: 50vh; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .niche-list { gap: 8px; }
+  .pricing { padding: 80px var(--pad-x); }
+  .pricing-head { grid-template-columns: 1fr; gap: 16px; }
+  .plans { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
+  .strip-img { width: 260px; height: 340px; }
+  .closing { padding: 80px var(--pad-x) 100px; }
+}
+
+@media (max-width: 600px) {
+  :root { --pad-x: 24px; }
+  .nav { top: 12px; padding: 5px 5px 5px 16px; }
+  .nav-links { display: none; }
+  .nav-logo { margin-right: auto; font-size: 15px; }
+  .nav-cta { font-size: 12px; padding: 9px 16px; }
+  .cta-full { display: none; }
+  .cta-short { display: inline; }
+  .nav.scrolled { max-width: 220px; padding: 5px 5px 5px 14px; }
+
+  .hero { height: 130vh; }
+  .hero-media { background-position: 62% 55%; }   /* keep the surfer in frame on a narrow screen */
+  /* svh = the SMALL viewport height (browser toolbars showing), so the stage never hides under them. */
+  .hero-pin { height: 100vh; height: 100svh; }
+  .hero-content { padding-bottom: 40px; }
+  .hero-title { font-size: clamp(32px, 9vw, 48px); letter-spacing: -1.5px; }
+  .hero-sub { max-width: none; margin-bottom: 28px; font-size: 15px; }
+  .hero-actions { flex-direction: column; align-items: stretch; gap: 14px; }
+  .btn-light { padding: 14px 32px; font-size: 14px; }
+  .btn-ghost { align-self: flex-start; font-size: 13px; }
+  .spinner { display: none; }
+
+  .feature { gap: 20px; }
+  .feature-text { padding-top: 48px; }
+  .feature h2 { margin-bottom: 14px; font-size: clamp(24px, 7vw, 32px); }
+  .feature-text > p:not(.tag) { font-size: 15px; }
+  .feature-media, .feature--flip .feature-media { margin: 16px 12px; border-radius: 16px; }   /* nearly edge to edge */
+  .feature--flip .feature-text { padding-top: 48px; }
+  .chat { max-width: none; }
+  .chat-msgs { padding: 14px 16px; }
+  .feature-text .msg { padding: 9px 12px; }
+
+  .photo-break { height: 80vh; min-height: 560px; }
+  .photo-break-text { margin-bottom: 40px; }
+  .photo-break h2 { font-size: clamp(24px, 7vw, 36px); letter-spacing: -1.2px; }
+  .photo-break-text p { font-size: 14px; }
+  /* Phone crop: slide toward the clock so the text sits on the darker bed, not the bright lamp. */
+  .photo-break--soft .photo-break-img { object-position: 38% 85%; }
+  .photo-break--soft .photo-break-overlay { background: rgba(29, 27, 24, 0.52); }
+  .stats { gap: 20px 12px; padding-top: 32px; }
+  .stat-num { font-size: 32px; letter-spacing: -1px; }
+  .stat-desc { font-size: 11px; }
+
+  .deals-head { margin-bottom: 40px; }
+  .deals-head h2 { font-size: clamp(24px, 7vw, 32px); }
+  .deals-head p:last-child { font-size: 14px; }
+  /* Phones: the card stacks into one column and gets taller, so the stage grows with it.
+     (Spread keeps 300px here, which cuts off the top of the card.) */
+  .deal-stack { height: 510px; }
+  .deal-fade { height: 48px; }   /* the single-column card is taller; a shorter fade keeps the profit clear */
+  .dc-bar { padding: 10px 16px; font-size: 11px; }
+  .dc-body { grid-template-columns: 1fr; gap: 8px; padding: 20px 16px 14px; }
+  .dc-arrow { padding: 0; font-size: 16px; }
+  .dc-lbl { margin-bottom: 6px; font-size: 10px; }
+  .dc-name { font-size: 14px; }
+  .dc-where { margin-bottom: 8px; font-size: 11px; }
+  .dc-price { font-size: 20px; }
+  .dc-foot { flex-direction: column; align-items: flex-start; gap: 12px; padding: 0 16px 16px; }
+  .dc-costs { gap: 12px; }
+  .dc-small-val { font-size: 12px; }
+  .dc-profit { text-align: left; }
+  .dc-profit-val { font-size: 22px; }
+
+  .stories { width: calc(100% - 16px); min-height: 65vh; border-radius: 16px; }
+  .stories-inner { padding: 48px 24px; }
+  .stories-mark { margin-bottom: 20px; font-size: 64px; }
+  .stories-quote { min-height: 90px; }
+  .stories-quote p { font-size: clamp(18px, 5vw, 24px); }
+  .stories-role p { font-size: 10px; letter-spacing: 1px; }
+  .stories-role { margin-bottom: 24px; }
+  .pill-av img { width: 28px; height: 28px; }
+  .pill-av span { font-size: 12px; }
+
+  .statement { padding: 120px var(--pad-x); }
+  .statement-line { font-size: clamp(26px, 7.5vw, 40px); letter-spacing: -1px; white-space: normal; }
+
+  .control { width: calc(100% - 16px); border-radius: 16px; }
+  .control-text { padding: 48px 24px; }
+  .control h2 { font-size: clamp(24px, 7vw, 32px); }
+  .control-lead { max-width: none; margin-bottom: 32px; font-size: 15px; }
+  .control-photo { height: 40vh; }
+  .control-photo img { object-position: center 75%; }   /* show the hammock, not just treetops */
+  .control-photo::after { background: linear-gradient(to bottom, var(--charcoal) 0%, transparent 40%); }
+  .modes { margin-bottom: 28px; }
+  .mode { min-height: 44px; padding: 12px 10px; font-size: 12px; }   /* 44px: comfortable thumb target */
+  .modes-desc { min-height: 70px; }
+  .modes-desc p { font-size: 13px; }
+  .steps li { padding: 16px 12px; }
+  .step-title { font-size: 12px; }
+  .step-desc { font-size: 10.5px; }
+
+  .niches-head { margin-bottom: 32px; }
+  .niches-head h2 { font-size: clamp(24px, 7vw, 32px); }
+  .niches-head p:last-child { font-size: 14px; }
+  .niche-list { gap: 6px; }
+  .niche { padding: 10px 18px; font-size: 13px; }
+  .niche-amt { margin-left: 6px; font-size: 11px; }
+  .niche-note { margin-bottom: 32px; }
+  .ns-input { padding: 14px 48px 14px 16px; font-size: 14px; }
+  .niche-search h3 { font-size: 18px; }
+
+  .pricing { padding: 56px var(--pad-x); }
+  .pricing-head { gap: 12px; margin-bottom: 32px; }
+  .pricing-head h2 { font-size: clamp(24px, 7vw, 32px); }
+  .pricing-head > p { font-size: 14px; }
+  .plans { gap: 12px; }
+  .plan { padding: 32px 24px; border-radius: 16px; }
+  .plan-name { font-size: 20px; }
+  .plan-amt { font-size: 36px; }
+  .plan-btn { min-height: 48px; display: grid; place-items: center; }
+
+  .strip { padding-top: 56px; }
+  .strip-head { margin-bottom: 32px; }
+  .strip-head h2 { font-size: clamp(20px, 6vw, 28px); }
+  .strip-img { width: 200px; height: 260px; border-radius: 12px; }
+
+  .closing { padding: 56px var(--pad-x) 64px; }
+  .closing h2 { font-size: clamp(28px, 8vw, 40px); }
+  .closing > p:not(.closing-note) { margin-bottom: 32px; font-size: 15px; }
+  .btn-dark { padding: 14px 32px; font-size: 14px; }
+  .footer-row { flex-direction: column; gap: 12px; text-align: center; }
+  .footer-credits { text-align: center; }
+}
+
+@media (max-width: 380px) {
+  :root { --pad-x: 20px; }
+  .hero-title { font-size: 28px; }
+  .hero-content { padding-bottom: 32px; }
+}
+
+/* Reduced motion: no scroll scene (the hero is just one screen), nothing drifts or spins. */
+@media (prefers-reduced-motion: reduce) {
+  .hero { height: auto; }
+  .hero-pin { position: relative; }
+  .hero-tiles { display: none; }
+  .hero-media, .spin, .spin text, .nav { animation: none; }
+  html.js.ready .w > span, html.js.ready .hero-sub, html.js.ready .hero-actions { transition: none; }
+  .stories-quote p, .stories-role p { transition: none; }
+  .ns-fill { transition: none; }
+  .strip { overflow-x: auto; }   /* no auto-slide: swipe it yourself */
+}

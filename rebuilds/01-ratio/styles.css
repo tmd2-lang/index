@@ -1,0 +1,1129 @@
+/* ============================================================
+   DESIGN TOKENS — every color/font lives here, measured from useratio.app.
+   Rule of thumb from this site: never pure black (#000) or pure white (#fff).
+   ============================================================ */
+:root {
+  --bg: #0b0b0c;                       /* near-black: softer than #000 */
+  --card: #111112;
+  --line: rgba(255, 255, 255, 0.08);   /* every border is white at 8% */
+  --text: #f2f1ee;                     /* warm off-white */
+  --dim: #8e8d89;
+  --rose: #ebbcba;                     /* accents: used tiny and rarely */
+  --lavender: #c9c4f2;
+  --result: #8fdcae;                   /* green = "this is an answer" */
+  --sans: "Geist", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", sans-serif;
+  --mono: "SF Mono", ui-monospace, Menlo, monospace;
+  --hero: url("landscape.svg");        /* ONE image, reused by the hero and every feature card */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);   /* fast start, long gentle stop */
+  --spring: cubic-bezier(0.34, 1.35, 0.64, 1);  /* overshoots a little, like a spring */
+}
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;  /* thinner, crisper text on Mac */
+}
+a { color: inherit; text-decoration: none; }
+h1, h2 {
+  font-weight: 600;
+  letter-spacing: -0.025em;  /* big type needs NEGATIVE tracking or it looks loose */
+  margin: 0;
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: fixed;
+  inset: 0 0 auto;           /* top:0 left:0 right:0 */
+  z-index: 50;
+  padding: 14px 20px;
+}
+.nav-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1px solid transparent;  /* border exists from the start so nothing shifts when it appears */
+  transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+}
+/* JS adds .scrolled once you leave the top: the bar becomes frosted glass. */
+.nav.scrolled .nav-inner {
+  background: rgba(14, 14, 15, 0.62);
+  border-color: var(--line);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, #2a2730, #121114);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--rose);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.links {
+  display: flex;
+  gap: 40px;
+  font-size: 14px;
+  color: #d8d7d3;   /* slightly dimmer than headings; hover goes to full white */
+}
+.links a, .link-quiet { transition: color 0.2s; }
+.links a:hover, .link-quiet:hover { color: #fff; }
+
+.nav-cta { display: flex; align-items: center; gap: 22px; font-size: 14px; }
+.link-quiet { color: #d8d7d3; }
+
+/* ============================================================
+   PILL BUTTONS
+   ============================================================ */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;      /* any huge number = perfect capsule */
+  font-size: 14px;
+  font-weight: 500;
+  transition: transform 0.15s, background 0.2s;
+}
+.pill:active { transform: scale(0.98); }   /* tiny "press" feedback */
+.nav .pill { height: 34px; padding: 0 14px; }
+
+.pill.small { height: 36px; font-size: 13.5px; }
+
+.pill-light { background: #f4f3f0; color: #111; }
+.pill-light:hover { background: #fff; }
+
+/* Glass button: translucent fill + lighter border + blur of what's behind */
+.pill-buy {
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.pill-buy:hover { background: rgba(255, 255, 255, 0.24); }
+
+/* Quiet button for inside cards: barely-there fill + the standard line border */
+.pill-dark {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+.pill-dark:hover { background: rgba(255, 255, 255, 0.13); }
+
+.with-logo { gap: 8px; }
+.with-logo svg { width: 15px; height: 15px; flex: none; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding: 116px 20px 80px;   /* 116px top clears the fixed nav */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Background layer + gradient that melts it into --bg at the bottom */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--hero) center 35% / cover no-repeat;
+  transform: scale(1.04);   /* slightly oversized so parallax never shows an edge */
+  will-change: transform, opacity;
+}
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(11, 11, 12, 0.15) 0%,
+    rgba(11, 11, 12, 0.25) 45%,
+    rgba(11, 11, 12, 0.85) 78%,
+    var(--bg) 100%);
+}
+/* A second fade on the hero itself, so the window sits on darkness, not on the image */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 45%;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(11, 11, 12, 0) 0%,
+    rgba(11, 11, 12, 0.35) 30%,
+    rgba(11, 11, 12, 0.75) 60%,
+    rgba(11, 11, 12, 0.95) 85%,
+    var(--bg) 100%);
+}
+.hero-copy, .hero-window { position: relative; z-index: 1; }
+.hero-copy { max-width: 880px; }
+
+.hero h1 {
+  /* clamp(MIN, PREFERRED, MAX): scales with screen width, but never too small/big */
+  font-size: clamp(46px, 7.4vw, 92px);
+  line-height: 0.98;        /* lines nearly touch: feels tight and confident */
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25);  /* lifts text off the busy background */
+}
+.hero p {
+  font-size: 18px;
+  color: #e3e1dc;
+  max-width: 560px;         /* ~65 characters per line = comfortable reading */
+  margin: 22px auto 30px;
+}
+.desc-short { display: none; }
+
+.cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* Promo badge: a pill with a colored pill inside it */
+.promo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 22px;
+  padding: 5px 14px 5px 5px;  /* left padding small so the inner tag hugs the edge */
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(14, 14, 15, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #e8e6e1;
+  font: 500 13px var(--sans);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.promo:hover { background: rgba(14, 14, 15, 0.65); border-color: rgba(255, 255, 255, 0.24); }
+.promo b { color: #fff; font-weight: 600; letter-spacing: 0.04em; }
+.promo-tag {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--rose);
+  color: #1a1414;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.promo-date { color: rgba(255, 255, 255, 0.55); }
+
+/* ============================================================
+   PRODUCT WINDOW (fake Mac app)
+   ============================================================ */
+.hero-window {
+  width: min(880px, 100%);
+  margin-top: 44px;
+  perspective: 1400px;   /* gives the 3D tilt real depth */
+}
+.hero-tilt {
+  transform-origin: 50% 0;
+  transform: rotateX(20deg) scale(0.94);   /* start tilted in CSS: JS takes over on load, so no flat first frame */
+  will-change: transform;
+}
+
+.win {
+  position: relative;
+  border-radius: 14px;
+  background: rgba(22, 21, 26, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Two shadows: a big soft drop shadow + a 1px inner highlight on the top edge (like light hitting glass) */
+  box-shadow:
+    0 30px 80px -20px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(22px) saturate(1.5);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+  text-align: left;
+  overflow: hidden;
+}
+.win-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 42px;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.win-bar i { width: 11px; height: 11px; border-radius: 50%; }
+.win-bar i:nth-child(1) { background: #ff5f57; }
+.win-bar i:nth-child(2) { background: #febc2e; }
+.win-bar i:nth-child(3) { background: #28c840; }
+.win-title {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-right: 50px;   /* balances the 3 dots so the title is truly centered */
+}
+.win-body {
+  font-size: 17px;
+  padding: 22px 32px 30px;
+  min-height: 340px;            /* reserve space so the page doesn't jump while typing */
+  font-variant-numeric: tabular-nums;  /* every digit same width: numbers line up */
+}
+
+/* One line of the "sheet": text on the left, answer on the right */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-height: 44px;
+}
+.src {
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;   /* flex items won't shrink below their content by default; without this the "…" never
+                     kicks in and a long line pushes the window (and the page) wider than a phone screen */
+}
+.res {
+  color: var(--result);
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.35s, transform 0.35s;
+}
+.res.show { opacity: 1; transform: none; }
+
+/* Syntax colors: labels and units recede, numbers stay bright, keywords get lavender */
+.t-head  { font-weight: 600; }
+.t-label { color: var(--dim); }
+.t-num   { color: var(--text); }
+.t-unit  { color: #7f7e7b; }
+.t-op    { color: #6c6b68; }
+.t-kw    { color: var(--lavender); }
+
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 1px;
+  vertical-align: -2px;
+  background: var(--rose);
+  animation: blink 1s steps(1) infinite;  /* steps(1) = hard on/off, like a real cursor */
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ============================================================
+   ENTRANCE ANIMATION (JS adds .intro to <html> to arm it)
+   ============================================================ */
+.intro .hero h1 .w {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(0.35em);
+  animation: word-in 0.9s var(--ease-out) forwards;
+  animation-delay: calc(0.1s + var(--i) * 0.09s);   /* each word 90ms after the last */
+}
+@keyframes word-in { to { opacity: 1; filter: blur(0); transform: none; } }
+
+.intro .hero p {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: rise 0.9s var(--spring) forwards;
+  animation-delay: var(--after);
+}
+.intro .hero-window {
+  opacity: 0;
+  transform: translateY(60px) scale(0.96);
+  animation: rise 1.2s var(--spring) forwards;
+  animation-delay: calc(var(--after) + 0.2s);
+}
+@keyframes rise { to { opacity: 1; transform: none; } }
+
+/* ============================================================
+   STRIP — feature highlights under the hero
+   ============================================================ */
+.strip {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;           /* items drop to a new line instead of overflowing */
+  gap: 46px;
+  padding: 10px 20px 90px;
+  color: #cfcdc8;
+  font-size: 15px;
+}
+.strip-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.85;             /* deliberately quiet: supporting info, not a headline */
+}
+/* The little icon chip. min-width (not width) lets ">_" or "km" stretch it a bit. */
+.strip-ico {
+  display: inline-grid;
+  place-items: center;       /* perfect centering in two words */
+  min-width: 30px;
+  height: 30px;
+  padding: 0 6px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.06);
+  font: 600 12px var(--mono);   /* monospace = "this is a symbol", fits the calculator theme */
+  color: #fff;
+}
+
+/* ============================================================
+   SECTIONS + FEATURE CARDS
+   ============================================================ */
+.section {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 90px 20px;
+}
+.section-head { text-align: center; margin-bottom: 56px; }
+.section-head h2 { font-size: clamp(38px, 5vw, 60px); line-height: 1.05; }
+.section-head p { color: var(--dim); font-size: 17px; margin: 14px 0 0; }
+
+/* The card: a 2-column GRID. 1.08fr vs 1fr = the image side is a touch wider. */
+.feature {
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  gap: 50px;
+  align-items: center;          /* text column sits vertically centered next to the image */
+  padding: 22px;
+  margin-bottom: 40px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  /* A barely-visible sheen at the top: 1.6% white fading to nothing */
+  background: linear-gradient(rgba(255, 255, 255, 0.016), transparent);
+}
+/* The zig-zag: on .flip cards the image moves to the 2nd column. No HTML reordering needed. */
+.feature.flip .feature-media { order: 2; }
+
+/* Image side: the SAME landscape, zoomed in and shifted so each card shows a different crop */
+.feature-media {
+  position: relative;
+  min-height: 430px;
+  display: grid;
+  place-items: center;          /* window sits dead-center on the image */
+  padding: 28px 22px;
+  border-radius: 14px;          /* 22px card radius - 8px padding-ish = nested corners look right */
+  overflow: hidden;
+}
+.feature-media::after {          /* darken the bottom so the window "sits" on the image */
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 30%;
+  background: linear-gradient(transparent, rgba(11, 11, 12, 0.55));
+  pointer-events: none;
+}
+/* background: IMAGE  X% Y% / SIZE  — size > 100% zooms in, X/Y pick which part shows */
+.media-a { background: var(--hero) 18% 62% / 230% auto; }
+.media-b { background: var(--hero) 82% 40% / 250% auto; }
+.media-c { background: var(--hero) 50% 75% / 210% auto; }
+.media-d { background: var(--hero) 30% 48% / 260% auto; }
+.media-e { background: var(--hero) 72% 70% / 220% auto; }
+
+.feature-media .win { position: relative; z-index: 1; width: 100%; }
+.feature .win-body { font-size: 15px; padding: 16px 22px 20px; min-height: 260px; }
+.feature .row { min-height: 32px; }
+
+/* Text side. Padding only on the OUTER edge, so text never touches the card border */
+.feature-copy { padding: 10px 26px 10px 0; }
+.feature.flip .feature-copy { padding: 10px 0 10px 26px; }
+
+.kicker {                       /* small label above the title: icon + category */
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--dim);
+  font-size: 14.5px;
+}
+.kicker svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;          /* icon automatically matches the text color */
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.feature h3 {
+  font-size: 40px;
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  margin: 10px 0 14px;
+}
+.feature p { color: var(--dim); margin: 0 0 24px; max-width: 460px; }
+.feature p em { color: var(--lavender); font-style: normal; }
+
+/* ============================================================
+   STATEMENT — a big founder sentence that lights up word by word
+   ============================================================ */
+.statement {
+  font-size: clamp(30px, 3.6vw, 44px);
+  font-weight: 500;              /* lighter than headings (600): it's a voice, not a title */
+  line-height: 1.18;             /* looser than headlines: it's several lines you READ */
+  letter-spacing: -0.025em;
+  max-width: 920px;
+  margin: 40px auto;
+  text-align: center;
+}
+/* A short linear fade smooths the jumps between scroll frames */
+.statement .sw { transition: opacity 0.15s linear; }
+/* Note: the lighting finishes when the paragraph's bottom reaches 45% of the screen, so it needs
+   at least ~55% of a screen of page BELOW it. The tabs + stage provide that now. */
+
+/* ============================================================
+   DEMO TABS + STAGE
+   ============================================================ */
+.demos { text-align: center; }
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+/* Tabs are pills too, but quieter than buttons: 34px tall, faint fill */
+.tab {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+  font: 500 14px var(--sans);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.tab:hover { background: rgba(255, 255, 255, 0.12); }
+/* Active tab = the same off-white as our primary button, so "selected" reads instantly */
+.tab.active { background: #f4f3f0; color: #111; border-color: transparent; }
+.tab:focus-visible { outline: 2px solid var(--lavender); outline-offset: 2px; }  /* keyboard users */
+
+/* The stage: the landscape again, cropped differently, with the window floating in the middle */
+.stage {
+  position: relative;
+  overflow: hidden;
+  padding: 70px 40px;
+  border-radius: 20px;
+  background: var(--hero) center 58% / cover;
+}
+.stage::before {                 /* darken toward the bottom so the window pops */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(11, 11, 12, 0.05), rgba(11, 11, 12, 0.45));
+}
+.stage .win { max-width: 700px; margin: 0 auto; }   /* .win is already position: relative, so it sits above ::before */
+.stage .win-body { font-size: 16px; min-height: 290px; }  /* fixed height: switching tabs never jumps the page */
+.stage .row { min-height: 32px; }
+
+.caption { color: #5b5a57; font-size: 12.5px; margin: 16px 0 0; }
+
+/* ============================================================
+   FEATURE GRID — 3 columns of small, centered features
+   ============================================================ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);   /* 3 equal columns; rows are created as needed */
+  gap: 54px 40px;                          /* row gap bigger than column gap: groups read as rows */
+  margin-top: 90px;
+}
+.cell .ico {                               /* round icon badge */
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #1d1d1f;
+  border: 1px solid var(--line);
+  color: #e8e6e1;
+}
+.cell .ico svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cell h4 { font-size: 17px; font-weight: 500; margin: 16px 0 6px; }
+.cell p { color: var(--dim); margin: 0 auto; max-width: 300px; }
+
+/* ============================================================
+   AI SECTION
+   ============================================================ */
+#ai { text-align: center; }
+#ai .feature { text-align: left; }
+.media-ai { background: var(--hero) 64% 55% / 240% auto; }
+
+/* Our own app-icon-style tile: big rounded square, soft gradient, deep shadow */
+.ai-logo {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 26px;
+  border-radius: 22px;           /* ~23% of the size: the "app icon" corner ratio */
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.35), transparent 55%),
+    linear-gradient(140deg, var(--lavender), var(--rose) 55%, #8fdcae);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+}
+.ai-logo svg { width: 46px; height: 46px; fill: #fff; }
+.kicker svg path { fill: none; }  /* keep kicker icons as outlines */
+
+.ai-win { overflow: hidden; }
+/* The "thinking" glow: an INSET shadow hugging the window edge, lavender. JS pulses its opacity. */
+.ai-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow:
+    inset 0 0 30px rgba(201, 196, 242, 0.28),   /* soft wash inward */
+    inset 0 0 0 1.5px rgba(201, 196, 242, 0.55); /* crisp lavender rim */
+}
+.js .ai-line { opacity: 0; transform: translateY(8px); }   /* hidden until JS animates them in */
+
+/* The "Ask AI" pill: lavender tint, lavender border, lavender text: one color, three strengths */
+.ai-ask {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--lavender);
+  background: rgba(201, 196, 242, 0.12);
+  border: 1px solid rgba(201, 196, 242, 0.3);
+  white-space: nowrap;
+}
+.ai-ask svg { width: 12px; height: 12px; fill: currentColor; }
+.ai-note { margin-top: 46px; }
+
+/* ============================================================
+   MORE SECTION
+   ============================================================ */
+#more { text-align: center; }
+#more .grid { margin-top: 50px; }   /* tighter than the default 90px: the heading introduces THIS grid */
+
+/* Inline code chip: monospace, a hair smaller, faint fill. Tells you "this is something you type". */
+code {
+  font: 500 0.88em var(--mono);     /* em = relative to the surrounding text, so it fits anywhere */
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1px 5px;
+  white-space: nowrap;              /* never break an example across two lines */
+}
+
+/* ============================================================
+   WHY — comparison table
+   ============================================================ */
+.section-head h2 em { font-style: italic; font-weight: inherit; }   /* "Why *Tally*?" */
+
+/* The card is the scroll container: a wide table scrolls sideways INSIDE it, the page never does */
+.why-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 10px 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow-x: auto;
+}
+.why {
+  width: 100%;
+  min-width: 680px;              /* below this the table would get cramped, so scroll instead */
+  border-collapse: separate;     /* "collapse" ignores border-radius on cells; "separate" respects it */
+  border-spacing: 0;
+  font-size: 14.5px;
+}
+.why th, .why td {
+  padding: 15px 12px;
+  text-align: center;
+  vertical-align: middle;
+  border-top: 1px solid var(--line);   /* rows separated by hairlines, no vertical lines at all */
+}
+.why thead th, .why thead td { border-top: 0; font-weight: 500; color: var(--dim); font-size: 13.5px; }
+.why thead th.hl { color: var(--text); font-size: 14.5px; }
+.why tbody th { text-align: left; font-weight: 400; color: var(--text); width: 30%; line-height: 1.4; }
+
+/* Our column: faint fill on every cell, rounded at the very top and very bottom = one tall pill */
+.why .hl { background: rgba(255, 255, 255, 0.043); }
+.why thead .hl { border-radius: 12px 12px 0 0; }
+.why tbody tr:last-child .hl { border-radius: 0 0 12px 12px; }
+
+/* Column header icons: small rounded tiles */
+.why-icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin: 0 auto 6px;
+  border-radius: 7px;
+  background: #1f1f22;
+  border: 1px solid var(--line);
+  color: var(--dim);
+}
+.why-icon svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.why-icon-us { background: linear-gradient(145deg, #2a2730, #121114); color: var(--rose); font-size: 16px; }
+
+/* Answers: yes = solid off-white circle with a check cut out in the page color; no = faint dash */
+.why .yes {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--text);
+  vertical-align: middle;
+}
+.why .yes svg { width: 15px; height: 15px; fill: none; stroke: var(--bg); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.why .no { color: #5b5a57; }
+.why .txt { color: var(--dim); font-size: 13.5px; }
+.why .hl .txt { color: var(--text); font-weight: 500; }   /* our price reads brighter than theirs */
+.why code { font-size: 0.85em; }
+
+.why-foot { text-align: center; color: #5b5a57; font-size: 13px; margin-top: 18px; }
+
+/* ============================================================
+   PRICING — plan cards
+   ============================================================ */
+.pill.wide { width: 100%; }
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;           /* all cards the same height, whatever their content */
+  gap: 18px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+/* Each card is a vertical flex column, so the button can be pushed to the bottom (margin-top: auto) */
+.plan {
+  display: flex;
+  flex-direction: column;
+  padding: 26px 26px 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(#19191b, #121213);   /* subtle top-to-bottom shade = a bit of depth */
+}
+/* Featured: a warm golden glow rising from the bottom edge, brighter border */
+.plan.featured {
+  background:
+    radial-gradient(90% 60% at 50% 100%, rgba(196, 170, 110, 0.2), transparent 70%),
+    linear-gradient(#1d1d1f, #141415);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* MOUSE GLOW: a hidden layer with a radial gradient centered on (--mx, --my).
+   JS updates those two variables as the mouse moves; hover fades the layer in. */
+.plan.glow { position: relative; overflow: hidden; }
+.plan.glow > * { position: relative; z-index: 1; }      /* content above the glow layer */
+.plan.glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(235, 188, 186, 0.13), transparent 60%);
+}
+.plan.glow:hover::before { opacity: 1; }
+
+/* Card sections separated by DASHED hairlines: reads like a receipt, fitting for prices */
+.plan-top {
+  position: relative;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+}
+.plan-name { font-size: 16px; font-weight: 500; }
+.plan-spark {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.plan-spark svg { width: 16px; height: 16px; fill: none; stroke: #e8e6e1; stroke-width: 1.5; stroke-linejoin: round; }
+
+.price {
+  display: flex;
+  align-items: baseline;          /* "once" sits on the same baseline as the big number */
+  gap: 8px;
+  margin: 14px 0 8px;
+  font: 600 54px/1 var(--sans);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;   /* digits don't jiggle while counting up */
+}
+.price .per { font: 400 16px var(--sans); letter-spacing: 0; color: var(--dim); }
+.plan-sub { color: var(--dim); margin: 0; }
+
+.plan-os {
+  display: flex;
+  gap: 6px;
+  padding: 16px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+}
+.plan-os span {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #cfcdc8;
+}
+/* Tiny uppercase label: wide letter-spacing makes small caps legible */
+.plan-label {
+  margin: 18px 0 10px;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5b5a57;
+}
+.plan-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  flex: 1;                         /* the list stretches, so every button lines up at the bottom */
+}
+.plan-list li { display: flex; align-items: center; gap: 10px; padding: 6px 0; color: #d6d4cf; font-size: 14.5px; }
+.plan-list svg { width: 15px; height: 15px; flex: none; fill: none; stroke: var(--text); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.plan .pill.wide { margin-top: auto; }
+
+/* ---------- Plan comparison table: REUSES .why, these are only the differences ---------- */
+.compare-plans { max-width: 1040px; margin: 110px auto 0; text-align: center; }
+.compare-plans h3 { font-size: clamp(32px, 4vw, 46px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.05; margin: 0 0 40px; }
+.cmp-wrap { overflow-x: auto; }   /* no card around this one: it sits right on the page */
+.why.cmp { min-width: 640px; }
+.cmp tbody th { width: 34%; }
+.cmp thead th { font-size: 15px; color: var(--text); padding: 22px 16px 16px; }
+.cmp .hl { background: rgba(255, 255, 255, 0.04); color: var(--text); }
+.cmp thead .hl { border-radius: 16px 16px 0 0; }
+.cmp td { color: var(--dim); }
+/* plain check here, no circle: a long column of solid circles would be too heavy */
+.cmp .yes { background: none; width: auto; height: auto; }
+.cmp .yes svg { width: 16px; height: 16px; stroke: var(--text); stroke-width: 2; }
+.cmp .chip { font-size: 12px; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--dim); white-space: nowrap; }
+.cmp-buy th, .cmp-buy td { border-top: 0; padding-top: 20px; padding-bottom: 22px; }
+
+.pricing-notes { text-align: center; margin-top: 26px; font-size: 13.5px; color: var(--dim); }
+.pricing-notes p { margin: 6px 0 0; }
+.pricing-notes a { color: var(--text); text-decoration: underline rgba(255, 255, 255, 0.25); text-underline-offset: 3px; }
+.pricing-notes a:hover { text-decoration-color: var(--text); }
+
+/* ============================================================
+   WHAT'S NEW — news cards
+   ============================================================ */
+.posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.post { display: block; }        /* an <a> wrapping blocks: the whole card is one click target */
+
+.post-img {
+  height: 200px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);   /* keeps white text readable on any part of the image */
+  transition: transform 0.4s var(--ease-out);
+}
+.post:hover .post-img { transform: scale(1.015); }   /* 1.5%: alive, not jumpy */
+
+/* ONE image, three looks: a background can stack layers. The first listed is on TOP,
+   so a translucent gradient tints the landscape underneath. */
+.img-1 { background: linear-gradient(135deg, rgba(201, 196, 242, 0.35), rgba(11, 11, 12, 0.2)), var(--hero) 20% 70% / 260% auto; }
+.img-2 { background: var(--hero) center 60% / cover; }
+.img-3 {
+  background: linear-gradient(135deg, rgba(235, 188, 186, 0.32), rgba(143, 220, 174, 0.12)), var(--hero) 80% 45% / 300% auto;
+  font: 600 24px var(--mono);
+}
+
+.post h5 { font-size: 17px; font-weight: 500; line-height: 1.35; margin: 16px 0 6px; }
+.post:hover h5 { text-decoration: underline rgba(255, 255, 255, 0.25); text-underline-offset: 3px; }
+.meta { color: #5b5a57; font-size: 13px; }
+
+.posts-more { margin-top: 26px; font-size: 14.5px; text-align: center; }
+.posts-more a { color: var(--dim); text-decoration: underline rgba(255, 255, 255, 0.25); text-underline-offset: 3px; transition: color 0.2s; }
+.posts-more a:hover { color: var(--text); }
+
+/* ============================================================
+   FAQ — native <details> accordion
+   ============================================================ */
+.faq-list { max-width: 760px; margin: 0 auto; }
+
+details {
+  padding: 18px 4px;
+  border-top: 1px solid var(--line);
+}
+details:last-child { border-bottom: 1px solid var(--line); }
+
+summary {
+  display: flex;
+  justify-content: space-between;   /* question left, + right */
+  align-items: center;
+  gap: 16px;
+  font-size: 17px;
+  cursor: pointer;
+  list-style: none;                 /* remove the default ▶ triangle... */
+  transition: color 0.2s;
+}
+summary::-webkit-details-marker { display: none; }  /* ...and Safari's version of it */
+summary:hover { color: #fff; }
+summary:focus-visible { outline: 2px solid var(--lavender); outline-offset: 4px; border-radius: 4px; }
+
+/* "+" that turns into "×": the same character rotated 45° */
+summary::after {
+  content: "+";
+  flex: none;
+  color: var(--dim);
+  font-size: 22px;
+  line-height: 1;
+  transition: transform 0.25s var(--ease-out);
+}
+details[open] summary::after { transform: rotate(45deg); }
+
+details p { color: var(--dim); margin: 10px 0 0; max-width: 680px; }
+
+/* SMOOTH OPEN (progressive enhancement). Animating to height: auto used to be impossible.
+   interpolate-size lets it happen; ::details-content is the hidden answer area.
+   Browsers without support skip this block and simply snap open, like Ratio does. */
+@supports (interpolate-size: allow-keywords) {
+  .faq-list { interpolate-size: allow-keywords; }
+  details::details-content {
+    height: 0;
+    overflow: clip;
+    transition: height 0.35s var(--ease-out), content-visibility 0.35s allow-discrete;
+  }
+  details[open]::details-content { height: auto; }
+}
+
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
+.final {
+  text-align: center;
+  padding: 120px 20px;
+  border-top: 1px solid var(--line);   /* a quiet line marks "this is the end of the story" */
+}
+.final h2 { font-size: clamp(40px, 5.6vw, 66px); line-height: 1.02; }
+.final p { color: var(--dim); font-size: 17px; margin: 14px 0 30px; }
+
+/* Bigger pills than the hero's: this is the last, most important ask on the page */
+.os-pill { gap: 9px; height: 46px; padding: 0 22px; font-size: 15px; }
+.os-pill svg { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+.fine { display: block; margin-top: 18px; font-size: 12.5px; color: rgba(255, 255, 255, 0.55); }
+.final .fine { margin: 18px 0 0; }   /* .final p would otherwise give it a 30px bottom margin */
+.final .final-buy { font-size: 14.5px; margin: 10px 0 0; }
+.final .final-buy a { color: var(--text); text-decoration: underline rgba(255, 255, 255, 0.3); text-underline-offset: 3px; }
+
+/* MAGNETIC buttons: JS runs a small spring simulation every frame and writes the result into
+   --tx/--ty. No transform transition here: JS already animates it frame by frame, and a CSS
+   transition on top would restart on every update and make the motion stutter. */
+.pill.magnet {
+  transform: translate(var(--tx, 0px), var(--ty, 0px));
+  transition: background 0.2s;
+  will-change: transform;
+}
+.pill.magnet:active { transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(0.98); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  position: relative;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 60px 20px 30px;
+  border-top: 1px solid var(--line);
+  overflow: hidden;            /* the giant wordmark must never cause sideways scrolling */
+}
+/* Brand left, link columns right; they wrap onto two rows when space runs out */
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+.footer-brand { max-width: 320px; }
+.footer-top p { color: var(--dim); margin: 14px 0 0; }
+.footer-top .footer-note { font-size: 13px; margin-top: 10px; }
+
+/* Link columns as a GRID: 4 across on wide screens, 2 across on phones (see RESPONSIVE) */
+.cols {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 32px 70px;
+}
+.cols div { display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+.cols span { color: var(--dim); margin-bottom: 4px; }       /* column heading: dim, not bold */
+.cols a { color: #d8d7d3; transition: color 0.2s; }
+.cols a:hover { color: #fff; }
+
+/* GIANT WORDMARK: the text is "transparent" and a gradient shows through it.
+   background-clip: text = paint the background ONLY inside the letter shapes. */
+.wordmark {
+  margin: 40px 0 10px;
+  text-align: center;
+  font-size: clamp(120px, 26vw, 330px);
+  font-weight: 600;
+  letter-spacing: -0.04em;      /* huge type needs even tighter tracking */
+  line-height: 1;
+  color: transparent;
+  background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+  -webkit-background-clip: text;
+  background-clip: text;
+  user-select: none;            /* decoration: don't let it get selected when copying text */
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  color: #5b5a57;
+  font-size: 13px;
+}
+.footer-bottom a { color: var(--dim); text-decoration: underline rgba(255, 255, 255, 0.2); text-underline-offset: 3px; }
+.footer-bottom a:hover { color: var(--text); }
+
+/* ============================================================
+   STAGGER — children rise in one after another (JS sets --i on each child)
+   ============================================================ */
+.js .stagger > * {
+  opacity: 0;
+  transform: translateY(36px);
+  /* opacity: smooth ease; transform: springy overshoot. Each child waits 80ms more than the last. */
+  transition: opacity 0.5s var(--ease-out), transform 0.9s var(--spring);
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+.js .stagger.in > * { opacity: 1; transform: none; }
+
+/* ============================================================
+   SCROLL REVEAL — only armed when JS runs (html.js), so no-JS visitors still see everything
+   ============================================================ */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+.js .reveal.in { opacity: 1; transform: none; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 860px) {
+  .links, .link-quiet { display: none; }
+  .hero { padding-top: 112px; }
+  /* 7 rows × 34px + padding: reserve the full height so the window doesn't grow while typing */
+  .hero-tilt { transform: rotateX(14deg) scale(0.94); }
+  .hero-window .win-body { font-size: 14px; padding: 14px 16px 18px; min-height: 270px; }
+  .row { min-height: 34px; }
+  .strip { gap: 22px; }
+
+  /* Cards stack: one column, image always on top (undo the flip) */
+  .feature, .feature.flip { grid-template-columns: 1fr; padding: 14px; gap: 20px; }
+  .feature.flip .feature-media { order: 0; }
+  .feature-copy, .feature.flip .feature-copy { padding: 6px 8px 14px; }
+  .feature-media { min-height: 0; padding: 26px 12px; }
+  .feature .win-body { font-size: 13.5px; padding: 12px 14px 14px; min-height: 230px; }
+  .feature h3 { font-size: 32px; }
+  .stage { padding: 30px 12px; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 44px 28px; margin-top: 70px; }
+
+  /* Table on small screens: it scrolls sideways inside its card, and the row labels stay PINNED.
+     position: sticky + left: 0 keeps the cell glued to the scroll container's left edge.
+     It needs a solid background, or the scrolling cells would show through it. */
+  .why { min-width: 600px; }
+  .why tbody th, .why thead .corner {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    width: 140px;
+    min-width: 140px;
+    background: var(--card);
+    box-shadow: 1px 0 0 var(--line);   /* hairline on the pinned edge: shows where scrolling starts */
+  }
+  .cmp tbody th, .cmp thead .corner { background: var(--bg); }   /* this table sits on the page, not a card */
+  .why.cmp { min-width: 560px; }
+
+  /* Plans stack into one column, kept narrow so cards don't get absurdly wide */
+  .plans { grid-template-columns: 1fr; max-width: 480px; }
+  .posts { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .cols { grid-template-columns: repeat(2, auto); gap: 32px 60px; }
+  .compare-plans { margin-top: 80px; }
+  .cmp-buy .pill { padding: 0 8px; font-size: 12.5px; }
+  .stage .win-body { font-size: 13.5px; padding: 12px 14px 14px; min-height: 250px; }
+}
+@media (max-width: 600px) {
+  .footer-bottom { flex-direction: column; }   /* phones: stack the three bits */
+  .grid { grid-template-columns: 1fr; }   /* phones: one column */
+  .hero h1 { text-wrap: balance; }
+  .desc-long { display: none; }
+  .desc-short { display: inline; }
+  .hero p { font-size: 17px; max-width: 300px; margin: 18px auto 26px; text-wrap: balance; }
+  /* Scoped to the HERO: its two buttons sit side by side. (Unscoped, this also forced the final
+     section's three wide buttons onto one line and made the whole page 10px wider than the phone.) */
+  .hero .cta-row { flex-wrap: nowrap; gap: 10px; max-width: 360px; margin: 0 auto; }
+  .hero .cta-row .pill { flex: 1; min-width: 0; padding: 0 12px; white-space: nowrap; }
+}
+@media (max-width: 420px) {
+  .promo-date { display: none; }
+}
+
+/* Accessibility: people who turn on "Reduce motion" get a still page. */
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .js .stagger > * { opacity: 1; transform: none; transition: none; }
+  .js .ai-line { opacity: 1; transform: none; }
+  details::details-content { transition: none; }
+  summary::after { transition: none; }
+  .caret { animation: none; }
+  .hero-tilt { transform: none; }
+  .res { transition: none; }
+}

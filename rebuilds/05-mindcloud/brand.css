@@ -1,0 +1,41 @@
+/* One loop geometry, with stronger strokes at small sizes */
+.threadline-mark {
+  display: block;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Header: the lettering follows the surface; the symbol stays blue */
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 5.5px;
+}
+
+.wordmark .threadline-mark {
+  width: 27px;
+  height: 16px;
+  color: #146dfc;
+}
+
+/* Planning choice uses a quiet monochrome version of the same symbol */
+.plan-choices .threadline-mark {
+  width: 20px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 14;
+}
+
+/* Support launcher uses the white mark and retains its circular button */
+.support-launcher .threadline-mark {
+  width: 22px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 18;
+}

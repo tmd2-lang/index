@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flipside — rebuild of Spread</title>
+  <!-- Spread's CSS asks for Satoshi headings, but Satoshi never actually loads on their site (Fontshare's
+       URL only honours the FIRST font listed), so visitors see Messina Sans, a commercial font.
+       General Sans (free, and Spread's own fallback) is the closest match for what is really rendered. -->
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500&display=swap" rel="stylesheet">
+  <!-- Numbers (prices, profits) use a monospaced font, like Spread: digits line up and read as "data". -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=32">
+  <!-- Mark "JS is on" before the first paint so entrance animations start hidden (no flash). -->
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+  <!-- NAV: one centered pill. Over the hero it's dark glass with links; once you scroll, the links fold
+       away and it becomes a small light pill with just the name and the button. -->
+  <nav class="nav" id="nav" aria-label="Main">
+    <a class="nav-logo" href="#">Flipside</a>
+    <ul class="nav-links">
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#deal">A live deal</a></li>
+      <li><a href="#niches">Niches</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <a class="nav-cta" href="#join"><span class="cta-full">Request access</span><span class="cta-short">Join</span></a>
+  </nav>
+
+  <main>
+    <!-- HERO: a 200vh "track" with a 100vh sticky "stage" inside. Scrolling through the track drives the
+         animation (script.js): the main media shrinks to a card, the gallery tiles float up past it. -->
+    <section class="hero" id="hero">
+      <div class="hero-pin">
+
+        <!-- Floating gallery: hidden at first, rises past the shrinking hero card at different speeds. -->
+        <div class="hero-tiles" aria-hidden="true">
+          <div class="tile" style="--w:180px; --h:140px; top:6%;  left:4%;   --img:url(img/tile-0.jpg)"></div>
+          <div class="tile" style="--w:160px; --h:200px; top:4%;  right:6%;  --img:url(img/tile-1.jpg)"></div>
+          <div class="tile" style="--w:200px; --h:150px; top:42%; left:1%;   --img:url(img/tile-2.jpg)"></div>
+          <div class="tile" style="--w:170px; --h:170px; top:50%; right:2%;  --img:url(img/tile-3.jpg)"></div>
+          <div class="tile" style="--w:150px; --h:190px; bottom:6%; left:10%; --img:url(img/tile-4.jpg)"></div>
+          <div class="tile" style="--w:190px; --h:140px; bottom:4%; right:8%; --img:url(img/tile-5.jpg)"></div>
+          <div class="tile" style="--w:140px; --h:120px; top:20%; left:18%;  --img:url(img/tile-6.jpg)"></div>
+          <div class="tile" style="--w:150px; --h:130px; top:18%; right:16%; --img:url(img/tile-7.jpg)"></div>
+        </div>
+
+        <div class="hero-main" id="heroMain">
+          <div class="hero-media" aria-hidden="true"></div>
+          <div class="hero-shade" aria-hidden="true"></div>
+
+          <div class="hero-content" id="heroContent">
+            <h1 class="hero-title" data-split>Spot the deal first.<br>Sell it for full price.</h1>
+            <p class="hero-sub">Flipside watches every marketplace, rates each listing against what it really sells for,
+              and drafts your resale post in one tap. Less refreshing. More flipping.</p>
+            <div class="hero-actions">
+              <a class="btn btn-light" href="#join"><span class="btn-fill" aria-hidden="true"></span><span class="btn-text">Get on the list</span></a>
+              <a class="btn-ghost" href="#deal">See a deal <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spinning badge: text laid along a circle with <textPath>, the whole group rotates. -->
+        <a class="spinner" href="#join" aria-label="Request access" id="spinner">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <defs><path id="ring" d="M50 50 m-30 0 a30 30 0 1 1 60 0 a30 30 0 1 1 -60 0"/></defs>
+            <g class="spin">
+              <!-- textLength = the circle's circumference (2π × 30 ≈ 188), so the text wraps exactly once,
+                   whatever the font: the browser adjusts the letter spacing to fit. -->
+              <text><textPath href="#ring" textLength="186" lengthAdjust="spacing">Buy low • Sell right • Always a flipside •</textPath></text>
+            </g>
+          </svg>
+          <span class="spinner-arrow" aria-hidden="true">↗</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Temporary: stands in for the next sections so there's page to scroll into. -->
+    <!-- HOW IT WORKS: text left, photo card right. The card's photo crossfades from a close-up (the phone)
+         to a wide shot (the shop) when the card reaches the middle of the screen. -->
+    <section class="feature" id="how">
+      <div class="feature-text">
+        <p class="tag reveal">How it works</p>
+        <h2 class="reveal">Flipside sees the deal before anyone else does.</h2>
+        <p class="reveal">It keeps watch over every marketplace you buy from, around the clock, and pings you the moment
+          something is listed well under what it usually sells for in the categories you care about.</p>
+        <p class="feature-proof reveal"><strong>Every marketplace.</strong> Watched 24/7. Alerts in seconds.</p>
+      </div>
+      <div class="feature-media" data-swap>
+        <img src="img/how-1.jpg" alt="Hands holding up a phone to photograph items in an antique shop">
+        <img src="img/how-2.jpg" alt="Sunlight falling across vintage pieces in an antique shop" class="is-hidden">
+      </div>
+    </section>
+
+    <!-- SCORE & RELIST: the mirror of How it works (photo left, text right), so the page zig-zags.
+         The chat card plays a short conversation once, when it scrolls into view. -->
+    <section class="feature feature--flip" id="score">
+      <div class="feature-text">
+        <p class="tag reveal">Score &amp; relist</p>
+        <h2 class="reveal">Know what to offer. List it before you're home.</h2>
+        <p class="reveal">Every find gets a score: what it should resell for, your likely margin, how fast it moves and
+          where to sell it. One tap writes the listing for you.</p>
+
+        <div class="chat reveal" id="chat" aria-label="Example of Flipside analysing a deal">
+          <div class="chat-top"><span class="chat-dot" aria-hidden="true"></span><span>Flipside · Deal check</span></div>
+          <div class="chat-msgs">
+            <p class="msg msg--ai" data-at="300">Spotted a <strong>mid-century teak dresser</strong> listed at <span class="num">$180</span></p>
+            <p class="msg msg--ai" data-at="1000">Usually sells for <span class="num">$450–520</span> resold locally</p>
+            <p class="msg msg--ai" data-at="1800">Offer <span class="num">$150</span> · Likely profit <span class="num">+$300</span></p>
+            <p class="msg msg--me" data-at="2600">Write my opener ↗</p>
+            <p class="msg msg--ai" data-at="3400">“Hi! Is the dresser still available? I can pick it up this evening for $150 cash.”</p>
+            <p class="msg msg--done" data-at="4200">Opener copied · Listing drafted</p>
+          </div>
+        </div>
+      </div>
+      <div class="feature-media" data-swap>
+        <img src="img/score-1.jpg?v=2" alt="Close-up of a carved teak drawer handle on a mid-century sideboard">
+        <img src="img/score-2.jpg" alt="A person walking down a street toward the low evening sun" class="is-hidden">
+      </div>
+    </section>
+
+    <!-- PHOTO BREAK: a full-screen photo that becomes a rounded card as you scroll in, with the time-saving
+         message and four stats that count up. The numbers describe what the product does, not results. -->
+    <section class="photo-break" id="break">
+      <img class="photo-break-img" src="img/break.jpg?v=1" alt="Someone paying cash for a find at a flea-market stall">
+      <div class="photo-break-overlay">
+        <div class="photo-break-text">
+          <h2 class="reveal">Stop scrolling. Start flipping.</h2>
+          <p class="reveal">Most flippers lose hours a week refreshing feeds. You spend a few minutes checking deals
+            Flipside already found.</p>
+        </div>
+        <div class="stats" id="stats">
+          <div class="stat"><p class="stat-num" data-count="24" data-suffix="/7">24/7</p><p class="stat-desc">Watching your marketplaces</p></div>
+          <div class="stat"><p class="stat-num" data-count="4">4</p><p class="stat-desc">Things scored on every find</p></div>
+          <div class="stat"><p class="stat-num" data-count="1" data-suffix=" tap">1 tap</p><p class="stat-desc">To draft a listing</p></div>
+          <div class="stat"><p class="stat-num" data-count="100" data-suffix="%">100%</p><p class="stat-desc">Of offers are your call</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE OPPORTUNITIES: a stack of deal cards rising out of the page. Every 4s (or on click) the front card
+         drops away and the next one moves forward. Cards are built by script.js from the DEALS list. -->
+    <section class="deals" id="deal">
+      <div class="deals-head">
+        <p class="tag reveal">Live opportunities</p>
+        <h2 class="reveal">This is what lands in your feed.</h2>
+        <p class="reveal">Example finds, scored and ready to act on: what it's listed at, what it resells for, and
+          what you'd keep.</p>
+      </div>
+      <div class="deal-stage">
+        <div class="deal-stack" id="dealStack" role="button" tabindex="0" aria-label="Show the next example deal"></div>
+        <div class="deal-fade" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- STORIES: Spread's testimonial block, same layout and motion. Spread shows invented customers with real
+         people's faces; ours are clearly labelled example use cases, and the pills show the item, not a person. -->
+    <section class="stories" id="stories" aria-label="Example use cases">
+      <img class="stories-bg" src="img/stories.jpg?v=1" alt="">
+      <div class="stories-inner">
+        <div class="stories-mark" aria-hidden="true">“</div>
+        <div class="stories-quote" id="storyQuote">
+          <p class="is-on">Set up a records niche on Sunday night. Three scored finds by Monday morning, and the first
+            flip sold by Wednesday.</p>
+          <p aria-hidden="true">A film camera listed at $140 gets flagged with a $320 resale. Your opener is sent before
+            anyone else has scrolled past it.</p>
+          <p aria-hidden="true">Spot a teak dresser on the way home, offer $150, and the resale listing is drafted
+            before it's even in the van.</p>
+          <p aria-hidden="true">Instead of refreshing five apps every hour, check one feed at lunch and act on the two
+            deals worth your time.</p>
+        </div>
+        <div class="stories-role" id="storyRole">
+          <p class="is-on">Example · Vinyl niche</p>
+          <p aria-hidden="true">Example · Camera niche</p>
+          <p aria-hidden="true">Example · Furniture niche</p>
+          <p aria-hidden="true">Example · Espresso niche</p>
+        </div>
+        <div class="stories-pills" id="storyPills">
+          <button class="pill-av is-on" type="button" aria-pressed="true"><img src="img/tile-7.jpg" alt=""><span>Vinyl</span></button>
+          <button class="pill-av" type="button" aria-pressed="false"><img src="img/tile-1.jpg" alt=""><span>Cameras</span></button>
+          <button class="pill-av" type="button" aria-pressed="false"><img src="img/tile-3.jpg" alt=""><span>Furniture</span></button>
+          <button class="pill-av" type="button" aria-pressed="false"><img src="img/tile-0.jpg" alt=""><span>Espresso</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATEMENT: a breather. The page's whole idea in two huge lines that un-blur into place one after the other.
+         Like Spread's "Every marketplace has a spread", it plays on the product name. -->
+    <section class="statement" id="statement">
+      <p class="statement-tag reveal">Made for flippers</p>
+      <h2>
+        <span class="statement-line"><span>Every listing has a flipside.</span></span>
+        <span class="statement-line"><span>We spot it. You flip it.</span></span>
+      </h2>
+    </section>
+
+    <!-- CONTROL: a dark card that slides up over the statement (negative top margin + upward shadow). It answers
+         the big worry, "will a bot spend my money?": you approve everything today; more autonomy is opt-in, later. -->
+    <section class="control" id="control">
+      <div class="control-text">
+        <p class="tag reveal">Where it's going</p>
+        <h2 class="reveal">Your money. Your call. Pick how hands-off you want to be.</h2>
+        <p class="control-lead reveal">Today you approve every deal. Later, Flipside can take on more: making offers
+          inside limits you set, and eventually running on its own. You decide when to let go.</p>
+
+        <div class="modes reveal">
+          <div class="modes-bar" role="group" aria-label="Choose a mode">
+            <button class="mode is-on" type="button" aria-pressed="true">Manual</button>
+            <button class="mode" type="button" aria-pressed="false">Assisted <small>Soon</small></button>
+            <button class="mode" type="button" aria-pressed="false">Autopilot <small>Soon</small></button>
+          </div>
+          <div class="modes-desc" aria-live="polite">
+            <p class="is-on">Available now. Flipside finds deals, scores them and drafts your listing. You choose what
+              to buy, what to offer and when to sell.</p>
+            <p>Coming soon. Flipside makes offers for you within limits you set: price range, minimum margin,
+              categories. You hear about every deal, but don't have to approve each one.</p>
+            <p>On the roadmap. Set your categories and how much risk you're comfortable with, and Flipside runs around
+              the clock. Join the list to try it first.</p>
+          </div>
+        </div>
+
+        <ol class="steps reveal">
+          <li><span class="step-num">01</span><span class="step-title">Found</span><span class="step-desc">Every marketplace watched</span></li>
+          <li><span class="step-num">02</span><span class="step-title">Scored</span><span class="step-desc">Value, margin, speed</span></li>
+          <li><span class="step-num">03</span><span class="step-title">You act</span><span class="step-desc">Message, offer, buy</span></li>
+          <li><span class="step-num">04</span><span class="step-title">Relist</span><span class="step-desc">Listing drafted for you</span></li>
+        </ol>
+      </div>
+      <div class="control-photo">
+        <img src="img/control.jpg?v=1" alt="Someone resting in a hammock in warm late-afternoon light">
+      </div>
+    </section>
+
+    <!-- NICHES: "does it cover what I sell?" Pills for common categories plus a search box. Spread fakes a scan
+         result with random numbers; ours runs the same short "setting up" moment, then says what really happens. -->
+    <section class="niches" id="niches">
+      <div class="niches-head">
+        <p class="tag reveal">Your niches</p>
+        <h2 class="reveal">Start with what you know.</h2>
+        <p class="reveal">Choose the categories you understand. Flipside does the watching, scoring and listing across
+          every marketplace.</p>
+      </div>
+
+      <div class="niche-list" id="nicheList">
+          <button class="niche" type="button">Espresso machines <span class="niche-amt">$260</span></button>
+          <button class="niche" type="button">Film cameras <span class="niche-amt">$180</span></button>
+          <button class="niche" type="button">Mid-century furniture <span class="niche-amt">$420</span></button>
+          <button class="niche" type="button">Power tools <span class="niche-amt">$150</span></button>
+          <button class="niche" type="button">Turntables &amp; hi-fi <span class="niche-amt">$230</span></button>
+          <button class="niche" type="button">Vintage watches <span class="niche-amt">$350</span></button>
+          <button class="niche" type="button">Sneakers <span class="niche-amt">$90</span></button>
+          <button class="niche" type="button">Vinyl records <span class="niche-amt">$60</span></button>
+          <button class="niche" type="button">Bikes <span class="niche-amt">$190</span></button>
+          <button class="niche" type="button">Office chairs <span class="niche-amt">$240</span></button>
+          <button class="niche" type="button">Guitars &amp; pedals <span class="niche-amt">$210</span></button>
+          <button class="niche" type="button">Designer bags <span class="niche-amt">$310</span></button>
+      </div>
+      <p class="niche-note">Example profit per flip</p>
+
+      <div class="niche-search reveal" id="nicheSearch">
+        <div class="ns-step is-on" data-step="search">
+          <label class="ns-or" for="nicheInput">Or search your own</label>
+          <form class="ns-field" id="nicheForm">
+            <input class="ns-input" id="nicheInput" type="text" autocomplete="off"
+              placeholder="Search any niche…">
+            <button class="ns-go" type="submit" aria-label="Add this niche">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+          <div class="ns-suggest" id="nicheSuggest"></div>
+        </div>
+        <div class="ns-step" data-step="busy" aria-live="polite">
+          <div class="ns-bar"><div class="ns-fill"></div></div>
+          <h3 class="ns-busy-title"></h3>
+          <p>Lining it up across every marketplace…</p>
+        </div>
+        <div class="ns-step" data-step="done" aria-live="polite">
+          <div class="ns-check" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <h3 class="ns-done-title"></h3>
+          <p>When Flipside launches, finds in this niche go straight to your feed.</p>
+          <div class="ns-actions">
+            <a class="ns-cta" href="#join">Request access →</a>
+            <button class="ns-again" type="button">Pick another</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTO BREAK 2: same grow-into-a-card scroll as the first, but softer: lighter wash, no stats, just the feeling. -->
+    <section class="photo-break photo-break--soft" id="sleep">
+      <img class="photo-break-img" src="img/sleep.jpg?v=1" alt="A bedside lamp and clock glowing beside someone asleep">
+      <div class="photo-break-overlay">
+        <div class="photo-break-text">
+          <h2 class="reveal">Deals land while you sleep.</h2>
+          <p class="reveal">Flipside keeps watching overnight. Wake up to scored finds, ready when you are.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING: headline + reassurance side by side, then three plans with the middle one dark ("most popular").
+         Plan names tell a growth story, like Spread's Scout → Operator → Syndicate. -->
+    <section class="pricing" id="pricing">
+      <div class="pricing-head">
+        <div>
+          <p class="tag reveal">Pricing</p>
+          <h2 class="reveal">One good flip pays for the month.</h2>
+        </div>
+        <p class="reveal">Every plan gets the same speed: no slow lane, no delayed alerts. Upgrade for more niches and
+          extra tools.</p>
+      </div>
+      <div class="plans" id="plans">
+        <article class="plan">
+          <p class="plan-tag">Starter</p>
+          <h3 class="plan-name">Picker</h3>
+          <p class="plan-desc">Find your first flips</p>
+          <p class="plan-price"><span class="plan-amt">$24</span><span class="plan-per">/mo</span></p>
+          <p class="plan-note">Cancel anytime</p>
+          <ul class="plan-list"><li>2 niches</li><li>Instant deal alerts</li><li>A score on every find</li><li>Profit tracker</li></ul>
+          <a class="plan-btn" href="#join">Request access</a>
+        </article>
+        <article class="plan plan--featured">
+          <p class="plan-tag">Most popular</p>
+          <h3 class="plan-name">Dealer</h3>
+          <p class="plan-desc">Flip every week</p>
+          <p class="plan-price"><span class="plan-amt">$45</span><span class="plan-per">/mo</span></p>
+          <p class="plan-note">One flip covers the month</p>
+          <ul class="plan-list"><li>8 niches</li><li>One-tap listings on every site</li><li>Opener messages written for you</li><li>What's trending in your niches</li></ul>
+          <a class="plan-btn" href="#join">Request access</a>
+        </article>
+        <article class="plan">
+          <p class="plan-tag">Full-time</p>
+          <h3 class="plan-name">Shop</h3>
+          <p class="plan-desc">For flipping as a job</p>
+          <p class="plan-price"><span class="plan-amt">$90</span><span class="plan-per">/mo</span></p>
+          <p class="plan-note">First in line for Autopilot</p>
+          <ul class="plan-list"><li>Unlimited niches</li><li>Results across every marketplace</li><li>Team seats and shared deals</li><li>Early access to Assisted and Autopilot</li></ul>
+          <a class="plan-btn" href="#join">Request access</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- PHOTO STRIP: a row of photos sliding left forever. The set is in the HTML twice; once the row has moved
+         exactly one set's width, it jumps back to the start, and because set 2 looks identical, nobody sees the jump. -->
+    <section class="strip" id="strip">
+      <div class="strip-head">
+        <h2 class="reveal">Made to fit around your life.</h2>
+        <p class="reveal">Deals turn up in the background. Your life stays up front.</p>
+      </div>
+      <div class="strip-track" id="stripTrack">
+        <div class="strip-img"><img src="img/hero.jpg" alt="A surfer waiting for a wave at sunset"></div>
+        <div class="strip-img"><img src="img/tile-0.jpg" alt="An espresso machine pulling a shot"></div>
+        <div class="strip-img"><img src="img/score-2.jpg" alt="Walking down a street into the evening sun"></div>
+        <div class="strip-img"><img src="img/tile-2.jpg" alt="Flicking through a crate of records"></div>
+        <div class="strip-img"><img src="img/control.jpg" alt="Resting in a hammock in warm light"></div>
+        <div class="strip-img"><img src="img/tile-5.jpg" alt="An old bike against a yellow wall"></div>
+        <div class="strip-img"><img src="img/how-1.jpg" alt="Holding up a phone in an antique shop"></div>
+        <div class="strip-img" aria-hidden="true"><img src="img/hero.jpg" alt=""></div>
+        <div class="strip-img" aria-hidden="true"><img src="img/tile-0.jpg" alt=""></div>
+        <div class="strip-img" aria-hidden="true"><img src="img/score-2.jpg" alt=""></div>
+        <div class="strip-img" aria-hidden="true"><img src="img/tile-2.jpg" alt=""></div>
+        <div class="strip-img" aria-hidden="true"><img src="img/control.jpg" alt=""></div>
+        <div class="strip-img" aria-hidden="true"><img src="img/tile-5.jpg" alt=""></div>
+        <div class="strip-img" aria-hidden="true"><img src="img/how-1.jpg" alt=""></div>
+      </div>
+    </section>
+
+    <!-- CLOSING: the last ask. Echoes the statement line, so the page opens and closes on the same idea.
+         Every "Request access" link on the page points here (#join). -->
+    <section class="closing" id="join">
+      <h2 class="reveal">Every listing has a flipside.<br>Start finding yours.</h2>
+      <p class="reveal">Same item. Different sites. Different prices. Flipside spots the gap. You keep the difference.</p>
+      <div class="reveal">
+        <a class="btn btn-dark" href="#join"><span class="btn-fill" aria-hidden="true"></span><span class="btn-text">Request access</span></a>
+      </div>
+      <p class="closing-note">This is a practice site, so there's no real sign-up behind the button.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-row">
+      <a class="footer-logo" href="#">Flipside</a>
+      <p>A practice rebuild of the <a href="https://joinspread.app/">Spread</a> design. Flipside is a made-up name; all copy is our own.</p>
+    </div>
+    <p class="footer-credits">Photos from Unsplash by asaf, Kevin Schmid, NordWood Themes, Clem Onojeghuo, Lukas Juhas,
+      Becca McHaffie, Chris Barbalis, Dhiemas Afif Febriyan, Jakob Rosen, Masood Aslami, Tanya Prodaan, Barney Goodman,
+      Michael Fischer, Nick Shandra, Timur Seyfelmlyukov, Sabina Sturzu and Jakub Żerdzicki.</p>
+  </footer>
+
+  <!-- Same animation stack as Spread: GSAP + ScrollTrigger for scroll-linked motion, Lenis for smooth scrolling. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="script.js?v=32"></script>
+</body>
+</html>

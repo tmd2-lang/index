@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dosedrop: prescription delivery for pharmacies</title>
+  <meta name="description" content="A practice rebuild of the Script Runner design. Dosedrop is a made-up product.">
+  <!-- Headings: Inter Tight (free stand-in for the paid PP Neue Montreal, within ~1% of its width).
+       Body: Inter, the same font the original uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=25">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <!-- Glass pill nav: fixed, centred, slides away when you scroll down and comes back when you scroll up -->
+  <header class="nav" id="nav">
+    <a class="nav-logo" href="#top" aria-label="Dosedrop home">
+      <svg class="logo-mark" viewBox="0 0 40 22" aria-hidden="true">
+        <rect x="1" y="1" width="38" height="20" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+        <path d="M11 1h9v20h-9a10 10 0 0 1 0-20z" fill="currentColor"/>
+      </svg>
+      <span class="logo-word">Dosedrop</span>
+    </a>
+    <a class="btn btn-black nav-cta" href="#contact">Book a demo</a>
+  </header>
+
+  <!-- The white "sheet" the whole page lives on. The body behind it is orange, for the footer reveal at the end. -->
+  <div class="page" id="top">
+    <section class="hero" id="hero">
+      <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="media/hero-poster.jpg">
+        <source src="media/hero-720.mp4" type="video/mp4" media="(max-width: 1023px)">
+        <source src="media/hero-1080.mp4" type="video/mp4">
+      </video>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">Getting care to every doorstep</h1>
+        <p class="hero-sub">Run your pharmacy's prescription deliveries from one place, with your own drivers, on-demand couriers or drones.</p>
+      </div>
+    </section>
+
+    <!-- 2. Proof it's real software: a tablet showing the dashboard, then the first ask -->
+    <section class="showcase" id="showcase">
+      <div class="tablet-stage" id="tabletStage">
+        <!-- The whole device is one 880×634 "design" scaled to its width with container units (see styles) -->
+        <div class="tablet" id="tablet">
+          <div class="tablet-screen" aria-label="Example of the Dosedrop dashboard" role="img">
+            <div class="app-bar">
+              <span class="app-logo">
+                <svg viewBox="0 0 40 22" aria-hidden="true"><rect x="1" y="1" width="38" height="20" rx="10" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M11 1h9v20h-9a10 10 0 0 1 0-20z" fill="currentColor"/></svg>
+                Dosedrop
+              </span>
+              <span class="app-user">
+                <span class="app-user-text"><b>Northside Pharmacy</b><small>Example account</small></span>
+                <span class="avatar avatar-lg">NP</span>
+                <svg class="chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </span>
+            </div>
+
+            <div class="app-head">
+              <span class="app-title">Delivery history</span>
+              <span class="app-btn">Start new delivery</span>
+            </div>
+
+            <div class="app-filters">
+              <span class="field"><small>Start date</small><span class="input"><i class="ico-cal"></i>Mon, Sep 21, 2026</span></span>
+              <span class="field"><small>End date</small><span class="input"><i class="ico-cal"></i>Wed, Oct 21, 2026</span></span>
+              <span class="field"><small><i class="ico-clock"></i>Timeline</small><span class="input input-select">All<svg class="chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span></span>
+              <span class="field field-search"><span class="input"><i class="ico-search"></i>Search patient…</span></span>
+            </div>
+
+            <div class="app-sub">
+              <span>Deliveries</span>
+              <span class="app-ghost"><i class="ico-filter"></i>Filter</span>
+            </div>
+
+            <div class="app-table">
+              <div class="row row-head"><span></span><span>Date</span><span>Delivery no.</span><span>Orders</span><span>Driver</span><span>Status</span><span>Returns</span></div>
+              <div class="row"><span>1</span><span>Wed, Oct 21</span><span>20488</span><span>1</span><span><i class="avatar" style="--h:24">MR</i>Maya Ruiz</span><span><em class="status done">Completed</em></span><span>0</span></div>
+              <div class="row"><span>2</span><span>Wed, Oct 21</span><span>20487</span><span>3</span><span><i class="avatar" style="--h:200">DO</i>Daniel Okafor</span><span><em class="status live">In progress</em></span><span>0</span></div>
+              <div class="row"><span>3</span><span>Wed, Oct 21</span><span>20486</span><span>8</span><span><i class="avatar" style="--h:150">PS</i>Priya Shah</span><span><em class="status live">In progress</em></span><span>2</span></div>
+              <div class="row"><span>4</span><span>Tue, Oct 20</span><span>20485</span><span>1</span><span><i class="avatar" style="--h:280">TN</i>Tom Nguyen</span><span><em class="status done">Completed</em></span><span>0</span></div>
+              <div class="row"><span>5</span><span>Tue, Oct 20</span><span>20484</span><span>2</span><span><i class="avatar" style="--h:330">LB</i>Lena Becker</span><span><em class="status done">Completed</em></span><span>0</span></div>
+              <div class="row"><span>6</span><span>Mon, Oct 19</span><span>20483</span><span>5</span><span><i class="avatar" style="--h:60">JA</i>Jonah Adams</span><span><em class="status done">Completed</em></span><span>0</span></div>
+              <div class="row"><span>7</span><span>Mon, Oct 19</span><span>20482</span><span>6</span><span><i class="avatar" style="--h:110">SK</i>Sara Kim</span><span><em class="status done">Completed</em></span><span>0</span></div>
+              <div class="row"><span>8</span><span>Fri, Oct 16</span><span>20481</span><span>4</span><span><i class="avatar" style="--h:250">EM</i>Eli Morgan</span><span><em class="status done">Completed</em></span><span>0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-text">
+        <h2 class="showcase-title">Prescription delivery software that keeps your counter moving.</h2>
+        <p class="showcase-sub">Plan routes, track every drop&#8209;off and take payment at the door, without pulling a pharmacist off the floor.</p>
+        <a class="btn btn-orange" href="#contact">Get started</a>
+      </div>
+    </section>
+
+    <!-- 3. Benefits: three big cards that stack up as you scroll (sticky + a shrink when each one parks) -->
+    <section class="benefits" id="benefits">
+      <div class="section-head">
+        <p class="eyebrow">Benefits</p>
+        <h2 class="section-title">Built around the delivery process you already have</h2>
+      </div>
+
+      <div class="stack">
+        <article class="bcard" style="--top: 160px; --dock: .85">
+          <div class="bcard-text">
+            <span class="chip" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg>
+            </span>
+            <h3 class="bcard-title">Simple to run</h3>
+            <p class="bcard-body">Create, assign and track every delivery from one screen. Special handling, like an ID check, is flagged for the driver.</p>
+          </div>
+          <div class="bcard-media">
+            <div class="media-frame media-portrait" id="benefitVideo">
+              <video autoplay muted loop playsinline poster="media/scan-poster.jpg" aria-label="Hands scanning a QR code on a parcel with a phone"><source src="media/scan-720.mp4" type="video/mp4"></video>
+            </div>
+            <div class="snip snip-flag">
+              <svg class="snip-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 9 5 5M15 9l4-4M9 15l-4 4M15 15l4 4"/><circle cx="4" cy="4" r="2"/><circle cx="20" cy="4" r="2"/><circle cx="4" cy="20" r="2"/><circle cx="20" cy="20" r="2"/></svg>
+              <small>Controlled substance</small>
+              <b>ID and signature required</b>
+            </div>
+            <div class="snip snip-order">
+              <small><i class="pin" aria-hidden="true"></i>Pharmacy</small>
+              <p>Northside Pharmacy, 120 Example Street</p>
+              <hr>
+              <small>Your driver</small>
+              <p class="snip-driver"><i class="avatar" style="--h:24">MR</i>Maya Ruiz</p>
+              <hr>
+              <small>Delivery info</small>
+              <p class="snip-kv"><span>Order</span><b>#DD-2048</b></p>
+              <p class="snip-kv"><span>Arrives in</span><b>45 min</b></p>
+              <span class="snip-pill">Track</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="bcard" style="--top: 192px; --dock: .9">
+          <div class="bcard-text">
+            <span class="chip" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h3"/></svg>
+            </span>
+            <h3 class="bcard-title">Payment at the door</h3>
+            <p class="bcard-body">Patients pay by card, tap or cash when the order arrives, and it's matched to the right prescription automatically.</p>
+          </div>
+          <div class="bcard-media">
+            <!-- Two brushed-metal payment cards, made entirely from CSS gradients -->
+            <div class="media-frame media-cards" aria-hidden="true">
+              <div class="pay-card pay-card-back"><span class="pay-name">Northside Pharmacy</span></div>
+              <div class="pay-card pay-card-front">
+                <span class="pay-chip"></span>
+                <span class="pay-logo">Dosedrop</span>
+                <span class="pay-name">Northside Pharmacy</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bcard" style="--top: 224px; --dock: 1">
+          <div class="bcard-text">
+            <span class="chip" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.2 2.4 2.3 4.6-4.8"/></svg>
+            </span>
+            <h3 class="bcard-title">Private by default</h3>
+            <p class="bcard-body">Patient details are encrypted and only shown to the people who need them for that delivery.</p>
+          </div>
+          <div class="bcard-media">
+            <div class="media-frame media-landscape" id="benefitPhoto">
+              <img src="media/phone.jpg" width="1400" height="933" alt="A hand holding a smartphone">
+            </div>
+            <div class="snip snip-lock">
+              <span class="lock-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="11" width="12" height="9" rx="2"/><path d="M9 11V8a3 3 0 0 1 6 0v3"/></svg></span>
+              <b>Patient details stay private</b>
+            </div>
+            <!-- Hover the message: it blurs and a key appears, showing "encrypted" instead of saying it -->
+            <div class="snip snip-chat" tabindex="0">
+              <p class="chat-top"><b>J. Rivera</b><small>Patient</small></p>
+              <p class="chat-msg">I'm in unit 4B, buzzer 12. Leave it with the front desk if I miss you.</p>
+              <span class="chat-key" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="12" r="3.5"/><path d="M11.5 12H21M18 12v3M15 12v2"/></svg></span>
+              <hr>
+              <small>Today at 10:32</small>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 4. Offerings: a 300vh section with a pinned stage; scrolling down slides the row sideways -->
+    <section class="offerings" id="offerings">
+      <!-- Phones: intro sits above the sliding row -->
+      <div class="offer-intro offer-intro--mobile">
+        <div class="offer-media"><video autoplay muted loop playsinline preload="metadata" poster="media/robot-poster.jpg" aria-label="A small delivery robot driving along a pavement"><source src="media/robot-720.mp4" type="video/mp4"></video></div>
+        <div class="offer-text">
+          <p class="eyebrow">Offerings</p>
+          <h2 class="offer-title">One platform, four ways to deliver</h2>
+          <p class="offer-sub">Use whichever mix fits your pharmacy, and change it order by order.</p>
+        </div>
+      </div>
+
+      <div class="offer-track-wrap" id="offerTrackWrap">
+        <div class="offer-stage">
+          <div class="offer-track" id="offerTrack">
+            <div class="offer-intro offer-intro--desktop">
+              <div class="offer-media"><video autoplay muted loop playsinline preload="metadata" poster="media/robot-poster.jpg" aria-label="A small delivery robot driving along a pavement"><source src="media/robot-720.mp4" type="video/mp4"></video></div>
+              <div class="offer-text">
+                <p class="eyebrow">Offerings</p>
+                <h2 class="offer-title">One platform, four ways to deliver</h2>
+                <p class="offer-sub">Use whichever mix fits your pharmacy, and change it order by order.</p>
+              </div>
+            </div>
+
+            <div class="offer-cards">
+              <article class="ocard">
+                <div class="ocard-top">
+                  <span class="ocard-num">1</span>
+                  <div class="ocard-visual">
+                    <div class="mini">
+                      <p class="mini-head"><b>In-house driver</b><small>Northside Pharmacy</small></p>
+                      <div class="mini-panel">
+                        <p class="mini-person"><i class="avatar" style="--h:24">MR</i><span><small>Driver</small><b>Maya Ruiz</b></span><em>Message</em></p>
+                        <dl class="mini-grid">
+                          <dt>Status</dt><dd>In transit</dd><dt>Arrives in</dt><dd>40 min</dd>
+                          <dt>Order</dt><dd>#20488</dd><dt>Priority</dt><dd class="red">Urgent</dd>
+                        </dl>
+                      </div>
+                      <p class="mini-actions"><span class="mini-btn">Show more</span><span class="mini-btn mini-btn--orange">Track</span></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="ocard-text">
+                  <h3>Use your own drivers</h3>
+                  <p>Give your in-house drivers routes, proof of delivery and live status, all in one app.</p>
+                </div>
+              </article>
+
+              <article class="ocard">
+                <div class="ocard-top">
+                  <span class="ocard-num">2</span>
+                  <div class="ocard-visual">
+                    <div class="mini">
+                      <p class="mini-head"><b>On-demand courier</b><small>Partner network</small></p>
+                      <div class="mini-panel mini-list">
+                        <p><span class="dot"></span>Courier A<b>6 min away</b></p>
+                        <p><span class="dot"></span>Courier B<b>11 min away</b></p>
+                        <p><span class="dot dot--dim"></span>Courier C<b>18 min away</b></p>
+                      </div>
+                      <p class="mini-actions"><span class="mini-btn">Same day</span><span class="mini-btn mini-btn--orange">Request courier</span></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="ocard-text">
+                  <h3>Book on-demand couriers</h3>
+                  <p>Need extra capacity or same-day reach? Send overflow orders to a courier partner in a couple of taps.</p>
+                </div>
+              </article>
+
+              <article class="ocard">
+                <div class="ocard-top">
+                  <span class="ocard-num">3</span>
+                  <div class="ocard-visual">
+                    <div class="mini">
+                      <p class="mini-head"><b>Driver fleet</b>
+                        <svg class="mini-logo" viewBox="0 0 40 22" aria-hidden="true"><rect x="1" y="1" width="38" height="20" rx="10" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M11 1h9v20h-9a10 10 0 0 1 0-20z" fill="currentColor"/></svg>
+                      </p>
+                      <div class="mini-panel">
+                        <p class="mini-row"><b>Create a delivery</b><em class="orange">New +</em></p>
+                        <small class="mini-note">Drivers ready for your patients</small>
+                        <hr>
+                        <p class="mini-row"><span class="grey">Drivers</span><em class="green">7 available</em></p>
+                        <p class="mini-faces">
+                          <i class="avatar" style="--h:24">MR</i><i class="avatar" style="--h:200">DO</i><i class="avatar" style="--h:150">PS</i><i class="avatar" style="--h:280">TN</i><i class="avatar" style="--h:330">LB</i><i class="avatar" style="--h:60">JA</i><i class="avatar" style="--h:110">SK</i>
+                        </p>
+                      </div>
+                      <p class="mini-actions"><span class="mini-btn">Schedule for later</span><span class="mini-btn mini-btn--orange">Book driver</span></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="ocard-text">
+                  <h3>Use the Dosedrop driver fleet</h3>
+                  <p>No drivers of your own? Book trained drivers from our network.</p>
+                </div>
+              </article>
+
+              <article class="ocard">
+                <div class="ocard-top">
+                  <span class="ocard-num">4</span>
+                  <div class="ocard-visual">
+                    <div class="mini">
+                      <p class="mini-head mini-head--icon"><span class="home-dot" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 11 12 4l8 7v9H4z"/></svg></span><span><small>Recurring delivery</small><b>Patient · #2462</b></span><em class="mini-btn">Show more</em></p>
+                      <hr>
+                      <!-- A simple drone drawn in SVG: body, arms, four rotors, a parcel -->
+                      <svg class="mini-drone" viewBox="0 0 200 80" aria-hidden="true">
+                        <g fill="#2a2a2a">
+                          <rect x="70" y="30" width="60" height="14" rx="5"/>
+                          <rect x="22" y="33" width="156" height="4" rx="2"/>
+                          <rect x="30" y="22" width="4" height="14"/><rect x="166" y="22" width="4" height="14"/>
+                          <rect x="56" y="24" width="4" height="10"/><rect x="140" y="24" width="4" height="10"/>
+                        </g>
+                        <g fill="#555"><ellipse cx="32" cy="21" rx="22" ry="2.5"/><ellipse cx="168" cy="21" rx="22" ry="2.5"/><ellipse cx="58" cy="23" rx="16" ry="2"/><ellipse cx="142" cy="23" rx="16" ry="2"/></g>
+                        <rect x="88" y="44" width="2" height="8" fill="#2a2a2a"/><rect x="110" y="44" width="2" height="8" fill="#2a2a2a"/>
+                        <rect x="82" y="52" width="36" height="22" rx="3" fill="#c9a777"/><rect x="82" y="60" width="36" height="3" fill="#b8925f"/>
+                      </svg>
+                      <dl class="mini-grid mini-grid--wide">
+                        <dt>Aircraft</dt><dd>Long-range drone</dd>
+                        <dt>Route</dt><dd>Rural, recurring</dd>
+                        <dt>Frequency</dt><dd>Once a week</dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+                <div class="ocard-text">
+                  <h3>Send drones on recurring routes</h3>
+                  <p>Schedule drones for repeat deliveries to places that are hard to reach by road.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Stats: a pinned orange stage. Capsules assemble and leave with the scroll; the heading, the
+         background flip and the three lines are triggered at set points (see script.js, section 6). -->
+    <section class="stats" id="stats" data-step="0">
+      <div class="stats-stage">
+        <div class="stats-band">
+          <div class="stats-head">
+            <p class="eyebrow">At a glance</p>
+            <h2 class="stats-title">Why it matters</h2>
+            <p class="stats-lede">Pharmacies are being asked to do more for patients. Dosedrop takes delivery and logistics off the counter, so that time goes back to care.</p>
+          </div>
+
+          <div class="caps">
+            <div class="cap cap--orange" data-cap="0">
+              <span class="cap-num">4</span>
+              <span class="cap-label">ways to<br>deliver</span>
+            </div>
+            <div class="cap cap--yellow" data-cap="1">
+              <span class="cap-num">1 day</span>
+              <span class="cap-label">to get<br>set up</span>
+            </div>
+            <div class="cap cap--red" data-cap="2">
+              <span class="cap-num">3</span>
+              <span class="cap-label">ways to pay<br>at the door</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="more">
+          <p class="more-line">More time for patient care</p>
+          <p class="more-line">More time for clinical services</p>
+          <p class="more-line">More time for your community</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. FAQ: heading left, nine questions right. <details> = open/close with keyboard support and no JS -->
+    <section class="faq" id="faq">
+      <div class="faq-head">
+        <p class="faq-eyebrow">FAQ</p>
+        <h2 class="faq-title">Good questions.<br>Straight answers.</h2>
+        <p class="faq-sub">The things pharmacies ask us most,<br>answered plainly.</p>
+      </div>
+      <div class="faq-list">
+          <details class="qa">
+            <summary><h3>Is Dosedrop a pharmacy?</h3><svg class="qa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/><path class="qa-vbar" d="M12 6v12"/></svg></summary>
+            <div class="qa-a"><p>Dosedrop is <strong><em>not</em></strong> a pharmacy. It's delivery software for pharmacies and hospital outpatient pharmacies; we don't dispense or sell medication.</p></div>
+          </details>
+          <details class="qa">
+            <summary><h3>How long does setup take?</h3><svg class="qa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/><path class="qa-vbar" d="M12 6v12"/></svg></summary>
+            <div class="qa-a"><p>Most pharmacies are up and running in a day. We train your team and drivers in person or over a video call.</p></div>
+          </details>
+          <details class="qa">
+            <summary><h3>How do you handle patient data?</h3><svg class="qa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/><path class="qa-vbar" d="M12 6v12"/></svg></summary>
+            <div class="qa-a"><p>Patient details are encrypted, and drivers only see what they need for the delivery in front of them.</p></div>
+          </details>
+          <details class="qa">
+            <summary><h3>Can I use my own drivers?</h3><svg class="qa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/><path class="qa-vbar" d="M12 6v12"/></svg></summary>
+            <div class="qa-a"><p>Yes. Your in-house drivers get the Dosedrop app, or you can mix them with on-demand couriers and our driver fleet.</p></div>
+          </details>
+          <details class="qa">
+            <summary><h3>What kind of drones do you use?</h3><svg class="qa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/><path class="qa-vbar" d="M12 6v12"/></svg></summary>
+            <div class="qa-a"><p>Long-range delivery drones, used for recurring routes to places that are hard to reach by road.</p></div>
+          </details>
+          <details class="qa">
+            <summary><h3>What does it cost?</h3><svg class="qa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/><path class="qa-vbar" d="M12 6v12"/></svg></summary>
+            <div class="qa-a"><p>Pricing depends on how many deliveries you send each month, and the price per delivery drops as volume grows. Get in touch for a quote.</p></div>
+          </details>
+          <details class="qa">
+            <summary><h3>Can patients pay at the door?</h3><svg class="qa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/><path class="qa-vbar" d="M12 6v12"/></svg></summary>
+            <div class="qa-a"><p>Yes. Patients can pay by card, tap or cash when the order arrives, and each payment is matched to the right prescription.</p></div>
+          </details>
+          <details class="qa">
+            <summary><h3>Can you deliver controlled or refrigerated medication?</h3><svg class="qa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/><path class="qa-vbar" d="M12 6v12"/></svg></summary>
+            <div class="qa-a"><p>Yes. Controlled substances get an ID and signature check, fridge items travel in cold bags, and everything follows your local rules.</p></div>
+          </details>
+          <details class="qa">
+            <summary><h3>Do you offer virtual care or prescribing?</h3><svg class="qa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/><path class="qa-vbar" d="M12 6v12"/></svg></summary>
+            <div class="qa-a"><p>Not today. Dosedrop focuses on delivery and works alongside the virtual care tools you already use.</p></div>
+          </details>
+      </div>
+    </section>
+
+    <!-- 7. Guides: replaces "In The News". Same card design, but honest: our own (example) guides instead of press.
+         A native sideways-scrolling row, scrollbar hidden, focusable so keyboard users can scroll it too. -->
+    <section class="guides" id="guides">
+      <h2 class="guides-title">From the Dosedrop guides</h2>
+      <div class="guides-row" tabindex="0" aria-label="Example guides, scroll sideways for more">
+        <div class="guides-track">
+          <article class="gcard">
+            <p class="gcard-tag"><span>Setup</span></p>
+            <h3>Set up prescription delivery in a day</h3>
+            <p class="gcard-foot">Example guide</p>
+          </article>
+          <article class="gcard">
+            <p class="gcard-tag"><span>Drivers</span></p>
+            <h3>Routing tips for in-house drivers on busy days</h3>
+            <p class="gcard-foot">Example guide</p>
+          </article>
+          <article class="gcard">
+            <p class="gcard-tag"><span>Payments</span></p>
+            <h3>Taking card, tap and cash at the door</h3>
+            <p class="gcard-foot">Example guide</p>
+          </article>
+          <article class="gcard">
+            <p class="gcard-tag"><span>Cold chain</span></p>
+            <h3>Keeping fridge items cold from shelf to doorstep</h3>
+            <p class="gcard-foot">Example guide</p>
+          </article>
+          <article class="gcard">
+            <p class="gcard-tag"><span>Patients</span></p>
+            <h3>What to do when a patient isn't home</h3>
+            <p class="gcard-foot">Example guide</p>
+          </article>
+          <article class="gcard">
+            <p class="gcard-tag"><span>Drones</span></p>
+            <h3>Planning a recurring drone route to a remote clinic</h3>
+            <p class="gcard-foot">Example guide</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Closing: the last ask. The page (this white sheet) ends with a gap the footer's height, see .page in styles -->
+    <section class="closing" id="contact">
+      <h2 class="closing-title">Spend less time on deliveries and more time on care</h2>
+      <a class="btn btn-orange" href="#contact">Get started</a>
+    </section>
+  </div>
+
+  <!-- Footer: fixed to the bottom of the screen UNDER the white page; revealed as the page scrolls up off it -->
+  <footer class="footer" id="footer">
+    <div class="footer-row">
+      <div class="footer-left">
+        <p>&copy;&nbsp;2026&nbsp;Dosedrop, a made-up product.</p>
+        <p>A practice rebuild of the Script Runner design.</p>
+      </div>
+      <div class="footer-right">
+        <p class="footer-links">
+          <a class="flink" href="#contact">Book a demo<svg class="flink-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+          <a class="flink" href="#top">Back to top<svg class="flink-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+        </p>
+        <p class="footer-credits">Videos: K, Kampus Production and Kindel Media on Pexels<br>Photo: Mediamodifier on Unsplash</p>
+      </div>
+    </div>
+    <!-- Giant wordmark: SVG text stretched to an exact width with textLength, so it spans edge to edge in any font -->
+    <svg class="footer-mark" viewBox="0 0 1440 170" aria-hidden="true">
+      <text x="20" y="200" textLength="1400" lengthAdjust="spacingAndGlyphs">Dosedrop</text>
+    </svg>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="script.js?v=23"></script>
+</body>
+</html>

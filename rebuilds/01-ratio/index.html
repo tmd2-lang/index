@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tally — rebuild of Ratio's hero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Mark "JS is on" BEFORE the first paint, so reveal/stagger items start hidden
+       instead of rendering visible and then fading out (a "flash"). -->
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+  <!-- NAV: fixed on top. The inner bar is invisible until you scroll, then turns to glass. -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-mark" aria-hidden="true">=</span>
+        <span>Tally</span>
+      </a>
+      <nav class="links">
+        <a href="#">Features</a>
+        <a href="#">AI</a>
+        <a href="#">Demos</a>
+        <a href="#">Pricing</a>
+        <a href="#">FAQ</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="link-quiet" href="#">Buy $9.99</a>
+        <a class="pill pill-light magnet" href="#">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <!-- Background: landscape.svg (see --hero in styles.css). The feature cards reuse the same image. -->
+      <div class="hero-bg" aria-hidden="true">
+      </div>
+
+      <div class="hero-copy">
+        <button class="promo" type="button">
+          <span class="promo-tag">Launch</span>
+          <span>40% off with code <b>HELLO</b></span>
+          <span class="promo-date">this week</span>
+        </button>
+
+        <h1>Type the math.<br>Get the answer.</h1>
+
+        <p>
+          <span class="desc-long">Tally is a notepad that does the math for you. Write prices, currencies and units the way you'd jot them on paper, and the result shows up next to each line as you type.</span>
+          <span class="desc-short">Write it like a note. The answer shows up as you type.</span>
+        </p>
+
+        <div class="cta-row">
+          <a class="pill pill-light with-logo" href="#">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Download for Mac
+          </a>
+          <a class="pill pill-buy" href="#">Buy for $9.99</a>
+        </div>
+      </div>
+
+      <!-- The product window. JS types the lines into .win-body. -->
+      <div class="hero-window">
+        <div class="hero-tilt">
+          <div class="win">
+            <div class="win-bar">
+              <i></i><i></i><i></i>
+              <span class="win-title">Weekend in Lisbon</span>
+            </div>
+            <div class="win-body" id="sheet"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STRIP: a quiet row of feature highlights right under the hero window -->
+    <section class="strip">
+      <div class="strip-item"><span class="strip-ico">$</span>160+ live currencies</div>
+      <div class="strip-item"><span class="strip-ico">₿</span>Crypto</div>
+      <div class="strip-item"><span class="strip-ico">km</span>150+ units</div>
+      <div class="strip-item"><span class="strip-ico">◷</span>Time zones</div>
+      <div class="strip-item"><span class="strip-ico">&gt;_</span>Terminal</div>
+    </section>
+
+    <!-- FEATURES: alternating two-column cards. Every other card gets .flip. -->
+    <section class="section" id="features">
+      <div class="section-head reveal">
+        <h2>Made for everyday math.</h2>
+        <p>Splitting a bill. Pricing a job. Planning a trip. Write a line, and Tally writes the answer next to it.</p>
+      </div>
+
+      <article class="feature reveal">
+        <div class="feature-media media-a">
+          <div class="win">
+            <div class="win-bar"><i></i><i></i><i></i><span class="win-title">Monthly budget</span></div>
+            <div class="win-body" data-sheet="money"></div>
+          </div>
+        </div>
+        <div class="feature-copy">
+          <span class="kicker"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .8-3 2s1.3 1.7 3 2 3 .8 3 2-1.3 2-3 2c-1.4 0-2.5-.5-3-1.5M12 6.5v11"/></svg>Live currencies</span>
+          <h3>Every currency. Always up to date.</h3>
+          <p>Over 160 currencies and the big cryptos, with rates that refresh by themselves. Mix dollars, euros and pounds on one line and the total still adds up.</p>
+          <a class="pill pill-dark small" href="#">See pricing</a>
+        </div>
+      </article>
+
+      <article class="feature flip reveal">
+        <div class="feature-media media-b">
+          <div class="win">
+            <div class="win-bar"><i></i><i></i><i></i><span class="win-title">Freelance quote</span></div>
+            <div class="win-body" data-sheet="smart"></div>
+          </div>
+        </div>
+        <div class="feature-copy">
+          <span class="kicker"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h7"/></svg>Smart notes</span>
+          <h3>Name a number. Reuse it anywhere.</h3>
+          <p>Call a value <em>rate</em> and use it on any line below. Write L3 to pull in the answer from line 3. Change one number and everything that depends on it updates.</p>
+          <a class="pill pill-dark small" href="#">See pricing</a>
+        </div>
+      </article>
+
+      <article class="feature reveal">
+        <div class="feature-media media-c">
+          <div class="win">
+            <div class="win-bar"><i></i><i></i><i></i><span class="win-title">Road trip</span></div>
+            <div class="win-body" data-sheet="units"></div>
+          </div>
+        </div>
+        <div class="feature-copy">
+          <span class="kicker"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Units and time</span>
+          <h3>Any unit. Any time zone.</h3>
+          <p>Kilometers to miles, Fahrenheit to Celsius, hours to minutes. Ask what noon UTC is in Tokyo, without opening another app.</p>
+          <a class="pill pill-dark small" href="#">See pricing</a>
+        </div>
+      </article>
+
+      <article class="feature flip reveal">
+        <div class="feature-media media-d">
+          <div class="win">
+            <div class="win-bar"><i></i><i></i><i></i><span class="win-title">Invoice</span></div>
+            <div class="win-body" data-sheet="work"></div>
+          </div>
+        </div>
+        <div class="feature-copy">
+          <span class="kicker"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>Work and money</span>
+          <h3>Invoices, tax and totals.</h3>
+          <p>Hours times your rate, tax on top, split into monthly payments. A few plain lines instead of a spreadsheet you have to build first.</p>
+          <a class="pill pill-dark small" href="#">See pricing</a>
+        </div>
+      </article>
+
+      <article class="feature reveal">
+        <div class="feature-media media-e">
+          <div class="win">
+            <div class="win-bar"><i></i><i></i><i></i><span class="win-title">Physics homework</span></div>
+            <div class="win-body" data-sheet="study"></div>
+          </div>
+        </div>
+        <div class="feature-copy">
+          <span class="kicker"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-5 9 5-9 5z"/><path d="M7 11v5c0 1 2.2 2.5 5 2.5s5-1.5 5-2.5v-5"/></svg>School and science</span>
+          <h3>Homework, handled.</h3>
+          <p>Solve equations, get exact answers like 2√2, and use constants like the speed of light. Statistics and primes are built in too.</p>
+          <a class="pill pill-dark small" href="#">See pricing</a>
+        </div>
+      </article>
+    </section>
+
+    <!-- DEMOS: the statement, then tabs that swap the window on a big landscape "stage" -->
+    <section class="section demos" id="demos">
+      <!-- JS splits this into words that light up as you scroll -->
+      <p class="statement">I made Tally because I kept opening a spreadsheet just to add up a grocery list. Now I type it out like a note, and the total is already waiting.</p>
+
+      <div class="tabs" role="tablist" aria-label="Example sheets">
+        <button class="tab active" role="tab" aria-selected="true" data-tab="trip">Travel</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="money">Budget</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="work">Invoice</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="dev">Developers</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="study">Students</button>
+      </div>
+
+      <div class="stage reveal">
+        <div class="win">
+          <div class="win-bar"><i></i><i></i><i></i><span class="win-title">Tokyo in spring</span></div>
+          <div class="win-body" data-sheet="trip"></div>
+        </div>
+      </div>
+      <p class="caption">Every answer here is real math. Pick a tab to see another sheet.</p>
+
+      <!-- GRID: six small features. Children spring in one after another (.stagger). -->
+      <div class="grid stagger">
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M9.5 10h4a1.5 1.5 0 010 3h-3a1.5 1.5 0 000 3h4"/></svg></span>
+          <h4>Live currencies</h4>
+          <p>Rates update on their own while Tally is open. Dollars, euros and crypto, all current.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M9 7H6a2 2 0 00-2 2v6a2 2 0 002 2h3M15 7h3a2 2 0 012 2v6a2 2 0 01-2 2h-3M8 12h8"/></svg></span>
+          <h4>Line references</h4>
+          <p>Write L3 to reuse an answer. Change it once, and every line that uses it follows.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M5 19V11M12 19V5M19 19v-6"/></svg></span>
+          <h4>Lists and stats</h4>
+          <p>Sum a list, take the average or the median, without writing a single formula.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M12 10v3l2 2M10 3h4"/></svg></span>
+          <h4>Countdowns</h4>
+          <p>Type "until friday 6pm" and watch the time left tick down, live.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 000 16z" fill="currentColor"/></svg></span>
+          <h4>Light and dark</h4>
+          <p>Themes from bright to midnight, so Tally fits the rest of your desktop.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M5 7l5 5-5 5M12 17h7"/></svg></span>
+          <h4>In your terminal</h4>
+          <p>Same math from the command line: tally "5 km in mi". Same engine, same answer.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI: a question in plain words, a "thinking" glow, then answer lines appear one by one -->
+    <section class="section" id="ai">
+      <div class="section-head reveal">
+        <span class="ai-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 3c.6 4.2 2.8 6.4 7 7-4.2.6-6.4 2.8-7 7-.6-4.2-2.8-6.4-7-7 4.2-.6 6.4-2.8 7-7zM18.5 15.5c.25 1.6 1 2.35 2.5 2.5-1.5.15-2.25.9-2.5 2.5-.25-1.6-1-2.35-2.5-2.5 1.5-.15 2.25-.9 2.5-2.5z"/></svg>
+        </span>
+        <h2>Just ask.</h2>
+        <p>Write a question the way you'd say it out loud. Tally answers with lines you can read, check and change.</p>
+      </div>
+
+      <article class="feature flip reveal">
+        <div class="feature-media media-ai">
+          <div class="win ai-win">
+            <div class="ai-glow" aria-hidden="true"></div>
+            <div class="win-bar"><i></i><i></i><i></i><span class="win-title">Pizza night</span></div>
+            <div class="win-body" id="ai-sheet"></div>
+          </div>
+        </div>
+        <div class="feature-copy">
+          <span class="kicker"><svg viewBox="0 0 24 24"><path d="M12 3c.6 4.2 2.8 6.4 7 7-4.2.6-6.4 2.8-7 7-.6-4.2-2.8-6.4-7-7 4.2-.6 6.4-2.8 7-7z"/></svg>On-device AI</span>
+          <h3>Plain words in. Clear lines out.</h3>
+          <p>Type "split a $90 pizza night with a 15% tip between 3" and press ⌘↩. The answer arrives as normal lines you can check and build on. It runs on your computer, so nothing you write leaves it.</p>
+        </div>
+      </article>
+
+      <div class="grid stagger">
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M5 6h14v9H9l-4 3z"/></svg></span>
+          <h4>Ask in plain words</h4>
+          <p>No syntax to learn. The answer reuses the names already in your sheet.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M14.5 5.5l4 4L9 19H5v-4z"/></svg></span>
+          <h4>Fix a line</h4>
+          <p>A line Tally can't read gets a quiet "Fix" button that rewrites it.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></svg></span>
+          <h4>Receipt photos</h4>
+          <p>Drop in a photo of a receipt. Every item becomes a line, already summed.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M10 9.5a2 2 0 113 1.7c-.6.4-1 .8-1 1.6M12 16h.01"/></svg></span>
+          <h4>Why that answer?</h4>
+          <p>Right-click any result and get a one-sentence explanation of the math.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M3 9a13 13 0 0118 0M6 12.5a8 8 0 0112 0M9.5 16a3 3 0 015 0M4 4l16 16"/></svg></span>
+          <h4>Works offline</h4>
+          <p>Nothing goes to the cloud. On a plane with the Wi-Fi off, same answers.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>
+          <h4>Private by design</h4>
+          <p>No account, no tracking. Your sheets stay yours and train nothing.</p>
+        </div>
+      </div>
+      <p class="caption ai-note">Asking in plain words needs a computer with a built-in AI model. Everything else works everywhere.</p>
+    </section>
+
+    <!-- MORE: pure reuse (section-head + stagger grid). New here: <code> chips for example inputs. -->
+    <section class="section" id="more">
+      <div class="section-head reveal">
+        <h2>Built for work, school and code.</h2>
+        <p>Taxes and loans. Homework and physics. The numbers developers deal with every day. One notepad for all of it.</p>
+      </div>
+      <div class="grid stagger">
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M6 18L18 6"/><circle cx="7.5" cy="7.5" r="2"/><circle cx="16.5" cy="16.5" r="2"/></svg></span>
+          <h4>Sales tax</h4>
+          <p>Type <code>100 + tax</code> or <code>108 without tax</code>. Tally knows your local rate, or uses the one you set.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M4 20h16M6 16v-4M10 16V9M14 16v-5M18 16V6"/></svg></span>
+          <h4>Loans and interest</h4>
+          <p><code>pmt(5%/12, 360, 200k)</code> gives the monthly payment. <code>10k at 4% for 5 years</code> shows what savings grow into.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span>
+          <h4>Working days</h4>
+          <p><code>today + 10 working days</code> skips weekends and your public holidays.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M5 9h6M8 6v6M14 8h5M14 16h5M6 16l4 0"/></svg></span>
+          <h4>Solve equations</h4>
+          <p><code>solve x^2 - 9 = 0</code> answers x&nbsp;=&nbsp;-3 or x&nbsp;=&nbsp;3. Derivatives and integrals, too.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="9" ry="4"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(120 12 12)"/></svg></span>
+          <h4>Science and statistics</h4>
+          <p>Constants, mean and median built in. <code>isprime(91)</code> answers no, it's 7&nbsp;×&nbsp;13.</p>
+        </div>
+        <div class="cell">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span>
+          <h4>For developers</h4>
+          <p>Hex, binary, <code>chmod 755</code>, and <code>99.9% uptime</code>, which leaves 43&nbsp;min&nbsp;50&nbsp;s of downtime a month.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY: comparison table. Wide table scrolls INSIDE its card on phones; first column stays pinned. -->
+    <section class="section" id="why">
+      <div class="section-head reveal">
+        <h2>Why <em>Tally</em>?</h2>
+        <p>A calculator forgets every step. A spreadsheet is too much for five numbers. Tally is just right.</p>
+      </div>
+      <div class="why-wrap reveal">
+        <table class="why">
+          <thead><tr><td class="corner"></td><th scope="col" class="hl"><span class="why-icon why-icon-us" aria-hidden="true">=</span>Tally</th><th scope="col"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 7h6M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span>Calculator</th><th scope="col"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 10h16M4 15h16M10 5v14"/></svg></span>Spreadsheet</th><th scope="col"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></svg></span>Notes app</th><th scope="col"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></span>Search bar</th></tr></thead>
+          <tbody>
+          <tr><th scope="row">Answers as you type, line by line</th><td class="hl"><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td><td><span class="no" aria-label="No">–</span></td><td><span class="txt">with formulas</span></td><td><span class="no" aria-label="No">–</span></td><td><span class="txt">one at a time</span></td></tr>
+          <tr><th scope="row">Plain words: <code>5 km in mi</code>, <code>noon UTC in Tokyo</code></th><td class="hl"><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td><td><span class="no" aria-label="No">–</span></td><td><span class="no" aria-label="No">–</span></td><td><span class="no" aria-label="No">–</span></td><td><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td></tr>
+          <tr><th scope="row">Every step stays on the page, ready to change</th><td class="hl"><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td><td><span class="txt">partly</span></td><td><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td><td><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td><td><span class="no" aria-label="No">–</span></td></tr>
+          <tr><th scope="row">Live currency rates</th><td class="hl"><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td><td><span class="txt">partly</span></td><td><span class="txt">with formulas</span></td><td><span class="no" aria-label="No">–</span></td><td><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td></tr>
+          <tr><th scope="row">Works offline</th><td class="hl"><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td><td><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td><td><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td><td><span class="yes" role="img" aria-label="Yes"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.2 3.2L17 9"/></svg></span></td><td><span class="no" aria-label="No">–</span></td></tr>
+          <tr><th scope="row">Price</th><td class="hl"><span class="txt">$9.99&nbsp;once</span></td><td><span class="txt">free, built in</span></td><td><span class="txt">free or subscription</span></td><td><span class="txt">free, built in</span></td><td><span class="txt">free, with ads</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="why-foot">Compared with the tools most people already have on their computer.</p>
+    </section>
+
+    <!-- PRICING: three plan cards (mouse-follow glow, count-up prices), then a plan comparison table -->
+    <section class="section" id="pricing">
+      <div class="section-head reveal">
+        <h2>Buy it once. It's yours.</h2>
+        <p>One version with everything included. Try it free for 7 days. If you love it, pay once and keep it.</p>
+      </div>
+
+      <div class="plans stagger">
+        <div class="plan glow">
+          <div class="plan-top">
+            <span class="plan-name">1 computer</span>
+            <div class="price"><span class="price-num" data-value="9.99">$9.99</span><span class="per">once</span></div>
+            <p class="plan-sub">For your laptop or your desktop.</p>
+          </div>
+          <div class="plan-os"><span>Mac</span><span>Windows</span><span>Linux</span></div>
+          <p class="plan-label">Features</p>
+          <ul class="plan-list"><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Every calculation, unit and currency</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Unlimited sheets</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Light and dark themes</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Ask in plain words</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Free updates</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>14-day refund</li></ul>
+          <a class="pill pill-dark wide" href="#">Buy for $9.99</a>
+        </div>
+        <div class="plan glow featured">
+          <div class="plan-top">
+            <span class="plan-name">2 computers</span><span class="plan-spark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3c.6 4.2 2.8 6.4 7 7-4.2.6-6.4 2.8-7 7-.6-4.2-2.8-6.4-7-7 4.2-.6 6.4-2.8 7-7z"/></svg></span>
+            <div class="price"><span class="price-num" data-value="14.99">$14.99</span><span class="per">once</span></div>
+            <p class="plan-sub">$7.50 each. Your laptop and your desktop.</p>
+          </div>
+          <div class="plan-os"><span>Mac</span><span>Windows</span><span>Linux</span></div>
+          <p class="plan-label">Features</p>
+          <ul class="plan-list"><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Everything in 1 computer, plus:</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>A second computer</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Any mix of Mac, Windows, Linux</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Move your license anytime</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Save 25%</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>14-day refund</li></ul>
+          <a class="pill pill-light wide" href="#">Buy for $14.99</a>
+        </div>
+        <div class="plan glow">
+          <div class="plan-top">
+            <span class="plan-name">3 computers</span>
+            <div class="price"><span class="price-num" data-value="19.99">$19.99</span><span class="per">once</span></div>
+            <p class="plan-sub">$6.66 each. Enough for the whole household.</p>
+          </div>
+          <div class="plan-os"><span>Mac</span><span>Windows</span><span>Linux</span></div>
+          <p class="plan-label">Features</p>
+          <ul class="plan-list"><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Everything in 2 computers, plus:</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>A third computer</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Any mix of Mac, Windows, Linux</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Move your license anytime</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Save 33%</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>14-day refund</li></ul>
+          <a class="pill pill-dark wide" href="#">Buy for $19.99</a>
+        </div>
+      </div>
+
+      <div class="compare-plans reveal">
+        <h3>Plans and features</h3>
+        <!-- Reuses the .why table styles (highlight column, sticky labels on phones); .cmp tweaks the look -->
+        <div class="cmp-wrap">
+          <table class="why cmp">
+            <thead><tr><td class="corner"></td><th scope="col">1 computer</th><th scope="col" class="hl">2 computers</th><th scope="col">3 computers</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Computers</th><td>1</td><td class="hl">2</td><td>3</td></tr>
+              <tr><th scope="row">Price per computer</th><td>$9.99</td><td class="hl">$7.50</td><td>$6.66</td></tr>
+              <tr><th scope="row">Mac, Windows and Linux</th><td><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td><td class="hl"><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td><td><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td></tr>
+              <tr><th scope="row">Every calculation, unit and currency</th><td><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td><td class="hl"><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td><td><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td></tr>
+              <tr><th scope="row">Unlimited sheets</th><td><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td><td class="hl"><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td><td><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td></tr>
+              <tr><th scope="row">Ask in plain words</th><td><span class="chip">AI computers</span></td><td class="hl"><span class="chip">AI computers</span></td><td><span class="chip">AI computers</span></td></tr>
+              <tr><th scope="row">Free updates</th><td><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td><td class="hl"><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td><td><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td></tr>
+              <tr><th scope="row">14-day refund</th><td><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td><td class="hl"><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td><td><span class="yes" role="img" aria-label="Included"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span></td></tr>
+              <tr class="cmp-buy"><th scope="row"></th><td><a class="pill pill-dark small" href="#">Buy for $9.99</a></td><td class="hl"><a class="pill pill-light small" href="#">Buy for $14.99</a></td><td><a class="pill pill-dark small" href="#">Buy for $19.99</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="pricing-notes reveal">
+        <p>Mac, Windows and Linux · 5 MB download · 14-day refund</p>
+        <p>Student or teacher? Half price. <a href="#">Write to us from your school email</a> and we'll send you a code.</p>
+      </div>
+    </section>
+
+    <!-- WHAT'S NEW: three news cards. The whole card is one link. -->
+    <section class="section" id="updates">
+      <div class="section-head reveal"><h2>What's new</h2></div>
+      <div class="posts stagger">
+        <a class="post" href="#">
+          <div class="post-img img-1"><span>Mac · Windows · Linux</span></div>
+          <h5>Now on Windows and Linux. One license covers all three.</h5>
+          <span class="meta">Oct 2026</span>
+        </a>
+        <a class="post" href="#">
+          <div class="post-img img-2"></div>
+          <h5>Share a sheet as an image, or as a link anyone can open.</h5>
+          <span class="meta">Oct 2026</span>
+        </a>
+        <a class="post" href="#">
+          <div class="post-img img-3"><span>light · dark</span></div>
+          <h5>Every theme now comes in light and dark, plus a quick setup on first launch.</h5>
+          <span class="meta">Sep 2026</span>
+        </a>
+      </div>
+      <p class="posts-more reveal"><a href="#">Read the full changelog</a></p>
+    </section>
+
+    <!-- FAQ: native <details>/<summary> = open/close with zero JS.
+         Same name="faq" on each = only one open at a time (a real accordion, still zero JS). -->
+    <section class="section faq" id="faq">
+      <div class="section-head reveal"><h2>Frequently asked questions</h2></div>
+      <div class="faq-list reveal">
+        <details name="faq">
+          <summary>What is Tally?</summary>
+          <p>Tally is a notepad that does math. You type calculations as plain text, like <code>dinner $84 / 3</code>, and the answer appears next to each line as you type. It understands currencies, units, dates and time zones.</p>
+        </details>
+        <details name="faq">
+          <summary>Does Tally run on Windows and Linux?</summary>
+          <p>Yes. Tally runs on Mac, Windows 10 and 11, and 64-bit Linux. It's the same engine everywhere, so every line gives the same answer, and one license can mix all three.</p>
+        </details>
+        <details name="faq">
+          <summary>Does Tally work offline?</summary>
+          <p>Yes. Every calculation happens on your computer. Exchange rates need a connection to refresh; offline, Tally uses the last rates it saved.</p>
+        </details>
+        <details name="faq">
+          <summary>Do I really pay only once?</summary>
+          <p>Yes. No subscription. Buy it once and keep it, with updates included.</p>
+        </details>
+        <details name="faq">
+          <summary>Is there a free trial?</summary>
+          <p>Seven days, with everything unlocked. No account and no card needed.</p>
+        </details>
+        <details name="faq">
+          <summary>Is there a student or teacher discount?</summary>
+          <p>Half price. Write to us from your school email and we'll send you a code.</p>
+        </details>
+        <details name="faq">
+          <summary>Where do exchange rates come from?</summary>
+          <p>Public exchange-rate feeds, refreshed every hour while you're online. Each sheet shows when its rates were last updated.</p>
+        </details>
+        <details name="faq">
+          <summary>How do I move my license to another computer?</summary>
+          <p>Open Settings, choose License, and click Deactivate. Then enter the same key on the new computer.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- FINAL CTA: the closing moment. Buttons are "magnetic": they lean toward a nearby cursor. -->
+    <section class="final" id="download">
+      <h2 class="reveal">Start adding things up.</h2>
+      <p class="reveal">Free for 7 days. No account and no card. If it's not for you, just delete it.</p>
+      <div class="cta-row reveal">
+        <a class="pill pill-light os-pill magnet" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download for Mac</a>
+        <a class="pill pill-light os-pill magnet" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download for Windows</a>
+        <a class="pill pill-light os-pill magnet" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download for Linux</a>
+      </div>
+      <p class="fine reveal">Mac: macOS 13 or later · Windows: 10 or 11, 64-bit · Linux: 64-bit, AppImage or .deb</p>
+      <p class="final-buy reveal"><a href="#">Buy for $9.99</a> · one price on every computer</p>
+    </section>
+  </main>
+
+  <!-- FOOTER: brand + link columns, a giant faded wordmark, and a bottom bar -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="#">
+          <span class="brand-mark" aria-hidden="true">=</span>
+          <span>Tally</span>
+        </a>
+        <p>The notepad that does the math. For Mac, Windows and Linux.</p>
+        <p class="footer-note">Tally runs on your computer. No account, no ads, no tracking.</p>
+      </div>
+      <nav class="cols" aria-label="Footer">
+        <div><span>Product</span><a href="#features">Features</a><a href="#demos">Demos</a><a href="#ai">AI</a><a href="#pricing">Pricing</a></div>
+        <div><span>Help</span><a href="#faq">FAQ</a><a href="#">Syntax guide</a><a href="#updates">Changelog</a><a href="#">Contact</a></div>
+        <div><span>Use it for</span><a href="#">Currencies</a><a href="#">Units</a><a href="#">Time zones</a><a href="#">Invoices</a></div>
+        <div><span>Legal</span><a href="#">Privacy</a><a href="#">Terms</a></div>
+      </nav>
+    </div>
+    <div class="wordmark" aria-hidden="true">Tally</div>
+    <div class="footer-bottom">
+      <span>© 2026 Tally</span>
+      <span>A practice rebuild of the <a href="https://useratio.app/">useratio.app</a> design</span>
+      <span>For Mac, Windows and Linux</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
