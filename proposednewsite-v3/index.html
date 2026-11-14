@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ligo · Everything happening on your campus</title>
+  <meta name="description" content="Every club, game, free meal and party at your school, in one app.">
+  <link rel="icon" href="assets/logo-mark.svg">
+  <link rel="stylesheet" href="styles.css?v=27">
+</head>
+<body>
+
+<main id="top">
+
+  <!-- =====================================================
+       HERO — a rounded card inset from the window (Bevel style):
+       sky, orange light tunnel, promise, download, real phone
+       ===================================================== -->
+  <section class="hero" aria-labelledby="hero-title">
+
+    <!-- Nav. Desktop: one small pill, centred over the hero.
+         Phone: a full-width frosted bar pinned to the top of the screen,
+         with a menu button that drops the links down inside the same bar.
+         It sits outside the hero card so the card's clipping can't hide it
+         once it's pinned. -->
+    <header class="nav" data-open="false">
+      <a class="nav__brand" href="#top" aria-label="Ligo home">
+        <img src="assets/logo-mark.svg" alt="" width="20" height="20">
+        <span>Ligo</span>
+      </a>
+
+      <!-- Phone only: three lines that turn into an X -->
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span class="nav__line nav__line--top"></span>
+        <span class="nav__line nav__line--middle"></span>
+        <span class="nav__line nav__line--bottom"></span>
+      </button>
+
+      <!-- Desktop: these just sit in the pill's row.
+           Phone: they become the drop-down menu. -->
+      <div class="nav__menu" id="nav-menu">
+        <div class="nav__menu-inner">
+          <nav class="nav__links" aria-label="Main">
+            <a href="about.html">About</a>
+            <a href="https://meetligo.com/clubs">For Clubs</a>
+          </nav>
+          <a class="nav__cta" href="https://apps.apple.com/us/app/ligo/id6753926105" target="_blank" rel="noopener">Download App</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="hero__card">
+
+      <!-- Background layers, back to front -->
+      <div class="hero__sky" aria-hidden="true"></div>
+      <canvas class="hero__tunnel" aria-hidden="true"></canvas>
+      <canvas class="hero__streaks" aria-hidden="true"></canvas>
+
+
+      <!-- The promise -->
+      <div class="hero__copy">
+        <h1 class="hero__title" id="hero-title">Everything happening on your campus</h1>
+        <p class="hero__lede">Every club, game, free meal and party at your school, in one app.</p>
+
+        <a class="store" href="https://apps.apple.com/us/app/ligo/id6753926105" target="_blank" rel="noopener" aria-label="Download on the App Store">
+          <svg class="store__logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.18-1.53 2.66-.39 6.6 1.1 8.75.73 1.05 1.6 2.24 2.73 2.2 1.1-.05 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.46-.03-.01-2.3-.88-2.32-3.49zM14.2 6.13c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.67-.92 2.66.97.08 1.96-.49 2.56-1.21z"/></svg>
+          <span class="store__text">
+            <small>Download on the</small>
+            <b>App Store</b>
+          </span>
+        </a>
+
+        <!-- Real App Store numbers (checked Nov 13, 2026) -->
+        <p class="hero__rating">
+          <span class="stars stars--45 hero__stars" aria-hidden="true">★★★★★</span>
+          <span>4.5 on the App Store · 13 ratings</span>
+        </p>
+      </div>
+
+      <!-- The stage: real iPhone + a second screen where Bevel's watch sits -->
+      <div class="hero__stage">
+
+        <div class="phone">
+          <span class="phone__btn phone__btn--action" aria-hidden="true"></span>
+          <span class="phone__btn phone__btn--up" aria-hidden="true"></span>
+          <span class="phone__btn phone__btn--down" aria-hidden="true"></span>
+          <span class="phone__btn phone__btn--power" aria-hidden="true"></span>
+          <div class="phone__screen">
+            <span class="phone__island" aria-hidden="true"></span>
+            <!-- Real screen from the current Ligo build (iOS Simulator), Campus feed -->
+            <img class="phone__shot" src="assets/screens/feed-tke.jpg" width="720" height="1565"
+                 alt="The Ligo Campus feed showing a TKE throwback party flyer with a Get tickets button">
+          </div>
+        </div>
+
+        <!-- Real card from the same feed: last night's score -->
+        <img class="side-card" src="assets/screens/hoyas-win-card.png" width="780" height="430"
+             alt="Ligo score card: Hoyas win 2 to 0 against Seton Hall">
+
+      </div>
+
+      </div>
+
+      <!-- Desktop only: scan-to-download, bottom right -->
+      <aside class="qr" aria-label="Download for iPhone">
+        <div class="qr__code" aria-hidden="true"></div>
+        <p>
+          <b>Download for iOS</b>
+          <span>Get Ligo free for your campus.</span>
+        </p>
+      </aside>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       DAILY — Bevel's "Start the day with confidence":
+       three tall tinted cards, one per thing students check
+       every day, each with the real screen on a phone and one
+       real piece of that app popping out over the phone.
+       ===================================================== -->
+  <section class="daily" aria-labelledby="daily-title">
+
+    <header class="daily__head reveal">
+      <h2 class="daily__title" id="daily-title">Never miss what’s happening</h2>
+      <p class="daily__lede">Events, campus news and clubs, updated all day.</p>
+    </header>
+
+    <div class="daily__grid">
+
+      <!-- 1. Events -->
+      <article class="feature feature--events reveal">
+        <div class="feature__text">
+          <h3 class="feature__title">Events</h3>
+          <p class="feature__body">See every party, show, game and free meal on campus, and RSVP in one tap.</p>
+        </div>
+        <div class="feature__stage">
+          <div class="mini-phone">
+            <img src="assets/screens/explore-events.jpg" width="720" height="1565" loading="lazy"
+                 alt="Ligo Explore tab: Everything happening at Georgetown University, with events happening soon">
+          </div>
+          <img class="pop pop--events" src="assets/screens/pop-rsvp.png" width="640" height="502"
+               alt="Event card: GPB Fall Concert with Cabaret, with Not now and RSVP buttons">
+        </div>
+      </article>
+
+      <!-- 2. Campus -->
+      <article class="feature feature--campus reveal" style="--delay: 0.1s">
+        <div class="feature__text">
+          <h3 class="feature__title">Campus</h3>
+          <p class="feature__body">Scores, news, trivia and debates from around school, the moment they happen.</p>
+        </div>
+        <div class="feature__stage">
+          <div class="mini-phone">
+            <img src="assets/screens/campus-feed.jpg" width="720" height="1565" loading="lazy"
+                 alt="Ligo Campus feed with All, Food, Sports, Jobs and News tabs">
+          </div>
+          <img class="pop pop--campus" src="assets/screens/pop-debate.png" width="640" height="461"
+               alt="Debate of the Week card: 44 percent agree, 56 percent disagree, 16 Hoyas voted">
+        </div>
+      </article>
+
+      <!-- 3. Clubs -->
+      <article class="feature feature--clubs reveal" style="--delay: 0.2s">
+        <div class="feature__text">
+          <h3 class="feature__title">Clubs</h3>
+          <p class="feature__body">Find your people. Browse every club at your school and follow the ones you love.</p>
+        </div>
+        <div class="feature__stage">
+          <div class="mini-phone">
+            <img src="assets/screens/explore-clubs.jpg" width="720" height="1565" loading="lazy"
+                 alt="Ligo Clubs tab: Your clubs and communities, with a list of clubs to discover">
+          </div>
+          <img class="pop pop--clubs" src="assets/screens/pop-clubs.png?v=2" width="640" height="296"
+               alt="Your clubs: Smart Woman Securities, College Democrats, Philodemic Society, Entrepreneurship Club">
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Two full-width cards (Bevel: "Understand what you eat",
+         "Connect your health records") -->
+    <div class="daily__wide">
+
+      <!-- 4. Free food (Bevel: "Understand what you eat"): text left,
+              two columns of real Food-tab posts on the right, each one a
+              flyer + its orange food tag, running off the card's edges -->
+      <article class="wide wide--food reveal">
+        <div class="wide__text">
+          <h3 class="wide__title">Never miss free food</h3>
+          <p class="wide__body">Ramen, smoothies, hot cocoa and dinner. Every event with food, in one tab.</p>
+        </div>
+
+        <div class="stack stack--one" aria-hidden="true">
+          <img src="assets/wide/food-ramen.jpg" width="600" height="848" loading="lazy" alt="">
+          <img src="assets/wide/food-aasa.jpg" width="600" height="149" loading="lazy" alt="">
+          <img src="assets/wide/food-study.jpg" width="600" height="930" loading="lazy" alt="">
+        </div>
+        <div class="stack stack--two" aria-hidden="true">
+          <img src="assets/wide/food-gpb.jpg" width="600" height="175" loading="lazy" alt="">
+          <img src="assets/wide/food-wgtb.jpg" width="600" height="878" loading="lazy" alt="">
+          <img src="assets/wide/food-kai.jpg" width="600" height="940" loading="lazy" alt="">
+        </div>
+      </article>
+
+      <!-- 5. All of campus, one feed: phone left with two flyers
+              peeking out, org logos orbiting on two rings, text right -->
+      <article class="wide wide--feed reveal">
+
+        <!-- orbit.js fills these two rings with logo tiles and spins them -->
+        <div class="orbit" aria-hidden="true">
+          <div class="orbit__ring orbit__ring--inner" data-speed="3"></div>
+          <div class="orbit__ring orbit__ring--outer" data-speed="-3"></div>
+        </div>
+
+        <div class="wide__stage">
+          <img class="peek peek--back" src="assets/wide/flyer-tke.jpg" width="480" height="600" loading="lazy" alt="">
+          <div class="mini-phone">
+            <img src="assets/wide/feed-gracenotes.jpg" width="720" height="1565" loading="lazy"
+                 alt="Ligo Campus feed with a post from the Georgetown Gracenotes">
+          </div>
+          <img class="peek peek--front" src="assets/wide/flyer-gpb.jpg" width="420" height="645" loading="lazy" alt="">
+        </div>
+
+        <div class="wide__text">
+          <h3 class="wide__title">All of campus, one feed</h3>
+          <p class="wide__body">Clubs, teams, offices and student groups post straight to Ligo.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       LIVE — Bevel's "Go deeper" section: the page turns dark,
+       then four light cards scroll up past a phone that seems
+       to stand still. Each card is a WINDOW: it holds its own
+       phone, fixed to the screen, and its rounded shape only
+       shows its own phone. So as a card's edge slides over,
+       the screen wipes from one to the next. No JS, no pinning.
+       ===================================================== -->
+  <section class="live" aria-labelledby="live-title">
+
+    <header class="live__head">
+      <div class="live__orb" aria-hidden="true">
+        <img src="assets/logo-mark.svg" alt="" width="56" height="56">
+      </div>
+      <h2 class="live__title" id="live-title">
+        <span>Your campus,</span>
+        live
+      </h2>
+      <p class="live__lede">Scores, trivia, debates and news, as they happen.</p>
+    </header>
+
+    <div class="live__cards">
+
+      <!-- 1. Scores -->
+      <article class="window window--scores">
+        <div class="window__text">
+          <h3 class="window__title">Game day, every day</h3>
+          <p class="window__body">Countdowns to upcoming games, then the final score when it ends.</p>
+        </div>
+        <div class="window__scene" aria-hidden="true">
+          <div class="window__rig">
+            <div class="mini-phone"><img src="assets/live/screen-game.jpg" width="720" height="1565" loading="lazy" alt=""></div>
+            <img class="window__pop window__pop--scores" src="assets/live/pop-games.png" width="640" height="243" alt="">
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. Trivia -->
+      <article class="window window--trivia">
+        <div class="window__text">
+          <h3 class="window__title">Daily trivia</h3>
+          <p class="window__body">A new question about your school in the feed every day.</p>
+        </div>
+        <div class="window__scene" aria-hidden="true">
+          <div class="window__rig">
+            <div class="mini-phone"><img src="assets/live/screen-trivia.jpg" width="720" height="1565" loading="lazy" alt=""></div>
+            <img class="window__pop window__pop--trivia" src="assets/live/pop-trivia.png" width="640" height="450" alt="">
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. Debate -->
+      <article class="window window--debate">
+        <div class="window__text">
+          <h3 class="window__title">Debate of the week</h3>
+          <p class="window__body">Pick a side on the week’s big question and see how campus voted.</p>
+        </div>
+        <div class="window__scene" aria-hidden="true">
+          <div class="window__rig">
+            <div class="mini-phone"><img src="assets/live/screen-debate.jpg" width="720" height="1565" loading="lazy" alt=""></div>
+            <img class="window__pop window__pop--debate" src="assets/live/pop-vote.png" width="640" height="200" alt="">
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. News -->
+      <article class="window window--news">
+        <div class="window__text">
+          <h3 class="window__title">Campus news</h3>
+          <p class="window__body">Stories from student papers and groups, summed up in a few lines.</p>
+        </div>
+        <div class="window__scene" aria-hidden="true">
+          <div class="window__rig">
+            <div class="mini-phone"><img src="assets/live/screen-news.jpg" width="720" height="1565" loading="lazy" alt=""></div>
+            <img class="window__pop window__pop--news" src="assets/live/pop-tabs.png" width="640" height="65" alt="">
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       REVIEWS — Bevel's "Crafted with Care": an arch of photo
+       columns over the headline, then a row of review cards.
+       Ours: candid stock photos of students in the arch, and only what's
+       really on the App Store (4.5 from 13 ratings, two
+       written reviews). No stars on the reviews themselves:
+       the store doesn't show how many each person gave.
+       ===================================================== -->
+  <section class="reviews" aria-labelledby="reviews-title">
+
+    <!-- 8 columns of photos (Death to Stock, licensed). --top and --f are
+         Bevel's measured column drop and frame height, in px. Columns get
+         thinner on smaller screens but keep their height (tall pills). -->
+    <div class="arch" aria-hidden="true">
+      <div class="arch__col arch__col--outer" style="--top: 27; --f: 230">
+        <img src="assets/people/laugh.jpg" alt=""><img src="assets/people/dance.jpg" alt="">
+      </div>
+      <div class="arch__col arch__col--outer" style="--top: 0; --f: 166">
+        <img src="assets/people/bar.jpg" alt=""><img src="assets/people/tub.jpg" alt=""><img src="assets/people/friends-right.jpg" alt="">
+      </div>
+      <div class="arch__col" style="--top: 87; --f: 356">
+        <img src="assets/people/backstage.jpg" alt="">
+      </div>
+      <div class="arch__col" style="--top: 0; --f: 356">
+        <img src="assets/people/night.jpg" alt="">
+      </div>
+      <div class="arch__col" style="--top: 0; --f: 356">
+        <img src="assets/people/friends-left.jpg" alt="">
+      </div>
+      <div class="arch__col" style="--top: 87; --f: 356">
+        <img src="assets/people/laugh.jpg" alt="">
+      </div>
+      <div class="arch__col arch__col--outer" style="--top: 0; --f: 166">
+        <img src="assets/people/dance.jpg" alt=""><img src="assets/people/backstage.jpg" alt=""><img src="assets/people/night.jpg" alt="">
+      </div>
+      <div class="arch__col arch__col--outer" style="--top: 27; --f: 230">
+        <img src="assets/people/bar.jpg" alt=""><img src="assets/people/tub.jpg" alt="">
+      </div>
+    </div>
+
+    <header class="reviews__head">
+      <h2 class="reviews__title" id="reviews-title">Made for campus<br>Loved by students</h2>
+      <p class="reviews__lede">Don’t take our word for it. Here’s what Georgetown students say about Ligo on the App Store.</p>
+    </header>
+
+    <div class="reviews__row">
+
+      <!-- The real rating -->
+      <figure class="review review--rating">
+        <p class="review__label">App Store</p>
+        <p class="review__score">4.5</p>
+        <p class="stars stars--45 review__stars" aria-label="4.5 out of 5 stars">★★★★★</p>
+        <figcaption class="review__meta">from 13 ratings</figcaption>
+        <a class="review__link" href="https://apps.apple.com/us/app/ligo/id6753926105" target="_blank" rel="noopener">See it on the App Store ↗</a>
+      </figure>
+
+      <!-- Real written reviews, word for word -->
+      <figure class="review">
+        <p class="review__label">App Store review</p>
+        <h3 class="review__title">Ligo is the best</h3>
+        <figcaption class="review__meta">Gav f41, Aug 29</figcaption>
+        <blockquote class="review__quote">“Coming onto campus I wasn’t sure where I’d find my people and with ligo I found every club in one spot. I have made my first friends at school with Ligo and can’t wait to see the other events that pop up. For freshman coming onto campus, I couldn’t recommend this app more.”</blockquote>
+      </figure>
+
+      <figure class="review">
+        <p class="review__label">App Store review</p>
+        <h3 class="review__title">Georgetown Ligo</h3>
+        <figcaption class="review__meta">areed1010, Nov 4</figcaption>
+        <blockquote class="review__quote">“Awesome app! This is so much better then using newsletters, flyers, and other apps to find events on campus!”</blockquote>
+      </figure>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       READY — Bevel's "Ready When You Are": headline, one line,
+       the App Store badge, then a flat-lay "knolling" shot of
+       everyday things around the phone. Bevel's is a studio
+       composite of product cut-outs; ours lays out Ligo's own
+       real flyers and cards around a real phone screen.
+       ===================================================== -->
+  <section class="ready" aria-labelledby="ready-title">
+
+    <header class="ready__head">
+      <h2 class="ready__title" id="ready-title">See you there</h2>
+      <p class="ready__lede">Download Ligo and find something to do tonight. Free for students.</p>
+      <a class="store" href="https://apps.apple.com/us/app/ligo/id6753926105" target="_blank" rel="noopener" aria-label="Download on the App Store">
+        <svg class="store__logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.18-1.53 2.66-.39 6.6 1.1 8.75.73 1.05 1.6 2.24 2.73 2.2 1.1-.05 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.46-.03-.01-2.3-.88-2.32-3.49zM14.2 6.13c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.67-.92 2.66.97.08 1.96-.49 2.56-1.21z"/></svg>
+        <span class="store__text">
+          <small>Download on the</small>
+          <b>App Store</b>
+        </span>
+      </a>
+    </header>
+
+    <!-- Everything is placed in % of a 1440 × 613 stage, so the
+         whole layout scales down evenly on smaller screens -->
+    <div class="flatlay" aria-hidden="true">
+      <img class="flatlay__item" style="--x: -2; --y: 6; --w: 15; --r: -6deg" src="assets/reviews/tke.jpg" alt="">
+      <img class="flatlay__item" style="--x: 15; --y: 17; --w: 22; --r: -4deg" src="assets/screens/hoyas-win-card.png" alt="">
+      <img class="flatlay__item" style="--x: 16.5; --y: 52; --w: 10.5; --r: 5deg" src="assets/reviews/pumpkin.jpg" alt="">
+      <span class="flatlay__item flatlay__logo" style="--x: 30; --y: 60; --w: 7.5; --r: -8deg; --pos: 40% 0%"></span>
+      <div class="flatlay__item flatlay__phone" style="--x: 42; --y: 14; --w: 16; --r: 0deg">
+        <div class="mini-phone"><img src="assets/screens/explore-events.jpg" alt=""></div>
+      </div>
+      <img class="flatlay__item" style="--x: 62; --y: 8; --w: 21; --r: 6deg" src="assets/live/pop-trivia.png" alt="">
+      <img class="flatlay__item" style="--x: 63; --y: 50; --w: 18; --r: -5deg" src="assets/live/pop-vote.png" alt="">
+      <span class="flatlay__item flatlay__logo" style="--x: 57; --y: 74; --w: 6.5; --r: 7deg; --pos: 60% 50%"></span>
+      <img class="flatlay__item" style="--x: 84; --y: 5; --w: 18; --r: 8deg" src="assets/reviews/ramen.jpg" alt="">
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER — Bevel's, measured: 160px padding, logo + © on
+     the left, link columns from 501px across with 18px grey
+     headings and 18px links. Only Ligo's real pages.
+     ===================================================== -->
+<footer class="footer">
+  <div class="footer__inner">
+
+    <div class="footer__brand">
+      <a class="footer__logo" href="#top" aria-label="Ligo home">
+        <img src="assets/logo-mark.svg" alt="" width="28" height="28">
+        <span>Ligo</span>
+      </a>
+      <p class="footer__copy">© Ligo Inc. 2026</p>
+    </div>
+
+    <nav class="footer__cols" aria-label="Footer">
+      <div class="footer__col">
+        <h2 class="footer__head">Company</h2>
+        <a href="about.html">About us</a>
+        <a href="https://meetligo.com/careers">Careers</a>
+        <a href="https://meetligo.com/news">Ligo News</a>
+      </div>
+      <div class="footer__col">
+        <h2 class="footer__head">Product</h2>
+        <a href="https://apps.apple.com/us/app/ligo/id6753926105" target="_blank" rel="noopener">Download for iPhone</a>
+        <a href="https://play.google.com/store/apps/details?id=com.bardsai.ligo&amp;hl=en_US" target="_blank" rel="noopener">Get it on Android</a>
+        <a href="https://meetligo.com/clubs">For clubs</a>
+        <a href="https://meetligo.com/clubs/create">Start a club page</a>
+      </div>
+      <div class="footer__col">
+        <h2 class="footer__head">Legal</h2>
+        <a href="https://meetligo.com/terms">Terms</a>
+        <a href="https://meetligo.com/privacy">Privacy</a>
+        <a href="https://meetligo.com/community-guidelines">Community Guidelines</a>
+      </div>
+    </nav>
+
+  </div>
+</footer>
+
+<script src="tunnel.js?v=7"></script>
+<script src="reveal.js?v=1"></script>
+<script src="orbit.js?v=3"></script>
+<script src="nav.js?v=1"></script>
+</body>
+</html>

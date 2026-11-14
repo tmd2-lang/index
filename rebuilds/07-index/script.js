@@ -61,6 +61,21 @@ const sites = [
     lessons: ['Let the section order explain the service one question at a time.', 'Stop old animations when someone switches tabs so interactions stay clear.', 'Shared type, spacing, and a consistent logo tie varied sections together.']
   },
   {
+    id: 'ligo-v3',
+    name: 'Bevel',
+    brand: 'Ligo',
+    path: '../../proposednewsite-v3/',
+    reference: 'https://www.bevel.health/',
+    category: 'lifestyle',
+    label: 'Lifestyle',
+    description: 'A bright, friendly homepage for a campus events app.',
+    tags: ['Light', 'Real app screens', 'Approachable'],
+    image: 'shots/ligo-v3/ref/y00000.jpg',
+    date: '2026-11-13',
+    summary: 'Our own campus app’s homepage, built on Bevel’s layout. A warm light tunnel behind a real iPhone, real event flyers and app screens in every section, and proof that comes only from real App Store ratings.',
+    lessons: ['Put a small piece of real proof, like an App Store rating, right under the first download button.', 'Real content from the product, like actual flyers and screens, explains an app faster than any feature list.', 'A plain, direct headline makes a new product feel approachable in the first five seconds.']
+  },
+  {
     id: 'ligo',
     name: 'Pocketchange',
     brand: 'Ligo',
@@ -133,7 +148,7 @@ function render() {
   grid.innerHTML = matching.map(card).join('');
   document.querySelector('#savedCount').textContent = saved.size;
   document.querySelector('#resultCount').textContent = matching.length === sites.length && view === 'all'
-    ? 'Showing all 5 sites'
+    ? 'Showing all 6 sites'
     : `${matching.length} ${view === 'saved' ? 'saved ' : ''}${matching.length === 1 ? 'site' : 'sites'}`;
   document.querySelector('#empty').hidden = matching.length !== 0;
   const noSaves = view === 'saved' && saved.size === 0;

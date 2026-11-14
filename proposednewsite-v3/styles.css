@@ -1,0 +1,2021 @@
+/* =========================================================
+   LIGO v3 — fresh start in Bevel's style
+   Light, airy, system font, one rounded hero card,
+   an orange light tunnel behind a real iPhone.
+   ========================================================= */
+
+/* ---------- tokens ---------- */
+
+:root {
+  --page: #f6f3ef;
+  --ink: #222326;
+  --ink-soft: rgb(31 32 37 / 60%);
+  --orange: #f97316;
+  --star: #f5a524;
+
+  /* Bevel uses Apple's own system font (SF Pro on Apple devices) */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, "Segoe UI", sans-serif;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+}
+
+
+/* =========================================================
+   HERO CARD — inset 8px from the window, 24px corners.
+   The card clips everything, so the phone is cut off at its
+   bottom edge and "peeks up" into the page.
+   ========================================================= */
+
+.hero {
+  padding: 8px 8px 0;
+}
+
+.hero__card {
+  position: relative;
+  height: 1086px;
+  padding-top: 96px;
+  border-radius: 24px;
+  overflow: hidden;
+  isolation: isolate;
+  text-align: center;
+}
+
+
+/* ---------- background: warm sky ---------- */
+
+/* Pale peach sky with a few soft "clouds" (blurred white blobs).
+   Bevel's sky is pale blue; ours is golden hour. */
+.hero__sky {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(40% 18% at 18% 10%, rgb(255 255 255 / 90%), transparent 70%),
+    radial-gradient(34% 14% at 80% 14%, rgb(255 255 255 / 85%), transparent 70%),
+    radial-gradient(26% 10% at 50% 4%, rgb(255 255 255 / 70%), transparent 70%),
+    linear-gradient(180deg, #fbe7d6 0%, #fdf1e6 30%, #fff8f1 60%, #fffaf6 100%);
+}
+
+
+/* ---------- background: the orange light tunnel ---------- */
+
+/* Drawn live by tunnel.js, in the same box as Bevel's video:
+   239px down the card, 801px tall, fading in over the top 10%
+   and out over the bottom 10%. Two layers:
+   - the colour ribbon, blurred a lot so the bands melt together
+   - the white speed lines on top, only slightly soft */
+.hero__tunnel,
+.hero__streaks {
+  position: absolute;
+  top: 239px;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 801px;
+  -webkit-mask-image: linear-gradient(transparent 0%, #000 10%, #000 90%, transparent 100%);
+  mask-image: linear-gradient(transparent 0%, #000 10%, #000 90%, transparent 100%);
+}
+
+.hero__tunnel {
+  filter: blur(7px);
+}
+
+.hero__streaks {
+  filter: blur(0.8px);
+}
+
+
+/* ---------- nav: one small pill, centred ---------- */
+
+/* Top = 8px card inset + 12px inside the card */
+.nav {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 6px 6px 16px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 55%);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  transform: translateX(-50%);
+}
+
+.nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-right: 28px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.nav__links {
+  display: flex;
+  gap: 4px;
+}
+
+.nav__links a {
+  padding: 8px 10px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  transition: color 0.2s;
+}
+
+.nav__links a:hover {
+  color: var(--ink);
+}
+
+.nav__cta {
+  margin-left: 6px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.nav__cta:hover {
+  background: #000;
+}
+
+/* On desktop the menu wrappers "disappear" (display: contents),
+   so the links and button sit straight in the pill's row */
+.nav__menu,
+.nav__menu-inner {
+  display: contents;
+}
+
+/* The menu button only exists on phones */
+.nav__toggle {
+  display: none;
+}
+
+
+/* ---------- copy: headline, line, download, rating ---------- */
+
+.hero__copy {
+  position: relative;
+  z-index: 2;
+  padding: 0 20px;
+  animation: rise 1s var(--ease) both;
+}
+
+/* Bevel: 80px, weight 600, line height 1, -2.4px tracking */
+.hero__title {
+  max-width: 820px;
+  margin: 0 auto;
+  font-size: 80px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -2.4px;
+  text-wrap: balance;
+}
+
+.hero__lede {
+  max-width: 600px;
+  margin: 16px auto 0;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+
+/* App Store badge, drawn in code (same shape as Apple's black badge) */
+.store {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  padding: 8px 18px 8px 14px;
+  border-radius: 12px;
+  background: #000;
+  color: #fff;
+  text-align: left;
+  transition: transform 0.25s var(--ease);
+}
+
+.store:hover {
+  transform: translateY(-2px);
+}
+
+.store__logo {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+}
+
+.store__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.store__text small {
+  font-size: 11px;
+  letter-spacing: 0.2px;
+}
+
+.store__text b {
+  margin-top: 2px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+}
+
+.hero__rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.hero__stars {
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: var(--star);
+}
+
+
+/* =========================================================
+   STAGE — the phone, with a second screen overlapping it
+   on the right (where Bevel's watch sits). The pair is
+   centred together, so the phone sits a little left.
+   ========================================================= */
+
+.hero__stage {
+  position: relative;
+  z-index: 1;
+  width: 470px;
+  margin: 30px auto 0;
+  animation: rise-far 1.3s 0.15s var(--ease) both;
+}
+
+
+/* ---------- iPhone (stand-in for Apple's real bezel image) ---------- */
+
+/* Titanium edge: a metal gradient ring around a black bezel */
+.phone {
+  position: relative;
+  width: 360px;
+  padding: 4px;
+  border-radius: 64px;
+  background: linear-gradient(135deg, #d9d6d2, #8e8a85 30%, #f2f0ed 52%, #7d7974 75%, #c9c5c0);
+  box-shadow:
+    0 40px 80px -30px rgb(80 40 10 / 35%),
+    0 18px 40px -20px rgb(0 0 0 / 30%);
+}
+
+/* Side buttons: thin metal bars poking out of the frame */
+.phone__btn {
+  position: absolute;
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6f6b66, #c9c5c0);
+}
+
+.phone__btn--action {
+  top: 150px;
+  left: -3px;
+  height: 30px;
+}
+
+.phone__btn--up {
+  top: 200px;
+  left: -3px;
+  height: 56px;
+}
+
+.phone__btn--down {
+  top: 268px;
+  left: -3px;
+  height: 56px;
+}
+
+.phone__btn--power {
+  top: 230px;
+  right: -3px;
+  height: 86px;
+}
+
+/* Black bezel around the screen; the screen keeps the real
+   Simulator shape (1206 × 2622) */
+.phone__screen {
+  position: relative;
+  padding: 10px;
+  border-radius: 60px;
+  background: #0b0b0c;
+}
+
+.phone__island {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  z-index: 2;
+  width: 104px;
+  height: 30px;
+  border-radius: 20px;
+  background: #000;
+  transform: translateX(-50%);
+}
+
+
+/* ---------- the real screenshot inside the phone ---------- */
+
+/* Same shape as the Simulator screen (1206 × 2622), with the
+   phone's inner corner radius so it sits flush in the bezel. */
+.phone__shot {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1206 / 2622;
+  border-radius: 50px;
+}
+
+
+/* ---------- second screen, floating on the right ---------- */
+
+/* Sits where Bevel's watch does: overlapping the phone's lower
+   right, lifted off it with a soft shadow. It's the real score
+   card cut out of a feed screenshot, corners already rounded. */
+.side-card {
+  position: absolute;
+  top: 250px;
+  left: 255px;
+  width: 300px;
+  height: auto;
+  border-radius: 16px;
+  box-shadow:
+    0 30px 60px -18px rgb(20 30 70 / 40%),
+    0 10px 24px -12px rgb(0 0 0 / 30%);
+  animation: rise-far 1.3s 0.35s var(--ease) both;
+}
+
+
+/* ---------- QR card, bottom right (desktop only) ---------- */
+
+/* Fixed to the window, like Bevel's: it stays put while you scroll */
+.qr {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 280px;
+  padding: 10px;
+  border-radius: 18px;
+  background: rgb(24 24 27 / 78%);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  color: #fff;
+  text-align: left;
+}
+
+/* Stand-in pattern until a real QR code is generated */
+.qr__code {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border: 5px solid #fff;
+  border-radius: 10px;
+  background: repeating-conic-gradient(#fff 0 25%, #18181b 0 50%) 0 0 / 9px 9px;
+}
+
+.qr b {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.qr span {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgb(255 255 255 / 60%);
+}
+
+
+/* ---------- load-in motion ---------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(6px);
+  }
+}
+
+@keyframes rise-far {
+  from {
+    opacity: 0;
+    transform: translateY(80px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__copy,
+  .hero__stage,
+  .side-card {
+    animation: none;
+  }
+}
+
+
+/* =========================================================
+   PHONE WIDTH
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .hero {
+    padding: 6px 6px 0;
+  }
+
+  .hero__card {
+    height: 860px;
+    padding-top: 92px;
+    border-radius: 20px;
+  }
+
+  /* ----- nav: Bevel's phone bar -----
+     Full width with 16px gaps, 52px tall, 16px corners,
+     pinned to the screen. Two columns: logo | menu button.
+     The menu is a second row that opens below them. */
+  .nav {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0;
+    padding: 4px 4px 4px 16px;
+    border-radius: 16px;
+    background: rgb(255 255 255 / 60%);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    transform: none;
+  }
+
+  .nav__brand {
+    margin-right: 0;
+    font-size: 18px;
+  }
+
+  .nav__brand img {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Menu button: a 44px tap area with three right-aligned lines
+     of different lengths (24 / 12 / 16px), 6px apart */
+  .nav__toggle {
+    position: relative;
+    display: block;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .nav__line {
+    position: absolute;
+    right: 10px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--ink);
+    transition:
+      transform 0.35s var(--ease),
+      width 0.35s var(--ease),
+      opacity 0.2s;
+  }
+
+  .nav__line--top {
+    top: 15px;
+    width: 24px;
+  }
+
+  .nav__line--middle {
+    top: 21px;
+    width: 12px;
+  }
+
+  .nav__line--bottom {
+    top: 27px;
+    width: 16px;
+  }
+
+  /* Open: top and bottom lines meet in the middle and cross into an X */
+  .nav[data-open="true"] .nav__line--top {
+    width: 22px;
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .nav[data-open="true"] .nav__line--middle {
+    opacity: 0;
+  }
+
+  .nav[data-open="true"] .nav__line--bottom {
+    width: 22px;
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* The menu row. "grid-template-rows: 0fr → 1fr" lets the bar
+     grow to exactly the menu's height, smoothly, without
+     guessing a pixel height. */
+  .nav__menu {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition:
+      grid-template-rows 0.4s var(--ease),
+      visibility 0s 0.4s;
+  }
+
+  .nav[data-open="true"] .nav__menu {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition:
+      grid-template-rows 0.4s var(--ease),
+      visibility 0s;
+  }
+
+  .nav__menu-inner {
+    display: block;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* Links stacked and centred, soft grey, like Bevel's */
+  .nav__links {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-top: 20px;
+  }
+
+  .nav__links a {
+    padding: 0;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+  }
+
+  /* Download sits under the links as a dark pill */
+  .nav__cta {
+    display: table;
+    margin: 25px auto 20px;
+    padding: 10px 18px;
+    font-size: 16px;
+  }
+
+  .hero__title {
+    font-size: 46px;
+    letter-spacing: -1.4px;
+    line-height: 1.02;
+  }
+
+  .hero__lede {
+    font-size: 18px;
+  }
+
+  .store {
+    margin-top: 24px;
+  }
+
+  .hero__tunnel,
+  .hero__streaks {
+    top: 300px;
+    height: 560px;
+  }
+
+  .hero__stage {
+    width: 300px;
+    margin-top: 28px;
+  }
+
+  .phone {
+    width: 240px;
+    border-radius: 44px;
+    padding: 3px;
+  }
+
+  .phone__screen {
+    padding: 7px;
+    border-radius: 41px;
+  }
+
+  .phone__island {
+    top: 15px;
+    width: 70px;
+    height: 20px;
+  }
+
+  .phone__shot {
+    border-radius: 34px;
+  }
+
+  .phone__btn--action { top: 100px; height: 20px; }
+  .phone__btn--up     { top: 134px; height: 38px; }
+  .phone__btn--down   { top: 180px; height: 38px; }
+  .phone__btn--power  { top: 154px; height: 58px; }
+
+  .side-card {
+    top: 230px;
+    left: 125px;
+    width: 190px;
+    border-radius: 11px;
+  }
+
+  .qr {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   DAILY — "Never miss what's happening"
+   Bevel's "Start the day with confidence", measured:
+   64px headline, 24px line, then three 437px cards
+   (32px gaps, 48px padding, 739px tall) with a phone
+   cut off by each card's bottom edge.
+   ========================================================= */
+
+/* White page behind the tinted cards, like Bevel's */
+.daily {
+  padding: 160px 32px 160px;
+  background: #fffdfb;
+}
+
+
+/* ---------- heading ---------- */
+
+.daily__head {
+  text-align: center;
+}
+
+.daily__title {
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 64px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -1.92px;
+  text-wrap: balance;
+}
+
+.daily__lede {
+  margin-top: 16px;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+
+
+/* ---------- the three cards ---------- */
+
+.daily__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 1376px;
+  margin: 80px auto 0;
+}
+
+/* Each card fades from a warm white at the top into its own
+   tint at the bottom (Bevel: blue-grey into pink / lilac / green).
+   overflow: hidden cuts the phone off at the card's edge. */
+.feature {
+  position: relative;
+  height: 739px;
+  padding: 48px;
+  border-radius: 32px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #f5efe8 0%, #f5efe8 40%, var(--tint) 100%);
+}
+
+.feature--events {
+  --tint: #fcdcc2;   /* peach, like the event flyers */
+}
+
+.feature--campus {
+  --tint: #dce2f0;   /* Georgetown navy, softened */
+}
+
+.feature--clubs {
+  --tint: #dfeadb;   /* sage */
+}
+
+.feature__title {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -1.2px;
+}
+
+.feature__body {
+  margin-top: 8px;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+
+
+/* ---------- stage: phone + the piece popping out ---------- */
+
+/* Starts ~246px below the card's top on Bevel; centred. */
+.feature__stage {
+  position: absolute;
+  top: 246px;
+  left: 50%;
+  width: 320px;
+  transform: translateX(-50%);
+}
+
+
+/* ---------- mini phone (same build as the hero's, smaller) ---------- */
+
+.mini-phone {
+  padding: 4px;
+  border-radius: 56px;
+  background: linear-gradient(135deg, #d9d6d2, #8e8a85 30%, #f2f0ed 52%, #7d7974 75%, #c9c5c0);
+  box-shadow: 0 30px 60px -30px rgb(60 40 20 / 35%);
+}
+
+.mini-phone img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1206 / 2622;
+  border: 9px solid #0b0b0c;
+  border-radius: 52px;
+  background: #0b0b0c;
+}
+
+
+/* ---------- pop-outs: real pieces of the app, lifted off the phone ---------- */
+
+.pop {
+  position: absolute;
+  height: auto;
+  border-radius: 18px;
+  box-shadow:
+    0 24px 48px -16px rgb(40 30 20 / 30%),
+    0 8px 18px -10px rgb(0 0 0 / 20%);
+}
+
+/* Events: wider than the phone, low down (like Bevel's "Daytime HR" bar) */
+.pop--events {
+  top: 215px;
+  left: -26px;
+  width: 372px;
+}
+
+/* Campus: hangs off the right edge (like Bevel's "Sleep Needed" card) */
+.pop--campus {
+  top: 170px;
+  left: 40px;
+  width: 330px;
+}
+
+/* Clubs: across the bottom (like Bevel's Resting HRV / HR tiles) */
+.pop--clubs {
+  top: 270px;
+  left: -20px;
+  width: 360px;
+}
+
+
+/* ---------- scroll-in ---------- */
+
+/* reveal.js adds .is-in when each block scrolls into view */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.9s var(--ease) var(--delay, 0s),
+    transform 0.9s var(--ease) var(--delay, 0s);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+
+/* ---------- in-between widths: smaller cards, same three columns ---------- */
+
+@media (max-width: 1200px) {
+  .daily__grid {
+    gap: 20px;
+  }
+
+  .feature {
+    height: 640px;
+    padding: 36px;
+  }
+
+  .feature__title {
+    font-size: 34px;
+  }
+
+  .feature__body {
+    font-size: 19px;
+  }
+
+  .feature__stage {
+    top: 230px;
+    width: 260px;
+  }
+
+  .mini-phone {
+    border-radius: 46px;
+  }
+
+  .mini-phone img {
+    border-width: 7px;
+    border-radius: 42px;
+  }
+
+  .pop--events { top: 180px; left: -14px; width: 288px; }
+  .pop--campus { top: 140px; left: 6px;   width: 262px; }
+  .pop--clubs  { top: 230px; left: -14px; width: 288px; }
+}
+
+
+/* ---------- one column: tablets and phones ---------- */
+
+@media (max-width: 960px) {
+  .daily {
+    padding: 100px 16px;
+  }
+
+  .daily__title {
+    font-size: 44px;
+    letter-spacing: -1.3px;
+  }
+
+  .daily__lede {
+    font-size: 18px;
+  }
+
+  .daily__grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .feature {
+    height: 600px;
+    padding: 32px 28px;
+    border-radius: 28px;
+  }
+
+  .feature__title {
+    font-size: 32px;
+  }
+
+  .feature__body {
+    font-size: 18px;
+  }
+
+  .feature__stage {
+    top: 200px;
+  }
+
+  .pop--events { top: 180px; left: -20px; width: 300px; }
+  .pop--campus { top: 140px; left: 20px;  width: 270px; }
+  .pop--clubs  { top: 230px; left: -20px; width: 300px; }
+}
+
+
+/* =========================================================
+   DAILY, part 2 — the two full-width cards
+   Bevel, measured: 1376 × 658, 24px corners, 32px apart,
+   64px titles, text column 80px in from the edge.
+   ========================================================= */
+
+.daily__wide {
+  display: grid;
+  gap: 32px;
+  max-width: 1376px;
+  margin: 32px auto 0;
+}
+
+.wide {
+  position: relative;
+  height: 658px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #f5efe8 0%, #f5efe8 30%, var(--tint) 100%);
+}
+
+.wide--food {
+  --tint: #fde1c4;   /* apricot */
+}
+
+.wide--feed {
+  --tint: #e7ddf6;   /* lilac, like the Gracenotes flyer */
+}
+
+
+/* ---------- text (vertically centred, Bevel's 64px / 24px) ---------- */
+
+.wide__text {
+  position: absolute;
+  top: 50%;
+  left: 80px;
+  z-index: 3;
+  width: 440px;
+  transform: translateY(-50%);
+}
+
+.wide--feed .wide__text {
+  left: auto;
+  right: 48px;
+  width: 416px;
+}
+
+.wide__title {
+  font-size: 64px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -1.92px;
+  text-wrap: balance;
+}
+
+.wide__body {
+  margin-top: 16px;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+
+
+/* ---------- card 4: two columns of real Food-tab posts ---------- */
+
+/* Each column is a stack of real pieces, 12px apart, starting
+   above the card's top edge so they look like an endless list */
+.stack {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 392px;
+}
+
+.stack img {
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px -18px rgb(60 30 10 / 35%);
+}
+
+/* Staggered so the two columns don't line up (Bevel's do the same) */
+.stack--one {
+  top: -40px;
+  left: 669px;
+}
+
+.stack--two {
+  top: -120px;
+  left: 1077px;
+}
+
+
+/* ---------- card 5: phone + peeking flyers ---------- */
+
+.wide__stage {
+  position: absolute;
+  top: 110px;
+  left: 80px;
+  z-index: 2;
+  width: 324px;
+}
+
+.wide__stage .mini-phone {
+  position: relative;
+  z-index: 1;
+}
+
+/* Two real flyers tucked behind / in front of the phone,
+   tilted a little (Bevel: the "Blood Test" and "Clinical Notes" papers) */
+.peek {
+  position: absolute;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 18px 40px -16px rgb(40 20 60 / 40%);
+}
+
+.peek--front {
+  top: 80px;
+  left: 270px;
+  z-index: 2;
+  width: 156px;
+  transform: rotate(6deg);
+}
+
+.peek--back {
+  top: 330px;
+  left: -56px;
+  z-index: 0;
+  width: 170px;
+  transform: rotate(-8deg);
+}
+
+
+/* ---------- card 5: the orbit of org logos ---------- */
+
+/* A zero-size point at the rings' centre (Bevel: 140px in, mid-height) */
+.orbit {
+  position: absolute;
+  top: 329px;
+  left: 140px;
+  z-index: 0;
+}
+
+/* --r is the ring's radius; orbit.js spins each ring */
+.orbit__ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--r) * 2);
+  height: calc(var(--r) * 2);
+  border: 1.5px solid rgb(255 255 255 / 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbit__ring--inner {
+  --r: 476px;
+}
+
+.orbit__ring--outer {
+  --r: 689px;
+}
+
+/* A spoke turns to its angle and pushes its tile out to the ring */
+.orbit__spoke {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotate(var(--angle)) translateY(calc(var(--r) * -1));
+}
+
+/* Bevel's tiles: 82px, 16px corners, a soft shadow */
+.orbit__tile {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 82px;
+  height: 82px;
+  padding: 10px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 0 16px -8px rgb(0 0 0 / 25%);
+  transform: translate(-50%, -50%);
+}
+
+/* One logo out of the 6 × 3 sprite sheet (orbit.js sets the position) */
+.orbit__logo {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background-image: url("assets/wide/logos.jpg");
+  background-size: 600% 300%;
+}
+
+
+/* ---------- in-between widths ---------- */
+
+@media (max-width: 1200px) {
+  .wide {
+    height: 600px;
+  }
+
+  .wide__text {
+    left: 56px;
+    width: 360px;
+  }
+
+  .wide--feed .wide__text {
+    right: 40px;
+    width: 340px;
+  }
+
+  .wide__title {
+    font-size: 52px;
+    letter-spacing: -1.5px;
+  }
+
+  .wide__body {
+    font-size: 20px;
+  }
+
+  .stack {
+    width: 300px;
+  }
+
+  .stack--one {
+    left: calc(50% - 20px);
+  }
+
+  .stack--two {
+    left: calc(50% + 292px);
+  }
+
+  .wide__stage {
+    top: 100px;
+    left: 56px;
+    width: 280px;
+  }
+
+  .peek--front { left: 228px; width: 136px; }
+  .peek--back  { left: -48px; width: 150px; }
+
+  .orbit {
+    top: 300px;
+    left: 60px;
+  }
+
+  /* Small enough that the outer ring stays clear of the text at 1024px */
+  .orbit__ring--inner { --r: 360px; }
+  .orbit__ring--outer { --r: 480px; }
+}
+
+
+/* ---------- one column: text on top, picture below ---------- */
+
+@media (max-width: 960px) {
+  .daily__wide {
+    max-width: 520px;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .wide {
+    height: 760px;
+    border-radius: 28px;
+  }
+
+  .wide__text,
+  .wide--feed .wide__text {
+    top: 32px;
+    left: 28px;
+    right: 28px;
+    width: auto;
+    transform: none;
+  }
+
+  .wide__title {
+    font-size: 40px;
+    letter-spacing: -1.2px;
+  }
+
+  .wide__body {
+    font-size: 18px;
+  }
+
+  .stack {
+    width: calc(50% - 22px);
+    gap: 8px;
+  }
+
+  .stack img {
+    border-radius: 12px;
+  }
+
+  .stack--one {
+    top: 260px;
+    left: 16px;
+  }
+
+  .stack--two {
+    top: 224px;
+    left: calc(50% + 6px);
+  }
+
+  .wide__stage {
+    top: 230px;
+    left: 50%;
+    width: 250px;
+    transform: translateX(-50%);
+  }
+
+  .peek--front { top: 70px; left: 200px; width: 118px; }
+  .peek--back  { top: 290px; left: -48px; width: 128px; }
+
+  /* Rings centred low on the phone, so their tops stay below the text */
+  .orbit {
+    top: 560px;
+    left: 50%;
+  }
+
+  .orbit__ring--inner { --r: 230px; }
+  .orbit__ring--outer { --r: 316px; }
+
+  .orbit__tile {
+    width: 60px;
+    height: 60px;
+    padding: 7px;
+    border-radius: 13px;
+  }
+}
+
+
+/* =========================================================
+   LIVE — "Your campus, live" (Bevel's "Go deeper" section)
+   Dark section; four light cards (1376 wide, ~620 tall,
+   32px apart, 24px corners) scroll past a phone that is
+   fixed to the screen: 370 × 756, 72px from the top at a
+   900px-tall window (= centred), centre 352px right of middle.
+   ========================================================= */
+
+.live {
+  --phone-w: min(370px, calc((100vh - 120px) * 0.49));
+  padding: 140px 32px 160px;
+  background: #1d1e22;
+  color: #fff;
+}
+
+
+/* ---------- intro: a glowing Ligo orb under a spotlight ---------- */
+
+.live__head {
+  position: relative;
+  text-align: center;
+}
+
+/* The spotlight: a soft cone of light falling onto the orb */
+.live__head::before {
+  content: "";
+  position: absolute;
+  top: -140px;
+  left: 50%;
+  width: 360px;
+  height: 320px;
+  background: radial-gradient(50% 100% at 50% 0%, rgb(255 190 140 / 28%), transparent 70%);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.live__orb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff4ea, #ffb27a 45%, #f97316 80%);
+  box-shadow:
+    0 0 60px rgb(249 115 22 / 45%),
+    inset 0 -10px 24px rgb(160 60 0 / 35%);
+  animation: orb-float 5s ease-in-out infinite;
+}
+
+/* The logo sits on the orb in white */
+.live__orb img {
+  filter: brightness(0) invert(1);
+}
+
+@keyframes orb-float {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Bevel: grey first line, white second line, 64px */
+.live__title {
+  font-size: 64px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -1.92px;
+}
+
+.live__title span {
+  display: block;
+  color: rgb(255 255 255 / 55%);
+}
+
+.live__lede {
+  margin-top: 16px;
+  font-size: 24px;
+  line-height: 1.3;
+  color: rgb(255 255 255 / 60%);
+}
+
+
+/* ---------- the cards (the "windows") ---------- */
+
+.live__cards {
+  display: grid;
+  gap: 32px;
+  max-width: 1376px;
+  margin: 96px auto 0;
+}
+
+/* clip-path cuts off everything outside the card's rounded shape,
+   INCLUDING the fixed phone inside it. That's the whole trick.
+   (overflow: hidden would not work: it doesn't clip fixed children.) */
+.window {
+  position: relative;
+  height: 620px;
+  border-radius: 24px;
+  clip-path: inset(0 round 24px);
+  background: linear-gradient(160deg, #f6f1ec 0%, #f6f1ec 35%, var(--tint) 100%);
+  color: var(--ink);
+}
+
+.window--scores { --tint: #dfe5f3; }   /* Georgetown blue */
+.window--trivia { --tint: #fcdcc6; }   /* peach */
+.window--debate { --tint: #f3dbe6; }   /* rose */
+.window--news   { --tint: #dcece4; }   /* mint */
+
+
+/* ---------- card text (left, vertically centred) ---------- */
+
+.window__text {
+  position: absolute;
+  top: 50%;
+  left: 80px;
+  width: 420px;
+  transform: translateY(-50%);
+}
+
+.window__title {
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -1.68px;
+  text-wrap: balance;
+}
+
+.window__body {
+  margin-top: 14px;
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+
+
+/* ---------- the fixed phone ---------- */
+
+/* A full-screen layer fixed to the window; the card clips it */
+.window__scene {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Phone + its floating piece, centred vertically on screen,
+   centre 352px right of the middle (Bevel's spot) */
+.window__rig {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 352px - var(--phone-w) / 2);
+  width: var(--phone-w);
+  transform: translateY(-50%);
+}
+
+.window__rig .mini-phone img {
+  border-width: calc(var(--phone-w) * 0.025);
+}
+
+
+/* ---------- floating pieces (one real piece of each screen) ---------- */
+
+.window__pop {
+  position: absolute;
+  height: auto;
+  border-radius: 14px;
+  box-shadow:
+    0 24px 50px -18px rgb(20 20 40 / 40%),
+    0 8px 18px -10px rgb(0 0 0 / 25%);
+}
+
+/* Scores: the live games strip, across the phone's lower half */
+.window__pop--scores {
+  top: 58%;
+  left: -38%;
+  width: 118%;
+}
+
+/* The next three lift straight off their own spot on the screen,
+   12% bigger, as if the card pops up toward you.
+   (top = where that piece sits on the 874pt-tall screen) */
+
+/* Trivia: the question card (screen y 272pt → 31%) */
+.window__pop--trivia {
+  top: 29.5%;
+  left: -6%;
+  width: 112%;
+}
+
+/* Debate: the vote bar (screen y 404pt → 46%) */
+.window__pop--debate {
+  top: 45%;
+  left: -6%;
+  width: 112%;
+}
+
+/* News: the feed's tabs (screen y 82pt → 9.4%) */
+.window__pop--news {
+  top: 8.6%;
+  left: -6%;
+  width: 112%;
+  border-radius: 12px;
+}
+
+
+/* ---------- smaller desktops ---------- */
+
+@media (max-width: 1200px) {
+  .window__text {
+    left: 56px;
+    width: 360px;
+  }
+
+  .window__title {
+    font-size: 46px;
+  }
+
+  .window__body {
+    font-size: 19px;
+  }
+
+  .window__rig {
+    left: calc(50% + 250px - var(--phone-w) / 2);
+  }
+
+  .live {
+    --phone-w: min(320px, calc((100vh - 120px) * 0.49));
+  }
+}
+
+
+/* ---------- one column: no fixed phone, just a phone in each card ---------- */
+
+/* On narrow screens there's no room for text beside a still phone,
+   so each card simply shows its own phone under its text. */
+@media (max-width: 960px) {
+  .live {
+    --phone-w: 240px;
+    padding: 100px 16px 120px;
+  }
+
+  .live__title {
+    font-size: 44px;
+    letter-spacing: -1.3px;
+  }
+
+  .live__lede {
+    font-size: 18px;
+  }
+
+  .live__cards {
+    max-width: 520px;
+    gap: 16px;
+    margin-top: 64px;
+  }
+
+  .window {
+    height: 640px;
+    clip-path: inset(0 round 28px);
+    border-radius: 28px;
+  }
+
+  .window__text {
+    top: 32px;
+    left: 28px;
+    right: 28px;
+    width: auto;
+    transform: none;
+  }
+
+  .window__title {
+    font-size: 36px;
+  }
+
+  .window__body {
+    font-size: 18px;
+  }
+
+  .window__scene {
+    position: absolute;
+  }
+
+  .window__rig {
+    top: 210px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+
+/* =========================================================
+   REVIEWS — "Made for campus, loved by students"
+   Bevel, measured: 8 photo columns 143px wide, 16px apart,
+   32px corners, staggered into an arch above a 64px headline;
+   then 384 × 358 review cards (32px padding, 32px corners).
+   ========================================================= */
+
+.reviews {
+  --s: 1;          /* scales the arch's heights down on phones */
+  padding: 160px 32px;
+  background: #fffdfb;
+  text-align: center;
+}
+
+
+/* ---------- the arch of photos ---------- */
+
+/* Bevel, measured at 1440 / 1200 / 1067px wide: columns are 143 / 117 /
+   102px wide (16px apart) but always the same HEIGHT, so on smaller
+   screens they become taller, thinner pills. The arch is 472px tall:
+   the middle pills end above the headline, the outer stacks run on
+   down beside it (they overflow on purpose). */
+.arch {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  width: min(1256px, calc(100vw - 140px));
+  height: 472px;
+  margin: 0 auto;
+}
+
+.arch__col {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 143px;
+  margin-top: calc(var(--top) * 1px * var(--s));
+}
+
+.arch__col img {
+  width: 100%;
+  height: calc(var(--f) * 1px * var(--s));
+  object-fit: cover;
+  border-radius: clamp(22px, 2.2vw, 32px);
+}
+
+
+/* ---------- heading ---------- */
+
+.reviews__title {
+  font-size: clamp(40px, 4.45vw, 64px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -1.92px;
+}
+
+.reviews__lede {
+  max-width: 640px;
+  margin: 16px auto 0;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+
+
+/* ---------- the row of cards (still, not sliding: only two reviews) ---------- */
+
+.reviews__row {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 80px;
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  width: 384px;
+  min-height: 358px;
+  margin: 0;
+  padding: 32px;
+  border-radius: 32px;
+  background: #f5efe8;
+  text-align: left;
+}
+
+.review__label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.review__title {
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.review__meta {
+  margin-top: 4px;
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+
+.review__quote {
+  margin: 20px 0 0;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+
+/* ---------- the rating card ---------- */
+
+.review--rating {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: var(--ink);
+  color: #fff;
+}
+
+.review--rating .review__meta {
+  color: rgb(255 255 255 / 60%);
+}
+
+.review__score {
+  margin-top: 8px;
+  font-size: 96px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -3px;
+}
+
+.review__stars {
+  margin-top: 10px;
+  font-size: 28px;
+  letter-spacing: 3px;
+}
+
+.review__link {
+  margin-top: 24px;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(255 255 255 / 80%);
+  transition: color 0.2s;
+}
+
+.review__link:hover {
+  color: #fff;
+}
+
+
+/* ---------- 4.5 stars: fill the star text 90% with gold ---------- */
+
+/* The five stars are one piece of text; a hard-stop gradient
+   clipped to the text colours 90% of it gold and the rest grey. */
+.stars--45 {
+  background: linear-gradient(90deg, var(--star) 90%, rgb(160 160 160 / 45%) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+
+/* ---------- smaller desktops ---------- */
+
+@media (max-width: 1200px) {
+  .review {
+    width: 320px;
+    padding: 28px;
+  }
+
+  .review__quote {
+    font-size: 17px;
+  }
+}
+
+
+/* ---------- tablets and phones ---------- */
+
+@media (max-width: 960px) {
+  .reviews {
+    --s: 0.6;
+    padding: 100px 16px;
+  }
+
+  .arch {
+    width: calc(100vw - 48px);
+    height: calc(472px * var(--s));
+    gap: 10px;
+  }
+
+  .arch__col {
+    gap: 10px;
+  }
+
+  /* Keep only the middle four columns, the outer ones won't fit */
+  .arch__col--outer {
+    display: none;
+  }
+
+  .reviews__title {
+    font-size: 44px;
+    letter-spacing: -1.3px;
+  }
+
+  .reviews__lede {
+    font-size: 18px;
+  }
+
+  .reviews__row {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .review {
+    width: 100%;
+    max-width: 480px;
+    min-height: 0;
+    padding: 28px;
+    border-radius: 28px;
+  }
+}
+
+
+/* =========================================================
+   READY — "See you there" (Bevel's "Ready When You Are")
+   Bevel, measured: 64px headline at 160px, 24px line,
+   App Store badge, then a 1440 × 613 flat-lay right under it.
+   ========================================================= */
+
+.ready {
+  padding-top: 160px;
+  overflow: hidden;
+  background: #fffdfb;
+  text-align: center;
+}
+
+.ready__title {
+  font-size: 64px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -1.92px;
+}
+
+.ready__lede {
+  max-width: 640px;
+  margin: 16px auto 0;
+  padding: 0 20px;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+
+
+/* ---------- the flat-lay ---------- */
+
+/* A stage with Bevel's 1440 × 613 shape. Every item is placed with
+   --x / --y / --w as a % of the stage, so the whole picture shrinks
+   evenly on smaller screens instead of rearranging. The bottom fades
+   into the page like Bevel's photo. */
+.flatlay {
+  position: relative;
+  max-width: 1440px;
+  margin: 24px auto 0;
+  aspect-ratio: 1440 / 613;
+  -webkit-mask-image: linear-gradient(#000 62%, transparent 100%);
+  mask-image: linear-gradient(#000 62%, transparent 100%);
+}
+
+/* Each piece "lies on the table": a slight tilt and a soft,
+   low shadow like a product shot from above */
+.flatlay__item {
+  position: absolute;
+  top: calc(var(--y) * 1%);
+  left: calc(var(--x) * 1%);
+  width: calc(var(--w) * 1%);
+  height: auto;
+  border-radius: 14px;
+  transform: rotate(var(--r));
+  box-shadow:
+    0 22px 40px -18px rgb(40 30 20 / 35%),
+    0 4px 10px -4px rgb(40 30 20 / 18%);
+}
+
+/* A club logo tile, from the same sprite sheet as the orbit */
+.flatlay__logo {
+  aspect-ratio: 1;
+  border: 8px solid #fff;
+  border-radius: 18px;
+  background: #fff url("assets/wide/logos.jpg") var(--pos) / 600% 300%;
+}
+
+.flatlay__phone {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.flatlay__phone .mini-phone img {
+  border-width: 7px;
+}
+
+
+/* ---------- phones: bigger stage so the pieces stay readable ---------- */
+
+@media (max-width: 760px) {
+  .ready {
+    padding-top: 100px;
+  }
+
+  .ready__title {
+    font-size: 44px;
+    letter-spacing: -1.3px;
+  }
+
+  .ready__lede {
+    font-size: 18px;
+  }
+
+  /* Wider than the screen and centred: the outer pieces fall off
+     the edges, like Bevel's bottle and cap do */
+  .flatlay {
+    width: 190%;
+    margin-left: -45%;
+    margin-top: 16px;
+  }
+
+  .flatlay__item {
+    border-radius: 8px;
+  }
+
+  .flatlay__phone .mini-phone {
+    border-radius: 30px;
+  }
+
+  .flatlay__phone .mini-phone img {
+    border-width: 4px;
+    border-radius: 27px;
+  }
+}
+
+
+/* =========================================================
+   FOOTER — Bevel's, measured: 160px top and bottom,
+   logo on the left, columns 187–254px apart starting at
+   501px, 18px/600 grey headings, 18px/500 links ~33px apart.
+   ========================================================= */
+
+.footer {
+  padding: 160px 32px;
+  background: #fffdfb;
+}
+
+.footer__inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 48px;
+  max-width: 1376px;
+  margin: 0 auto;
+}
+
+
+/* ---------- brand ---------- */
+
+.footer__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+}
+
+.footer__copy {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+
+/* ---------- link columns ---------- */
+
+.footer__cols {
+  display: flex;
+  gap: 104px;
+}
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer__head {
+  margin-bottom: 6px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+
+.footer__col a {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.17;
+  transition: color 0.2s;
+}
+
+.footer__col a:hover {
+  color: var(--orange);
+}
+
+
+/* ---------- smaller screens ---------- */
+
+@media (max-width: 1100px) {
+  .footer__cols {
+    gap: 56px;
+  }
+}
+
+@media (max-width: 760px) {
+  .footer {
+    padding: 80px 20px 120px;
+  }
+
+  .footer__inner {
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  /* Two columns of links side by side, Legal wraps underneath */
+  .footer__cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 24px;
+  }
+
+  .footer__col a {
+    font-size: 17px;
+  }
+}
