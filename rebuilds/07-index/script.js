@@ -59,6 +59,21 @@ const sites = [
     date: '2026-10-24',
     summary: 'A managed automation service, rebuilt as Threadline. Live interface scenes, alternating light and dark sections, and a shared visual rhythm make a complex service easier to grasp.',
     lessons: ['Let the section order explain the service one question at a time.', 'Stop old animations when someone switches tabs so interactions stay clear.', 'Shared type, spacing, and a consistent logo tie varied sections together.']
+  },
+  {
+    id: 'ligo',
+    name: 'Pocketchange',
+    brand: 'Ligo',
+    path: '../../proposednewsite-v4/',
+    reference: 'https://pocketchangethe.world/',
+    category: 'lifestyle',
+    label: 'Lifestyle',
+    description: 'A warm, liquid-orange homepage for a campus events app.',
+    tags: ['Bold', 'Interactive background', '3D phones'],
+    image: 'shots/ligo/ref/y00000.jpg',
+    date: '2026-11-14',
+    summary: 'Our own campus app’s homepage, built on Pocketchange’s structure. Real 3D phones, a hand-written liquid shader that glows under the cursor, and a story that moves from scattered campus plans to one feed.',
+    lessons: ['Name the problem with things visitors already know, like a group chat or a buried email, before showing the fix.', 'A background that reacts to the cursor makes a page feel alive without adding any content.', 'Keep the structure you admire, then replace the signature moments so the page feels like your own brand.']
   }
 ];
 
@@ -118,7 +133,7 @@ function render() {
   grid.innerHTML = matching.map(card).join('');
   document.querySelector('#savedCount').textContent = saved.size;
   document.querySelector('#resultCount').textContent = matching.length === sites.length && view === 'all'
-    ? 'Showing all 4 sites'
+    ? 'Showing all 5 sites'
     : `${matching.length} ${view === 'saved' ? 'saved ' : ''}${matching.length === 1 ? 'site' : 'sites'}`;
   document.querySelector('#empty').hidden = matching.length !== 0;
   const noSaves = view === 'saved' && saved.size === 0;

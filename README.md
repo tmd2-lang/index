@@ -9,6 +9,7 @@ Live site: https://tmd2-lang.github.io/index/
 - Spread → Flipside
 - Script Runner → Dosedrop
 - Mindcloud → Threadline
+- Pocketchange → Ligo (our campus app's homepage)
 
 These are design practice rebuilds, not the original businesses. Original design and photography credits remain in the pages' footers. Interactive forms and product scenes are local demonstrations.
 

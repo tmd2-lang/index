@@ -1,0 +1,312 @@
+/* The circle grows from the bottom of the stage. */
+.reveal-bridge {
+  --paper: #fbf6ef;
+}
+
+.reveal-bridge__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 42svh;
+  padding: 42px 24px;
+  overflow: clip;
+  text-align: center;
+}
+
+.reveal-bridge h2 {
+  max-width: 12ch;
+  margin: 0;
+  font-size: clamp(42px, 6vw, 88px);
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  opacity: var(--bridge-copy, 1);
+}
+
+/* A soft edge travels across the letters as the sentence appears. */
+.reveal-bridge.is-animated h2,
+.problem.is-animated .problem__handoff {
+  mask-image: linear-gradient(to right, #000 calc(var(--text-wipe, var(--bridge-wipe, 120%)) - 20%), transparent var(--text-wipe, var(--bridge-wipe, 120%)));
+  mask-size: auto;
+  mask-position: 0 0;
+}
+
+.reveal-bridge__disc {
+  display: none;
+}
+
+.reveal-bridge.is-animated {
+  height: 205svh;
+}
+
+.reveal-bridge.is-animated .reveal-bridge__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+}
+
+.is-animated .reveal-bridge__disc {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: var(--paper);
+  clip-path: circle(var(--bridge-radius, 0px) at 50% 100%);
+}
+
+/* The same two events reappear inside the Ligo feed. */
+.feed-reveal,
+.reveal-credits {
+  background: #fbf6ef;
+  color: #2b211c;
+}
+
+.feed-reveal {
+  padding: clamp(64px, 9vw, 132px) max(24px, 7vw);
+  /* the hand image is wider than a phone screen; clip it sideways here so
+     phone browsers don't widen the whole page to fit it (that made the
+     page 379px wide on a 375px phone and let it wiggle sideways) */
+  overflow-x: clip;
+}
+
+.feed-reveal__layout {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  max-width: 1080px;
+  margin: auto;
+}
+
+.feed-reveal__copy h2 {
+  max-width: 21ch;
+  margin: 0 auto;
+  color: #923819;
+  font-size: clamp(50px, 6.2vw, 90px);
+  font-weight: 300;
+  line-height: 0.99;
+  letter-spacing: -0.05em;
+}
+
+.feed-reveal__copy p {
+  max-width: 355px;
+  margin: 24px auto 0;
+  font-size: clamp(17px, 1.55vw, 22px);
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+.feed-reveal__stores {
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  text-align: left;
+}
+
+/* Phone frame and the main elements of the Events screen. */
+.feed-phone {
+  position: relative;
+  justify-self: center;
+  width: min(58%, 278px);
+  aspect-ratio: 804 / 1748;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  container-type: inline-size;
+  overflow: hidden;
+  text-align: left;
+  transform: rotate(7deg);
+  padding: 8px 16px 36px;
+  border: 8px solid #26211f;
+  border-radius: 14% / 6.5%;
+  background: #f6f5f4;
+  box-shadow: 0 22px 45px #64351e2e;
+}
+
+.feed-phone::before,
+.feed-phone::after {
+  position: absolute;
+  left: 50%;
+  width: 80px;
+  border-radius: 999px;
+  background: #26211f;
+  content: "";
+  transform: translateX(-50%);
+}
+
+.feed-phone::before {
+  top: 9px;
+  height: 17px;
+}
+
+.feed-phone::after {
+  bottom: 9px;
+  height: 4px;
+}
+
+.feed-phone__status,
+.feed-phone__brand {
+  display: flex;
+  align-items: center;
+}
+
+.feed-phone__status {
+  justify-content: space-between;
+  height: 24px;
+  padding-inline: 5px;
+  font-size: 12px;
+}
+
+.feed-phone__brand {
+  gap: 6px;
+  margin-top: 15px;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.feed-phone__tabs {
+  display: flex;
+  margin-top: 12px;
+  padding: 3px;
+  border-radius: 30px;
+  background: #ebe7e3;
+  text-align: center;
+  font-size: 13px;
+}
+
+.feed-phone__tabs > * {
+  flex: 1;
+  padding: 6px;
+}
+
+.feed-phone__tabs b {
+  border-radius: 30px;
+  background: white;
+}
+
+.feed-phone__title {
+  margin: 17px 0 10px;
+  font: 12cqw / 0.96 var(--serif);
+}
+
+.feed-phone__label {
+  margin: 16px 0 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.feed-phone__events {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feed-phone__events li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px;
+  border-radius: 12px;
+  background: white;
+  font-size: 14px;
+}
+
+.feed-phone__events img {
+  width: 56px;
+  height: 62px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.feed-phone__events small {
+  display: block;
+  margin-top: 3px;
+  color: #61554f;
+}
+
+.reveal-credits {
+  opacity: 1;
+}
+
+@media (max-width: 760px) {
+  .reveal-bridge.is-animated {
+    height: 165svh;
+  }
+
+}
+
+/* Center the hand-held shot before the product copy, as in the reference. */
+.feed-reveal {
+  padding-top: clamp(28px, 6vw, 84px);
+  background-image: radial-gradient(#a084691f 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.feed-reveal__visual {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: min(100%, 530px);
+  padding: 0 0 clamp(86px, 13vw, 174px);
+}
+
+.feed-reveal__hand {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 100%;
+  height: auto;
+  transform: translateX(-42%);
+  mask-image: linear-gradient(#000 73%, transparent 100%);
+}
+
+.feed-phone__search {
+  margin-top: 10px;
+  padding: 8px;
+  border: 1px solid #e5ded6;
+  border-radius: 20px;
+  background: white;
+  color: #655b54;
+  font-size: 4.5cqw;
+}
+
+.feed-phone__nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 11px;
+  color: #655b54;
+  font-size: 4.2cqw;
+}
+
+.feed-phone__nav span:nth-child(2) {
+  color: #923819;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .feed-phone {
+    width: min(68%, 240px);
+    padding-inline: 10px;
+    border-width: 6px;
+  }
+
+  .feed-reveal__hand {
+    bottom: 12px;
+    width: 110%;
+    transform: translateX(-46%);
+  }
+
+  .feed-phone__events li {
+    gap: 7px;
+    font-size: 6cqw;
+  }
+
+  .feed-phone__events img {
+    width: 22cqw;
+    height: 25cqw;
+  }
+}

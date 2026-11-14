@@ -1,0 +1,400 @@
+/* The desktop stage holds the copy while the cards pass through it. */
+.problem {
+  position: relative;
+  overflow: clip;
+  scroll-margin-top: min(36svh, 300px);
+  padding: clamp(100px, 16svh, 150px) 24px 80px;
+}
+
+.problem__stage {
+  max-width: 1080px;
+  margin-inline: auto;
+}
+
+.problem__handoff {
+  margin: 90px auto 0;
+  text-align: center;
+  font-size: clamp(36px, 5.25vw, 76px);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.problem__intro {
+  text-align: center;
+  text-shadow: 0 2px 16px rgb(105 29 0 / 30%);
+}
+
+.problem__intro h2 {
+  margin: 0;
+  font-size: clamp(44px, 5.25vw, 76px);
+  font-weight: 300;
+  line-height: 1.06;
+  letter-spacing: -0.04em;
+}
+
+.problem__intro p {
+  max-width: 540px;
+  margin: 24px auto 0;
+  font-size: 18px;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+/* Portrait snapshots overlap, with each card's visual cue exposed. */
+.problem__cards {
+  --card-width: clamp(160px, 19vw, 244px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 72px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.snapshot {
+  position: relative;
+  flex: 0 0 var(--card-width);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 4px solid #fff8ef;
+  border-radius: 17px;
+  background: #fff8ef;
+  color: #22202a;
+  box-shadow: 0 18px 35px rgb(78 20 0 / 28%);
+  opacity: var(--visibility, 1);
+  transform: translate3d(var(--x, 0px), calc(var(--rest-y) + var(--y, 0px)), 0)
+    rotate(calc(var(--rest-angle) + var(--angle, 0deg)));
+}
+
+.snapshot + .snapshot {
+  margin-left: calc(var(--card-width) * -0.09);
+}
+
+.snapshot--story {
+  --rest-angle: -9deg;
+  --rest-y: 4px;
+  background: #152734;
+  color: white;
+}
+
+.snapshot--chat {
+  --rest-angle: -3deg;
+  --rest-y: 41px;
+  background: #f6f5fc;
+}
+
+.snapshot--mail {
+  --rest-angle: 4deg;
+  --rest-y: 44px;
+}
+
+.snapshot--flyer {
+  --rest-angle: 10deg;
+  --rest-y: 9px;
+  background: #26180e;
+  color: white;
+}
+
+.snapshot__photo,
+.snapshot__door {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.snapshot--story::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(#0008, transparent 37%, transparent 54%, #000d);
+}
+
+.snapshot__story-top,
+.snapshot__story-details {
+  position: absolute;
+  z-index: 1;
+  left: 12px;
+  right: 12px;
+}
+
+.snapshot__story-top {
+  top: 12px;
+  font-size: 12px;
+}
+
+.snapshot__story-top small {
+  margin-left: 4px;
+  opacity: 0.75;
+}
+
+.snapshot__progress {
+  display: block;
+  height: 2px;
+  margin-bottom: 10px;
+  background: linear-gradient(to right, white 58%, #fff6 58%);
+  border-radius: 3px;
+}
+
+.snapshot__avatar,
+.snapshot__sender b {
+  display: inline-grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: #ffd48e;
+  color: #3b201a;
+}
+
+.snapshot__story-details {
+  bottom: 20px;
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+}
+
+.snapshot__story-details strong {
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1;
+}
+
+.snapshot__story-details span {
+  padding: 4px 7px;
+  border-radius: 3px;
+  background: #fff4df;
+  color: #252125;
+  font-size: 12px;
+}
+
+.snapshot__chat-top,
+.snapshot__mail-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #e8e4ee;
+  font-size: 12px;
+}
+
+.snapshot__chat-body {
+  display: grid;
+  gap: 8px;
+  padding: 13px 10px;
+}
+
+.snapshot__chat-body small {
+  color: #605b6d;
+  text-align: center;
+}
+
+.snapshot__chat-body p {
+  justify-self: start;
+  max-width: 94%;
+  margin: 0;
+  padding: 7px 9px;
+  border-radius: 12px 12px 12px 3px;
+  background: #e8e5f2;
+  font-size: 12px;
+}
+
+.snapshot__chat-body p:nth-of-type(2) {
+  justify-self: end;
+  margin-right: 14px;
+  border-radius: 12px 12px 3px 12px;
+  background: #6540cc;
+  color: white;
+}
+
+.snapshot__chat-input {
+  position: absolute;
+  bottom: 9px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border: 1px solid #d7d0e1;
+  border-radius: 20px;
+  color: #605b6d;
+  font-size: 11px;
+}
+
+.snapshot__mail-top {
+  color: #31529b;
+}
+
+.snapshot__mail-body {
+  padding: 13px 11px;
+  font-size: 12px;
+}
+
+.snapshot__mail-body > strong {
+  font-size: clamp(15px, 1.5vw, 21px);
+  line-height: 1.1;
+}
+
+.snapshot__sender {
+  display: flex;
+  align-items: center;
+}
+
+.snapshot__sender small {
+  display: block;
+  color: #605b6d;
+}
+
+.snapshot__mail-body mark {
+  background: #ffe7a2;
+  color: inherit;
+}
+
+.snapshot__door {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(100deg, #24180f, #624933 12%, #473221 87%, #21160e);
+}
+
+.snapshot__door img {
+  width: 85%;
+  height: auto;
+  max-height: 80%;
+  object-fit: contain;
+  box-shadow: 3px 6px 12px #0008;
+}
+
+.snapshot__tape {
+  position: absolute;
+  top: 8%;
+  left: 36%;
+  z-index: 1;
+  width: 28%;
+  height: 8%;
+  background: #f0d2a8c9;
+  transform: rotate(-6deg);
+}
+
+.snapshot__flyer-label {
+  position: absolute;
+  bottom: 10px;
+  left: 9px;
+  right: 9px;
+  text-align: center;
+  font-size: 14px;
+}
+
+@media (min-width: 761px) and (min-height: 540px) {
+  .problem.is-animated {
+    height: 330svh;
+    padding: 0 24px;
+  }
+
+  .problem.is-animated .problem__stage {
+    position: sticky;
+    top: 0;
+    display: grid;
+    place-items: center;
+    height: 100svh;
+  }
+
+  .problem.is-animated .problem__stage > * {
+    grid-area: 1 / 1;
+  }
+
+  .problem.is-animated .problem__intro {
+    opacity: var(--intro-opacity);
+  }
+
+  .problem.is-animated .problem__cards {
+    width: 100%;
+    margin: 0;
+  }
+
+  .problem.is-animated .problem__handoff {
+    margin: 0;
+    opacity: var(--handoff-opacity);
+  }
+}
+
+/* On phones, the stack reads as four overlapping snapshots in two rows. */
+@media (max-width: 760px) {
+  .problem {
+    padding: 45px 18px 55px;
+  }
+
+  .problem__intro h2 {
+    font-size: clamp(32px, 8.8vw, 48px);
+  }
+
+  .problem__intro p {
+    margin-top: 17px;
+    font-size: 16px;
+  }
+
+  .problem__cards {
+    --card-width: min(43vw, 225px);
+    display: grid;
+    grid-template-columns: repeat(2, var(--card-width));
+    gap: 0;
+    margin-top: 37px;
+  }
+
+  .snapshot + .snapshot {
+    margin-left: 0;
+  }
+
+  .snapshot--story {
+    --rest-angle: -8deg;
+    --rest-y: 0px;
+  }
+
+  .snapshot--chat {
+    --rest-angle: 7deg;
+    --rest-y: 15px;
+    z-index: 1;
+  }
+
+  .snapshot--mail {
+    --rest-angle: -6deg;
+    --rest-y: -6px;
+  }
+
+  .snapshot--flyer {
+    --rest-angle: 9deg;
+    --rest-y: 12px;
+    z-index: 1;
+  }
+
+  .snapshot__mail-body {
+    padding: 9px 8px;
+    font-size: 11px;
+  }
+
+  .snapshot__mail-body p {
+    margin-block: 8px;
+  }
+
+  .snapshot__mail-body p:nth-of-type(3) {
+    display: none;
+  }
+
+  .snapshot__chat-body {
+    gap: 5px;
+    padding: 8px;
+  }
+
+  .snapshot__chat-body p {
+    padding: 5px 7px;
+  }
+
+  .snapshot__chat-body p:nth-of-type(2) {
+    margin-right: 0;
+  }
+
+  .snapshot__chat-input {
+    display: none;
+  }
+}

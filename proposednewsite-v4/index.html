@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>
+    if (!location.hash && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const pageRoot = document.documentElement;
+      pageRoot.classList.add("is-loading");
+      setTimeout(() => {
+        pageRoot.classList.remove("is-loading");
+        pageRoot.classList.add("is-revealed");
+      }, 950);
+    }
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ligo · Everything happening on your campus</title>
+  <link rel="icon" href="assets/logo-mark.svg">
+  <!-- Outfit: a light geometric sans, the closest free match to Pocketchange's Cera 300 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20">
+  <link rel="stylesheet" href="problem.css?v=6">
+  <link rel="stylesheet" href="reveal.css?v=7">
+  <link rel="stylesheet" href="lawn.css?v=3">
+  <link rel="stylesheet" href="promise.css?v=2">
+  <link rel="stylesheet" href="connection.css?v=6">
+  <link rel="stylesheet" href="features.css?v=5">
+  <link rel="stylesheet" href="after.css?v=3">
+  <link rel="stylesheet" href="clubs.css?v=3">
+  <link rel="stylesheet" href="partners.css?v=1">
+  <link rel="stylesheet" href="finale.css?v=4">
+</head>
+<body>
+
+  <!-- Intro: the Ligo mark spins on white until the page is ready, then the
+       white shrinks away as a circle (hero.js). -->
+  <div class="intro" aria-hidden="true">
+    <div class="intro__cover"></div>
+    <img class="intro__mark" src="assets/logo-mark.svg" alt="">
+  </div>
+  <noscript><style>.intro { display: none; } .is-loading .page { transform: none; opacity: 1; }</style></noscript>
+
+  <!-- Living background: an orange liquid gradient drawn by WebGL (hero.js).
+       The CSS gradient underneath shows until the shader is ready, or if WebGL is missing. -->
+  <div class="backdrop" aria-hidden="true">
+    <canvas class="backdrop__canvas"></canvas>
+  </div>
+
+  <!-- Everything that zooms in during the intro -->
+  <div class="page">
+
+  <!-- ===== Header ===== -->
+  <header class="nav">
+    <a class="nav__mail" href="mailto:hello@meetligo.com" aria-label="Email us">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>
+    </a>
+
+    <a class="nav__logo" href="#" aria-label="Ligo home">
+      <img src="assets/logo-mark.svg" alt="" width="30" height="30">
+      <span>Ligo</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Main">
+      <a class="roll" href="#">For students</a>
+      <a class="roll" href="#how-it-works">How it works</a>
+      <a class="roll" href="#">For clubs</a>
+      <a class="roll" href="#">About us</a>
+    </nav>
+
+    <a class="nav__contact" href="mailto:hello@meetligo.com">
+      <span class="nav__contact-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>
+      </span>
+      <span class="nav__contact-label">Contact</span>
+    </a>
+
+    <button class="nav__menu" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="hero__copy">
+      <h1 class="hero__title">Everything happening on your campus</h1>
+      <p class="hero__lede">Every club, game, free meal and party at your school, in one app. Find what's on tonight, save what you like, and actually show up.</p>
+      <div class="hero__stores">
+        <a class="store" href="https://apps.apple.com/us/app/ligo/id6753926105" target="_blank" rel="noopener">
+          <svg class="store__icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9s-2-.9-3.3-.9c-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-4.2ZM14 5.2c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.8-1.4Z"/></svg>
+          <span class="store__text"><small>Download on the</small>App Store</span>
+        </a>
+        <a class="store" href="https://play.google.com/store/apps/details?id=com.bardsai.ligo&amp;hl=en_US" target="_blank" rel="noopener">
+          <svg class="store__icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M4 2.6v18.8c0 .5.5.8.9.6l16-9.3c.4-.3.4-.9 0-1.2l-16-9.4c-.4-.2-.9.1-.9.5Z"/></svg>
+          <span class="store__text"><small>Get it on</small>Google Play</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- The phone stage: two real 3D iPhones and a reflection, drawn by Three.js (phones.js).
+         Model: "Phone 17 Pro Max" by Ranguel on Sketchfab (CC Attribution). -->
+    <div class="stage" aria-hidden="true">
+      <div class="stage__fallback">
+        <img src="assets/feed-tke.jpg" alt="">
+        <img src="assets/screens/events.jpg" alt="">
+      </div>
+      <canvas class="stage__canvas"></canvas>
+    </div>
+
+    <a class="hero__scroll" href="#next">
+      <svg viewBox="0 0 18 18" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 3v12M4 10l5 5 5-5"/></svg>
+      <span class="roll">Scroll down</span>
+    </a>
+  </section>
+
+  </div>
+
+  <section class="problem" id="next" aria-labelledby="problem-title">
+    <div class="problem__stage">
+      <div class="problem__intro">
+        <h2 id="problem-title">Campus is happening.<br>The details are everywhere.</h2>
+        <p>The show’s on a Story. Free tacos are in a group chat. Midnight Breakfast is on a flyer you walked past.</p>
+      </div>
+
+      <ul class="problem__cards">
+        <li class="snapshot snapshot--story">
+          <img class="snapshot__photo" src="assets/flyers/jazz-night.webp" alt="" width="560" height="687">
+          <div class="snapshot__story-top">
+            <span class="snapshot__progress" aria-hidden="true"></span>
+            <span><b class="snapshot__avatar" aria-hidden="true">J</b> campusjazz <small>2h</small></span>
+          </div>
+          <div class="snapshot__story-details"><strong>Jazz Night</strong><span>Friday · 8 PM</span></div>
+        </li>
+
+        <li class="snapshot snapshot--chat">
+          <div class="snapshot__chat-top"><span aria-hidden="true">‹</span><strong>Campus chat</strong><span aria-hidden="true">···</span></div>
+          <div class="snapshot__chat-body">
+            <small>Today, 6:12 PM</small>
+            <p>Free tacos outside the library rn 🌮</p>
+            <p>wait where</p>
+            <p>By the front steps!</p>
+          </div>
+          <div class="snapshot__chat-input" aria-hidden="true">Message <span>↑</span></div>
+        </li>
+
+        <li class="snapshot snapshot--mail">
+          <div class="snapshot__mail-top" aria-hidden="true"><span>‹ Inbox</span><span>···</span></div>
+          <div class="snapshot__mail-body">
+            <strong>This week on campus</strong>
+            <p class="snapshot__sender"><b aria-hidden="true">C</b><span>Campus Life<small>To: All students</small></span></p>
+            <p>Hi everyone! A few updates for the week ahead.</p>
+            <p>Study rooms now close at 10 PM.</p>
+            <p><mark>Free movie night</mark><br>Thursday · 8 PM · Student Center</p>
+          </div>
+        </li>
+
+        <li class="snapshot snapshot--flyer">
+          <div class="snapshot__door">
+            <span class="snapshot__tape" aria-hidden="true"></span>
+            <img src="assets/flyers/midnight-breakfast.webp" alt="A Midnight Breakfast flyer taped to a door" width="560" height="687">
+          </div>
+          <div class="snapshot__flyer-label">Midnight Breakfast</div>
+        </li>
+      </ul>
+      <p class="problem__handoff">Find out before it’s over.</p>
+    </div>
+  </section>
+
+  <section class="reveal-bridge" aria-labelledby="bridge-title">
+    <div class="reveal-bridge__stage">
+      <h2 id="bridge-title">See what’s happening tonight.</h2>
+      <div class="reveal-bridge__disc" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="feed-reveal" id="how-it-works" aria-labelledby="feed-title">
+    <div class="feed-reveal__layout">
+      <div class="feed-reveal__copy">
+        <h2 id="feed-title">Make a plan in one scroll.</h2>
+        <p>Find the show, see where it is, and send it to the group chat.</p>
+        <div class="hero__stores feed-reveal__stores">
+          <a class="store" href="https://apps.apple.com/us/app/ligo/id6753926105" target="_blank" rel="noopener">
+            <svg class="store__icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9s-2-.9-3.3-.9c-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-4.2ZM14 5.2c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.8-1.4Z"/></svg>
+            <span class="store__text"><small>Download on the</small>App Store</span>
+          </a>
+          <a class="store" href="https://play.google.com/store/apps/details?id=com.bardsai.ligo&amp;hl=en_US" target="_blank" rel="noopener">
+            <svg class="store__icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M4 2.6v18.8c0 .5.5.8.9.6l16-9.3c.4-.3.4-.9 0-1.2l-16-9.4c-.4-.2-.9.1-.9.5Z"/></svg>
+            <span class="store__text"><small>Get it on</small>Google Play</span>
+          </a>
+        </div>
+      </div>
+      <div class="feed-reveal__visual">
+        <img class="feed-reveal__hand" src="assets/hand.png" alt="" width="1070" height="1470">
+        <div class="feed-phone" role="group" aria-label="Preview of the Ligo events feed">
+          <div class="feed-phone__status" aria-hidden="true"><span>9:41</span><span>▮▮▮</span></div>
+          <div class="feed-phone__brand"><img src="assets/logo-mark.svg" alt="" width="24" height="24"> ligo</div>
+          <div class="feed-phone__tabs" aria-hidden="true"><b>Events</b><span>Clubs</span></div>
+          <div class="feed-phone__search" aria-hidden="true">⌕ &nbsp; Search events and clubs</div>
+          <p class="feed-phone__title">Everything happening on campus</p>
+          <p class="feed-phone__label">Upcoming Events</p>
+          <ul class="feed-phone__events">
+            <li>
+              <img src="assets/flyers/jazz-night.webp" alt="" width="560" height="687">
+              <div><strong>Jazz Night</strong><small>Friday · 8 PM</small><small>Student Center</small></div>
+            </li>
+            <li>
+              <img src="assets/flyers/midnight-breakfast.webp" alt="" width="560" height="687">
+              <div><strong>Midnight Breakfast</strong><small>Friday · 11 PM</small><small>Dining Hall</small></div>
+            </li>
+          </ul>
+          <div class="feed-phone__nav" aria-hidden="true"><span>Explore</span><span>Campus</span><span>Saved</span><span>Profile</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="lawn-wrap">
+    <section class="lawn" id="who-its-for" aria-labelledby="lawn-title">
+      <img class="lawn__photo" src="assets/outdoor-movie.jpg" alt="Students watching an outdoor movie on the lawn at dusk" width="1292" height="1700">
+      <div class="lawn__copy">
+        <p class="lawn__eyebrow">This is your campus.</p>
+        <h2 id="lawn-title">Make more of your time here.</h2>
+        <p class="lawn__description">For the first-years figuring out where to go, the friends looking for something to do tonight, and anyone who’s ever heard about a great night the morning after.</p>
+        <div class="hero__stores lawn__stores">
+          <a class="store" data-store="ios" href="https://apps.apple.com/us/app/ligo/id6753926105" target="_blank" rel="noopener">
+            <svg class="store__icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9s-2-.9-3.3-.9c-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-4.2ZM14 5.2c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.8-1.4Z"/></svg>
+            <span class="store__text"><small>Download on the</small>App Store</span>
+          </a>
+          <a class="store" data-store="android" href="https://play.google.com/store/apps/details?id=com.bardsai.ligo&amp;hl=en_US" target="_blank" rel="noopener">
+            <svg class="store__icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M4 2.6v18.8c0 .5.5.8.9.6l16-9.3c.4-.3.4-.9 0-1.2l-16-9.4c-.4-.2-.9.1-.9.5Z"/></svg>
+            <span class="store__text"><small>Get it on</small>Google Play</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="promise" id="our-promise" aria-labelledby="promise-heading">
+    <div class="promise__mark-row" aria-hidden="true">
+      <img class="promise__mark" src="assets/logo-mark.svg" alt="" width="96" height="96">
+    </div>
+    <h2 class="promise__heading" id="promise-heading">Finding out what’s happening on campus should be the easy part.</h2>
+    <p class="promise__body">A free dinner, a club meeting, a movie on the lawn. You should be able to see what’s happening, when it starts, and where to go. That’s what we’re building Ligo to do.</p>
+    <div class="promise__signature">
+      <span class="promise__wordmark" aria-hidden="true">Ligo</span>
+      <span>The Ligo team</span>
+    </div>
+  </section>
+
+  <section class="connection" id="campus-comes-to-life" aria-labelledby="connection-title">
+    <div class="connection__stage">
+      <div class="connection__hand connection__hand--upper" aria-hidden="true"></div>
+      <h2 class="connection__title" id="connection-title">This is where campus comes to life.</h2>
+      <div class="connection__hand connection__hand--lower" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- Feature grid, after Pocketchange's five-card grid (measured at 1440:
+       3 x 376px columns, 36px gaps, two 331px rows, the middle card spans both).
+       It scrolls up over the pinned hands while they fade. -->
+  <section class="features" aria-label="What Ligo does">
+    <ul class="features__grid">
+
+      <!-- top left: photo card -->
+      <li class="feature feature--photo feature--a">
+        <img class="feature__photo" src="assets/photos/hero-face.jpg" alt="" loading="lazy">
+        <h3 class="feature__title">Every event, one feed</h3>
+        <p class="feature__text">Parties, games, club nights and free food, all in one place.</p>
+      </li>
+
+      <!-- bottom left: free food (the app's real "Free Food" row) -->
+      <li class="feature feature--glass feature--food feature--b">
+        <div class="food-fan" aria-hidden="true">
+          <img class="food-fan__flyer food-fan__flyer--left" src="assets/flyers/gspicnic.webp" alt="">
+          <img class="food-fan__flyer food-fan__flyer--right" src="assets/flyers/midnight-breakfast.webp" alt="">
+          <img class="food-fan__flyer food-fan__flyer--middle" src="assets/flyers/donuts-with-the-deans.webp" alt="">
+          <span class="food-fan__chip">Free Food</span>
+        </div>
+        <h3 class="feature__title">Free food, filtered</h3>
+        <p class="feature__text">Every free meal on campus, gathered in its own row.</p>
+      </li>
+
+      <!-- middle: tall white card with the real Events screen -->
+      <li class="feature feature--white">
+        <div class="feature__phone" aria-hidden="true">
+          <img src="assets/screens/events.jpg" alt="" loading="lazy">
+        </div>
+        <h3 class="feature__title">Find what's on tonight</h3>
+        <p class="feature__text">Search by event, place or vibe and see what's happening now.</p>
+      </li>
+
+      <!-- top right: saved tab -->
+      <li class="feature feature--glass feature--saved feature--d">
+        <div class="saved-tab" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M6 3.5h12v17l-6-4.2-6 4.2z"/></svg>
+        </div>
+        <h3 class="feature__title">Save it for later</h3>
+        <p class="feature__text">Your saved events, ready when you're making plans.</p>
+      </li>
+
+      <!-- bottom right: photo card -->
+      <li class="feature feature--photo feature--e">
+        <img class="feature__photo" src="assets/photos/slide-2.jpg" alt="" loading="lazy">
+        <h3 class="feature__title">Follow your clubs</h3>
+        <p class="feature__text">See every post from the clubs you love, the moment it drops.</p>
+      </li>
+
+    </ul>
+  </section>
+
+  <!-- "What happens after I download?", after Pocketchange's question card
+       (measured at 1440: a 1200 x 691 card, 36px under the feature grid,
+       questions on the left, a hand holding a phone on the right). -->
+  <section class="after" aria-labelledby="after-title">
+    <div class="after__card">
+      <div class="after__copy">
+        <h2 class="after__title" id="after-title">What happens<br>after I download?</h2>
+        <ul class="after__list">
+          <li class="after__item is-open">
+            <button class="after__q" type="button" aria-expanded="true" aria-controls="after-a0">
+              <span>Pick your campus.</span>
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 9 9 9 9-9"/></svg>
+            </button>
+            <div class="after__a" id="after-a0"><div><p>Choose your school and your feed fills with what's happening there, tonight and all week.</p></div></div>
+          </li>
+          <li class="after__item">
+            <button class="after__q" type="button" aria-expanded="false" aria-controls="after-a1">
+              <span>Follow the clubs you're into.</span>
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 9 9 9 9-9"/></svg>
+            </button>
+            <div class="after__a" id="after-a1"><div><p>Tap follow and their posts, events and news land right in your feed.</p></div></div>
+          </li>
+          <li class="after__item">
+            <button class="after__q" type="button" aria-expanded="false" aria-controls="after-a2">
+              <span>Find something for tonight.</span>
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 9 9 9 9-9"/></svg>
+            </button>
+            <div class="after__a" id="after-a2"><div><p>Search by event, place or category, or browse rows like Free Food.</p></div></div>
+          </li>
+          <li class="after__item">
+            <button class="after__q" type="button" aria-expanded="false" aria-controls="after-a3">
+              <span>Save it, then send it.</span>
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 9 9 9 9-9"/></svg>
+            </button>
+            <div class="after__a" id="after-a3"><div><p>Bookmark what looks good and send it to the group chat in a tap.</p></div></div>
+          </li>
+          <li class="after__item">
+            <button class="after__q" type="button" aria-expanded="false" aria-controls="after-a4">
+              <span>Show up.</span>
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 9 9 9 9-9"/></svg>
+            </button>
+            <div class="after__a" id="after-a4"><div><p>That's the whole point. Less missing out, more showing up.</p></div></div>
+          </li>
+        </ul>
+      </div>
+      <div class="after__visual" aria-hidden="true">
+        <img class="after__hand" src="assets/hand.png" alt="" width="1070" height="1470" loading="lazy">
+        <div class="after__phone"><img src="assets/feed-tke.jpg" alt="" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- "A word to the club leaders", after Pocketchange's "A word to the
+       business owners" (measured at 1440: a 1080px-tall video panel that
+       widens to full width as it scrolls in, video drifting at half speed). -->
+  <section class="clubs" id="for-clubs" aria-labelledby="clubs-title">
+    <div class="clubs__panel">
+      <div class="clubs__drift" aria-hidden="true">
+        <video class="clubs__video is-showing" src="assets/video/clubs-every-club.mp4" poster="assets/video/clubs-every-club-poster.jpg" muted playsinline preload="metadata"></video>
+        <video class="clubs__video" src="assets/video/clubs-every-club.mp4" muted playsinline preload="metadata"></video>
+      </div>
+      <div class="clubs__copy">
+        <span class="clubs__pill"><strong>A word to the club leaders</strong></span>
+        <h2 class="clubs__title" id="clubs-title">You don't just go to campus events. You make them.</h2>
+        <p class="clubs__text">You book the room, design the flyer and post it everywhere, and half of campus still hears about it the morning after. Ligo puts your event in front of the students looking for something to do tonight. No buried posts, no lost group chats.</p>
+        <strong class="clubs__cta">Set up your club page</strong>
+      <div class="clubs__stores">
+        <a class="store store--light" href="https://apps.apple.com/us/app/ligo/id6753926105" target="_blank" rel="noopener">
+          <svg class="store__icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9s-2-.9-3.3-.9c-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-4.2ZM14 5.2c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.8-1.4Z"/></svg>
+          <span class="store__text"><small>Download on the</small>App Store</span>
+        </a>
+        <a class="store store--light" href="https://play.google.com/store/apps/details?id=com.bardsai.ligo&amp;hl=en_US" target="_blank" rel="noopener">
+          <svg class="store__icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M4 2.6v18.8c0 .5.5.8.9.6l16-9.3c.4-.3.4-.9 0-1.2l-16-9.4c-.4-.2-.9.1-.9.5Z"/></svg>
+          <span class="store__text"><small>Get it on</small>Google Play</span>
+        </a>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- "For local businesses and brands", after Pocketchange's sponsors
+       section (measured at 1440: 1080px tall, a nearly black black-and-white
+       video drifting at half speed, copy on the right, and the panel pulls
+       in from every side as it scrolls away). -->
+  <section class="partners" id="partners" aria-labelledby="partners-title">
+    <div class="partners__panel">
+      <div class="partners__drift" aria-hidden="true">
+        <video class="partners__video is-showing" src="assets/video/partners-lawn.mp4" poster="assets/video/partners-lawn-poster.jpg" muted playsinline preload="metadata"></video>
+        <video class="partners__video" src="assets/video/partners-lawn.mp4" muted playsinline preload="metadata"></video>
+      </div>
+      <div class="partners__copy">
+        <span class="clubs__pill"><strong>For local businesses and brands</strong></span>
+        <h2 class="clubs__title" id="partners-title">Back the nights that bring campus together.</h2>
+        <p class="partners__text">If your business lives near campus, this is how you meet the people who keep it busy. Sponsor a club night, feed a study break, or put your name on the events students already plan their week around.</p>
+        <a class="partners__button" href="mailto:hello@meetligo.com">
+          <span>Start the convo</span>
+          <span class="partners__arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ending + footer, after Pocketchange's "Let's Pocketchange the world"
+       (measured at 1440: a 120px spinning 3D coin, 96px title, a recessed
+       glossy button whose letters roll away on hover to reveal the two stores,
+       then socials, a newsletter field and the legal row). The coin is our
+       logo, extruded in 3D (finale.js). It sits on the page's orange backdrop. -->
+  <footer class="finale" id="download">
+    <canvas class="finale__logo" width="240" height="240" aria-hidden="true"></canvas>
+
+    <h2 class="finale__title" id="finale-title">Don't hear about it tomorrow.</h2>
+
+    <!-- big button (desktop) -->
+    <div class="finale__button">
+      <div class="finale__rim">
+        <div class="finale__face">
+          <p class="finale__label" aria-hidden="true">Download the app</p>
+          <div class="finale__stores">
+            <a href="https://apps.apple.com/us/app/ligo/id6753926105" target="_blank" rel="noopener" aria-label="Download on the App Store"><svg viewBox="0 0 24 24" width="56" height="56" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9s-2-.9-3.3-.9c-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-4.2ZM14 5.2c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.8-1.4Z"/></svg></a>
+            <span class="finale__divider" aria-hidden="true"></span>
+            <a href="https://play.google.com/store/apps/details?id=com.bardsai.ligo&amp;hl=en_US" target="_blank" rel="noopener" aria-label="Get it on Google Play"><svg viewBox="0 0 24 24" width="56" height="56" fill="currentColor" aria-hidden="true"><path d="M4 2.6v18.8c0 .5.5.8.9.6l16-9.3c.4-.3.4-.9 0-1.2l-16-9.4c-.4-.2-.9.1-.9.5Z"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- store buttons (phone) -->
+    <div class="finale__mini">
+      <a href="https://apps.apple.com/us/app/ligo/id6753926105" target="_blank" rel="noopener" aria-label="Download on the App Store"><svg viewBox="0 0 24 24" width="56" height="56" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9s-2-.9-3.3-.9c-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-4.2ZM14 5.2c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.8-1.4Z"/></svg></a>
+      <a href="https://play.google.com/store/apps/details?id=com.bardsai.ligo&amp;hl=en_US" target="_blank" rel="noopener" aria-label="Get it on Google Play"><svg viewBox="0 0 24 24" width="56" height="56" fill="currentColor" aria-hidden="true"><path d="M4 2.6v18.8c0 .5.5.8.9.6l16-9.3c.4-.3.4-.9 0-1.2l-16-9.4c-.4-.2-.9.1-.9.5Z"/></svg></a>
+    </div>
+
+    <ul class="finale__social" aria-label="Ligo elsewhere">
+      <li><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a></li>
+      <li><a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M15.5 3c.3 2.2 1.7 3.6 3.9 3.8v3a7 7 0 0 1-3.8-1.2v6.1a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v3.1a2.6 2.6 0 1 0 1.8 2.4V3h2.8Z"/></svg></a></li>
+      <li><a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M5.3 8.6h3v10h-3v-10Zm1.5-4.9a1.7 1.7 0 1 1 0 3.5 1.7 1.7 0 0 1 0-3.5ZM10.3 8.6h2.9V10c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.6 2 3.6 4.6v5.6h-3v-5c0-1.2 0-2.7-1.6-2.7s-1.9 1.3-1.9 2.6v5.1h-2.9v-10Z"/></svg></a></li>
+    </ul>
+
+    <div class="finale__bottom">
+      <!-- Waitlist: Ligo is live at Georgetown; this collects schools that want it next.
+           Not connected to anything yet (needs a form service or a sheet). -->
+      <form class="finale__news" onsubmit="return false">
+        <h3 class="finale__news-title">Not at Georgetown? Get Ligo at your school first.</h3>
+        <label class="finale__field">
+          <span class="visually-hidden">Your school email</span>
+          <input type="email" placeholder="Your school email" autocomplete="email">
+          <button type="submit"><span>Join waitlist</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </label>
+      </form>
+      <small class="finale__legal">© 2026 Ligo. All rights reserved.<br>iPhone 3D model: <a href="https://sketchfab.com/3d-models/phone-17-pro-max-66809964eff043a39d553c3795995008" target="_blank" rel="noopener">"Phone 17 Pro Max"</a> by Ranguel, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.</small>
+      <ul class="finale__links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="mailto:hello@meetligo.com">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="problem.js?v=5"></script>
+  <script src="reveal.js?v=2"></script>
+  <script src="lawn.js?v=1" defer></script>
+  <script src="promise.js?v=2" defer></script>
+  <script src="connection.js?v=2"></script>
+  <script src="after.js?v=1"></script>
+  <script src="clubs.js?v=2"></script>
+  <script src="partners.js?v=2"></script>
+
+  <!-- Three.js from a CDN; the import map lets phones.js say "three" -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+  <!-- Lenis: smooth scrolling, the same library Pocketchange uses -->
+  <script id="lenis-script" async src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="hero.js?v=14"></script>
+  <script type="module" src="finale.js?v=1"></script>
+  <script type="module" src="phones.js?v=36"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+/* =========================================================
+   "A word to the club leaders"
+   Rebuilt from Pocketchange's "A word to the business owners".
+   Measured on the live page at 1440x900:
+   - section 1080px tall on black
+   - the video panel is cut in from both sides by 32.5px (corners
+     21.7px) when it enters, and widens in a straight line to full width
+     (square corners) by the time its top is 28% down the screen
+   - inside, the video layer is 1.4x the panel's height and drifts at
+     0.545x the scroll speed (parallax), mirrored left-to-right; their
+     filter is black-and-white, contrast 1.5, brightness 0.6 (our video
+     file already carries the color: "ember", baked in with ffmpeg)
+   - two copies of the video crossfade at the loop point, so the cut
+     never shows
+   - pill 16px bold, 1px outline, fully round, top at 212px
+   - title 72px / 1.1, weight 300, -3px tracking, top at 283px, 685px wide
+   - "list your business" line 16px bold at 751px, store buttons
+     180 x 60, white, at 807px
+   ========================================================= */
+
+.clubs {
+  height: 1080px;
+  background: #000;
+}
+
+.clubs__panel {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #1a0902;
+  /* the widening: clubs.js sets --inset from 32.5px down to 0 */
+  clip-path: inset(0 var(--inset, 0px) round calc(var(--inset, 0px) * 2 / 3));
+}
+
+/* ---------- Video (parallax + crossfade) ---------- */
+.clubs__drift {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 140%;
+  transform: translateY(var(--drift, 0px));
+  will-change: transform;
+}
+
+.clubs__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* keep the tower and the band's heads in frame as the layer drifts */
+  object-position: 50% 40%;
+  opacity: 0;
+  transition: opacity 1s linear;
+}
+
+.clubs__video.is-showing {
+  opacity: 1;
+}
+
+/* a light fade from the left, just enough for the white text; theirs
+   sits straight on the tinted video, so keep the video bright */
+.clubs__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(10, 4, 1, 0.5) 0%, rgba(10, 4, 1, 0.25) 45%, rgba(10, 4, 1, 0) 75%);
+  pointer-events: none;
+}
+
+/* ---------- Copy ---------- */
+.clubs__copy {
+  position: absolute;
+  top: 212px;
+  left: 120px;
+  z-index: 1;
+  width: 685px;
+  color: #f2f2f2;
+}
+
+.clubs__pill {
+  display: inline-block;
+  padding: 6px 18px;
+  border: 1px solid rgba(242, 242, 242, 0.6);
+  border-radius: 9990px;
+  font-size: 16px;
+  line-height: 1.44;
+}
+
+.clubs__title {
+  margin: 36px 0 0;
+  font-size: 72px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -3px;
+}
+
+.clubs__text {
+  max-width: 440px;
+  margin: 36px 0 0;
+  font-size: 18px;
+  line-height: 1.44;
+  color: rgba(242, 242, 242, 0.85);
+}
+
+.clubs__cta {
+  display: block;
+  margin-top: 40px;
+  font-size: 16px;
+}
+
+.clubs__stores {
+  display: flex;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+/* the hero's store buttons, flipped to white for this dark panel */
+.store--light {
+  background: #fff;
+  color: #000;
+}
+
+.store--light:hover {
+  background: #fff3e8;
+}
+
+/* ---------- Phone width ----------
+   Measured at 375: everything centered; pill 12px, title 36px / 1.1
+   weight 400, buttons side by side. */
+@media (max-width: 760px) {
+  .clubs {
+    height: 812px;
+  }
+
+  .clubs__panel::after {
+    background: rgba(10, 4, 1, 0.55);
+  }
+
+  .clubs__copy {
+    top: 169px;
+    left: 24px;
+    right: 24px;
+    width: auto;
+    text-align: center;
+  }
+
+  .clubs__pill {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+
+  .clubs__title {
+    margin-top: 18px;
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .clubs__text {
+    margin: 24px auto 0;
+    font-size: 15px;
+  }
+
+  .clubs__cta {
+    margin-top: 28px;
+    font-size: 12px;
+  }
+
+  .clubs__stores {
+    justify-content: center;
+    gap: 12px;
+    margin-top: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clubs__drift {
+    transform: none;
+  }
+}

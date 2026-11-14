@@ -1,0 +1,116 @@
+/* =========================================================
+   "This is where campus comes to life."
+   Rebuilt from Pocketchange's "This is where your values turn to
+   action." scene, with every number measured from the live site
+   (scroll-sampled in headless Chrome at 1440x900 and 375x812).
+   connection.js drives the motion; this file is the layout.
+   ========================================================= */
+
+/* ---------- Phone width (default) ----------
+   Pocketchange doesn't pin this scene on phones. It's a plain stack:
+   hand, headline, hand, each full width, with no gaps. The hands slide
+   in from the sides as you scroll (connection.js). */
+.connection {
+  background: #fbf6ef;
+}
+
+.connection__stage {
+  display: grid;
+  overflow: clip;
+}
+
+/* One picture holds both hands: the top half is the upper hand, the
+   bottom half the lower one. Each element shows its half. */
+.connection__hand {
+  width: 100%;
+  aspect-ratio: 1672 / 470;
+  background: url("assets/reaching-hands.png") no-repeat;
+  background-size: 100% 200%;
+  transform: translateX(var(--hand-x, 0%));
+}
+
+.connection__hand--upper {
+  --hand-x: -45%;
+  background-position: top;
+}
+
+.connection__hand--lower {
+  --hand-x: 45%;
+  background-position: bottom;
+}
+
+/* measured: 48px at 375 wide, centered, in the brand's warm red-orange */
+.connection__title {
+  margin: 0;
+  padding: 0 24px;
+  color: #ff6a2b;
+  font-size: clamp(42px, 12.8vw, 88px);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  text-align: center;
+}
+
+/* ---------- Desktop: the pinned scene ----------
+   Measured at 1440x900:
+   - section 5234px tall (5.816 screens); the stage pins for the
+     first 4334px (section height minus one screen)
+   - two hands, each 60% of the screen wide, in opposite corners
+   - one line of 200px text (13.9vw) slides across the middle */
+@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+  .connection.is-animated {
+    height: 581.6svh;
+    background: var(--scene-bg, #fbf6ef);
+  }
+
+  .connection.is-animated .connection__stage {
+    position: sticky;
+    top: 0;
+    display: block;
+    height: 100svh;
+  }
+
+  /* Their hand photos are 60% wide but cropped tighter than ours, so the
+     hands themselves are bigger. Ours is a wider, flatter crop with a long
+     arm, so we make it 90% wide and push it past the edges: the hands come
+     out the same size as theirs and the fingertips land where theirs do
+     (overlaid at 2800px into the scene). */
+  .connection.is-animated .connection__hand {
+    position: absolute;
+    width: 90%;
+    opacity: var(--hands-opacity, 1);
+    /* their hand photos are darker than ours: on black they read as a dim
+       grey, which keeps the orange line the brightest thing on screen */
+    filter: brightness(0.6);
+    transform: translate(var(--hand-x), var(--hand-y, 0%));
+    will-change: transform;
+  }
+
+  .connection.is-animated .connection__hand--upper {
+    top: -6.8%;
+    left: -17%;
+  }
+
+  .connection.is-animated .connection__hand--lower {
+    right: -18%;
+    bottom: 0%;
+  }
+
+  .connection.is-animated .connection__title {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    z-index: 1;
+    padding: 0;
+    font-size: 13.9vw;
+    line-height: 1.1;
+    white-space: nowrap;
+    transform: translate(var(--title-x, 100vw), -50%);
+    will-change: transform;
+  }
+
+  .connection.is-animated ~ .connection-credits {
+    background: #000;
+    color: #d4cbc4;
+  }
+}

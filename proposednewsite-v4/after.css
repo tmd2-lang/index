@@ -1,0 +1,254 @@
+/* =========================================================
+   "What happens after I download?"
+   Rebuilt from Pocketchange's question card. Measured on the live page:
+   desktop (1440)
+   - card 1200 x 691, 36px under the feature grid, 120px space after it
+   - 10% white on black, 24px corners, padding 60px 60px 36px
+   - title 48px / 1.1, weight 300, -1px tracking; letters pop in
+   - list 540px wide; each row 12px padding; question 24px / 1.2;
+     answer 18px / 1.44 at 60% white; only one answer open at a time,
+     sliding open over ~0.5s; the chevron flips (0.2s)
+   - picture of a hand holding a phone, 507 x 691, 693px from the card's
+     left, 82px from its top, cropped by the card's bottom; it shrinks from
+     ~1.22x to 1x as the card scrolls up to the top of the screen
+   phone (375)
+   - no card, no picture: title 28px in the brand color, dark text on the
+     light page, thin lines between questions
+   ========================================================= */
+
+.after {
+  padding: 36px 24px 120px;
+  background: #000;
+}
+
+.after__card {
+  position: relative;
+  display: flex;
+  max-width: 1200px;
+  min-height: 691px;
+  margin: 0 auto;
+  padding: 60px 60px 36px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.after__copy {
+  position: relative;
+  z-index: 1;
+  width: 540px;
+}
+
+/* ---------- Title, with the letter pop-in ----------
+   after.js wraps each letter. Each starts invisible, stretched 1.5x tall
+   and pushed down half a line, then settles in 0.5s, one letter every
+   33ms, when the card's top passes 85% of the way down the screen. */
+.after__title {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.after__title .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.after__title .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(50%) scaleY(1.5);
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s ease-out;
+  transition-delay: calc(var(--i) * 33ms);
+}
+
+.after.is-in .after__title .char {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Questions ---------- */
+.after__list {
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.after__item {
+  padding: 12px 0;
+}
+
+.after__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 12px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 24px;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.after__q:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.after__q svg {
+  flex-shrink: 0;
+  transition: transform 0.2s ease-in-out;
+}
+
+.after__item.is-open .after__q svg {
+  transform: rotate(180deg);
+}
+
+/* The answer slides open: a one-row grid going from 0fr (no height) to
+   1fr (its natural height). Unlike height: auto, that can be animated. */
+.after__a {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s ease;
+}
+
+.after__item.is-open .after__a {
+  grid-template-rows: 1fr;
+}
+
+.after__a > div {
+  overflow: hidden;
+}
+
+.after__a p {
+  margin: 0;
+  padding-bottom: 18px;
+  font-size: 18px;
+  line-height: 1.44;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ---------- Hand holding the phone ---------- */
+.after__visual {
+  position: absolute;
+  top: 82px;
+  left: calc(100% * 693 / 1200);
+  width: 507px;
+  height: 691px;
+  /* measured: it grows from a point up and to the left of the picture,
+     so it drifts as well as shrinks */
+  transform-origin: -40% -20%;
+  transform: scale(var(--grow, 1));
+  will-change: transform;
+}
+
+.after__hand {
+  position: absolute;
+  top: 190px;
+  left: 50px;
+  width: 360px;
+  height: auto;
+}
+
+/* measured: their phone is ~228 x 478, near the top of the picture,
+   fully inside the card, tilted a touch */
+.after__phone {
+  position: absolute;
+  top: 0;
+  left: 57px;
+  width: 228px;
+  height: 478px;
+  padding: 8px;
+  border-radius: 37px;
+  background: #0b0b0b;
+  box-shadow: inset 0 0 0 2px #2c2c2c, 0 24px 50px rgba(0, 0, 0, 0.5);
+  transform: rotate(-4deg);
+}
+
+.after__phone img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 29px;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* ---------- In-between widths ---------- */
+@media (max-width: 1200px) {
+  .after__copy {
+    width: min(540px, 52%);
+  }
+
+  .after__visual {
+    left: auto;
+    right: -40px;
+  }
+}
+
+/* ---------- Phone width ---------- */
+@media (max-width: 760px) {
+  .after {
+    padding: 0;
+    background: #fbf6ef;
+  }
+
+  .after__card {
+    min-height: 0;
+    padding: 48px 36px 24px;
+    border-radius: 0;
+    background: none;
+    color: #2b0e03;
+  }
+
+  .after__copy {
+    width: 100%;
+  }
+
+  .after__title {
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: #e2400c;
+  }
+
+  .after__item {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(43, 14, 3, 0.12);
+  }
+
+  .after__q {
+    font-size: 20px;
+  }
+
+  .after__q:hover {
+    color: rgba(43, 14, 3, 0.7);
+  }
+
+  .after__a p {
+    font-size: 16px;
+    color: rgba(43, 14, 3, 0.6);
+  }
+
+  .after__visual {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .after__title .char {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

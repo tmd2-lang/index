@@ -1,0 +1,599 @@
+/* =========================================================
+   Ligo v4: practice sections.
+   Section 1: hero, after pocketchangethe.world's hero
+   (measured 2026-11-13, see references/pocketchange.md).
+   ========================================================= */
+
+/* ---------- Tokens ---------- */
+:root {
+  --orange: #f97316;
+  --orange-deep: #e2400c;
+  --amber: #fdb44b;
+  --white: #fff7f0;
+  --ink: #171717;
+  --font: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --serif: "Instrument Serif", Georgia, serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --gutter: 120px;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--white);
+  background: var(--orange-deep);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Lenis' recommended setup: it does the smoothing itself, so the
+   browser's own smooth scrolling must stay off */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+}
+
+/* ---------- Backdrop (liquid gradient) ----------
+   Fixed behind everything. The CSS gradient is the same direction as
+   Pocketchange's fallback (153deg, hot color top-left, warm yellow bottom-right). */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(153deg, #e9380b 25%, #fdb44b 100%);
+}
+
+.backdrop__canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.backdrop__canvas.is-ready {
+  opacity: 1;
+}
+
+/* ---------- Header ----------
+   Measured: logo at x120 y68, links 14px with 12px padding, a 48px-tall
+   dark glass "Contact" button with a square icon cell on its left. */
+.nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  padding: 60px var(--gutter) 0;
+}
+
+.nav__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+
+/* the orange mark turns white on the orange background */
+.nav__logo img {
+  filter: brightness(0) invert(1);
+}
+
+.nav__links {
+  display: flex;
+  gap: 24px;
+  margin-left: 158px;
+}
+
+.nav__links a {
+  padding: 12px;
+  font-size: 14px;
+  line-height: 16.8px;
+  transition: opacity 0.3s ease;
+}
+
+/* Hovering one link dims the others: the eye goes to the one you're on */
+.nav__links:hover a:not(:hover) {
+  opacity: 0.55;
+}
+
+.nav__contact {
+  margin-left: auto;
+  display: flex;
+  align-items: stretch;
+  height: 48px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(60, 14, 0, 0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.nav__contact:hover {
+  background: rgba(60, 14, 0, 0.5);
+}
+
+.nav__contact-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  background: rgba(60, 14, 0, 0.22);
+}
+
+.nav__contact-label {
+  display: flex;
+  align-items: center;
+  padding: 0 44px 0 24px;
+}
+
+/* phone-only header pieces */
+.nav__mail,
+.nav__menu {
+  display: none;
+}
+
+/* ---------- Letter roll (nav links, "Scroll down") ----------
+   hero.js splits the text into letters. Each letter has a copy stacked
+   under it; on hover both slide up one line, one letter after another. */
+.roll {
+  display: inline-flex;
+}
+
+.roll .char {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  white-space: pre;
+}
+
+.roll .char > span {
+  display: block;
+  transition: transform 0.45s var(--ease-out);
+  transition-delay: calc(var(--i) * 18ms);
+}
+
+.roll .char > span + span {
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+
+.roll:hover .char > span,
+a:hover > .roll .char > span {
+  transform: translateY(-100%);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  height: 100svh;
+  min-height: 760px;
+  /* clip sideways only: the phones may hang below the hero's bottom edge
+     (like Pocketchange's), so scrolling never shows a hard cut across them */
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* Measured: h1 at x120 y216, 96px/105.6px weight 300, -3px tracking */
+.hero__copy {
+  position: absolute;
+  left: var(--gutter);
+  top: 196px;
+  width: 560px;
+  z-index: 2;
+}
+
+.hero__title {
+  margin: 0;
+  font-size: 84px;
+  line-height: 1.04;
+  font-weight: 300;
+  letter-spacing: -3px;
+}
+
+.hero__lede {
+  max-width: 520px;
+  margin: 32px 0 0;
+  font-size: 20px;
+  line-height: 1.44;
+}
+
+.hero__stores {
+  display: flex;
+  gap: 24px;
+  margin-top: 36px;
+}
+
+/* Measured: 180x60 black, 6px corners, icon 24px at 12px in */
+.store {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 180px;
+  height: 60px;
+  padding: 0 12px;
+  border-radius: 6px;
+  background: #000;
+  color: #fff;
+  transition: transform 0.3s var(--ease-out), background 0.3s ease;
+}
+
+.store:hover {
+  transform: translateY(-2px);
+  background: #1a0a03;
+}
+
+.store__text {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.store__text small {
+  white-space: nowrap;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 3px;
+}
+
+.hero__scroll {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 62px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+/* ---------- Stage (the phones) ----------
+   Measured: Pocketchange's phone layers sit in a 671x783 box at x660 y54.
+   Ours is a transparent WebGL canvas the same shape, so the liquid
+   background shows through around the phones. */
+.stage {
+  position: absolute;
+  left: 45.8%;
+  top: 54px;
+  width: min(46.6vw, 760px);
+  aspect-ratio: 671 / 783;
+  pointer-events: none;
+}
+
+.stage__canvas {
+  /* far bigger than the stage on every side, so phones leaving on scroll
+     (or hanging below the hero) are never cut by the canvas edge.
+     phones.js measures these numbers, so they can change freely. */
+  position: absolute;
+  top: -18%;
+  left: -6%;
+  width: 136%;
+  height: 165%;
+  display: block;
+}
+
+/* ---------- Intro (loader + reveal) ----------
+   Filmed on Pocketchange: a coin spins on white while the page loads. Then a
+   white circle shrinks to the middle of the screen (~0.5s), and at the same
+   moment the whole hero starts ~30% too big and see-through and settles to
+   its real size. hero.js runs it once the 3D phones are ready, so you never
+   see the stage empty. Our coin is the Ligo mark. */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  perspective: 600px;
+}
+
+/* the white cover is a circle big enough to fill any screen; it shrinks to 0 */
+.intro__cover {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  clip-path: circle(150vmax at 50% 50%);
+  transition: clip-path 0.55s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+/* the mark spins around its upright axis, like a coin on a table */
+.intro__mark {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  animation: coin-spin 1.1s linear infinite;
+  transition: opacity 0.25s ease, transform 0.35s ease;
+}
+
+@keyframes coin-spin {
+  to { transform: rotateY(360deg); }
+}
+
+.is-revealed .intro__cover {
+  clip-path: circle(0 at 50% 50%);
+}
+
+.is-revealed .intro__mark {
+  opacity: 0;
+  animation-play-state: paused;
+}
+
+.is-done .intro {
+  display: none;
+}
+
+/* the page behind the cover: zoomed in and faded until the reveal */
+.page {
+  transform-origin: 50% 50vh;
+  /* a softer ease than our usual one, starting as the circle closes: on
+     Pocketchange the page is still ~1.3x while the circle is half shut */
+  transition: transform 0.75s cubic-bezier(0.33, 1, 0.68, 1) 0.18s, opacity 0.5s ease 0.18s;
+}
+
+.is-loading .page {
+  transform: scale(1.3);
+  opacity: 0.4;
+}
+
+
+/* ---------- Model credit ---------- */
+.credits {
+  padding: 32px var(--gutter) 24px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.credits p {
+  margin: 0;
+}
+
+.credits a {
+  text-decoration: underline;
+}
+
+/* ---------- In-between widths ---------- */
+@media (max-width: 1280px) {
+  :root {
+    --gutter: 72px;
+  }
+
+  .hero__title {
+    font-size: 80px;
+    letter-spacing: -2.5px;
+  }
+
+  .hero__copy {
+    width: 600px;
+  }
+
+  .nav__links {
+    margin-left: 80px;
+    gap: 8px;
+  }
+
+  .hero__lede {
+    max-width: 470px;
+  }
+
+  .stage {
+    left: 50%;
+    top: 96px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .nav__links {
+    display: none;
+  }
+
+  .hero__title {
+    font-size: 68px;
+    letter-spacing: -2px;
+  }
+
+  .hero__copy {
+    width: 480px;
+  }
+
+  .hero__lede {
+    max-width: 400px;
+    font-size: 18px;
+  }
+}
+
+/* ---------- Phone width ----------
+   Like Pocketchange: centered stack (mail · logo · menu), centered copy,
+   phones rising from the bottom edge. */
+@media (max-width: 760px) {
+  :root {
+    --gutter: 24px;
+  }
+
+  .nav {
+    padding-top: 24px;
+    justify-content: space-between;
+  }
+
+  .nav__mail,
+  .nav__menu {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: none;
+    color: inherit;
+  }
+
+  .nav__menu {
+    gap: 6px;
+    align-content: center;
+  }
+
+  .nav__menu span {
+    display: block;
+    width: 26px;
+    height: 1.5px;
+    background: currentColor;
+  }
+
+  .nav__menu span + span {
+    width: 18px;
+    justify-self: end;
+  }
+
+  .nav__logo {
+    flex-direction: column;
+    gap: 4px;
+    font-size: 20px;
+  }
+
+  .nav__contact {
+    display: none;
+  }
+
+  .hero {
+    height: auto;
+    min-height: 0;
+    padding: 128px var(--gutter) 0;
+  }
+
+  .hero__copy {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    text-align: center;
+  }
+
+  .hero__title {
+    font-size: 46px;
+    letter-spacing: -1.4px;
+  }
+
+  /* centered like the title above it (the 1080px rule gave it a max-width,
+     so it needs auto side margins to sit in the middle) */
+  .hero__lede {
+    max-width: 480px;
+    margin: 18px auto 0;
+    font-size: 16px;
+  }
+
+  .hero__stores {
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .store {
+    width: 152px;
+    height: 52px;
+    gap: 10px;
+  }
+
+  .store__text {
+    font-size: 17px;
+  }
+
+  .stage {
+    position: relative;
+    left: 50%;
+    top: auto;
+    /* 118% of a phone screen, but capped: on a small tablet 118vw made the
+       phones huge. The cap stays wider than these screens, so the screen's
+       edge (not the canvas's) is what crops the phones. */
+    width: min(118vw, 700px);
+    margin: 28px 0 calc(min(118vw, 700px) * -0.4);
+    transform: translateX(-46%);
+  }
+
+  .hero__scroll {
+    display: none;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    display: none;
+  }
+
+  .is-loading .page {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Keep the hero phones visible while the 3D renderer loads. */
+.stage__fallback {
+  position: absolute;
+  inset: 0;
+}
+
+.stage__fallback img {
+  position: absolute;
+  width: 42%;
+  aspect-ratio: 804 / 1748;
+  border: 5px solid #602911;
+  border-radius: 13% / 6%;
+  background: #fff6ef;
+  object-fit: cover;
+  box-shadow: 0 16px 38px #60291155;
+}
+
+.stage__fallback img:first-child {
+  top: 1%;
+  left: 12%;
+  z-index: 1;
+  transform: rotate(12deg);
+}
+
+.stage__fallback img:last-child {
+  top: 29%;
+  right: 10%;
+  transform: rotate(15deg);
+}
+
+.stage.has-3d .stage__fallback,
+html:not(.is-loading):not(.is-revealed) .intro {
+  display: none;
+}
+
+.is-revealed .intro {
+  animation: dismiss-intro 0s 700ms forwards;
+}
+
+@keyframes dismiss-intro {
+  to { visibility: hidden; }
+}
